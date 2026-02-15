@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BizBrain OS - Wiki</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%233B82F6'/><text x='16' y='22' font-size='18' text-anchor='middle' fill='white' font-family='system-ui' font-weight='bold'>B</text></svg>">
+  <style>
+    :root {
+      --color-primary: #3B82F6;
+      --color-accent: #10B981;
+      --bg-body: #F8FAFC;
+      --bg-card: #FFFFFF;
+      --bg-sidebar: #FFFFFF;
+      --bg-input: #F1F5F9;
+      --bg-code: #F1F5F9;
+      --text-primary: #0F172A;
+      --text-secondary: #475569;
+      --text-tertiary: #94A3B8;
+      --border-color: #E2E8F0;
+      --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', Roboto, sans-serif;
+      --font-mono: 'SF Mono', 'Cascadia Code', 'Fira Code', Consolas, monospace;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg-body: #0B1120;
+        --bg-card: #151D2E;
+        --bg-sidebar: #0D1425;
+        --bg-input: #1A2438;
+        --bg-code: #1A2438;
+        --text-primary: #E2E8F0;
+        --text-secondary: #94A3B8;
+        --text-tertiary: #64748B;
+        --border-color: #1E293B;
+      }
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg-body);
+      color: var(--text-primary);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Layout */
+    .wiki-layout {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      min-height: 100vh;
+    }
+
+    @media (max-width: 768px) {
+      .wiki-layout {
+        grid-template-columns: 1fr;
+      }
+      .sidebar {
+        display: none;
+      }
+      .sidebar.open {
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        z-index: 200;
+        width: 280px;
+        box-shadow: 4px 0 20px rgba(0,0,0,0.1);
+      }
+      .mobile-toggle {
+        display: flex !important;
+      }
+      .overlay {
+        display: block !important;
+      }
+    }
+
+    /* Sidebar */
+    .sidebar {
+      background: var(--bg-sidebar);
+      border-right: 1px solid var(--border-color);
+      padding: 24px 0;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+    }
+
+    .sidebar-header {
+      padding: 0 20px 20px;
+      border-bottom: 1px solid var(--border-color);
+      margin-bottom: 16px;
+    }
+
+    .sidebar-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--text-primary);
+      margin-bottom: 12px;
+    }
+
+    .sidebar-logo-icon {
+      width: 28px;
+      height: 28px;
+      background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+      border-radius: 7px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 800;
+      font-size: 0.75rem;
+    }
+
+    .sidebar-logo-text {
+      font-size: 0.9375rem;
+      font-weight: 700;
+    }
+
+    /* Search */
+    .search-box {
+      position: relative;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 8px 12px 8px 32px;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      background: var(--bg-input);
+      color: var(--text-primary);
+      font-size: 0.8125rem;
+      font-family: var(--font-sans);
+      outline: none;
+      transition: border-color 150ms ease;
+    }
+
+    .search-input:focus {
+      border-color: var(--color-primary);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 0.75rem;
+      color: var(--text-tertiary);
+    }
+
+    /* Nav */
+    .nav-section {
+      padding: 0 12px;
+      margin-bottom: 8px;
+    }
+
+    .nav-section-title {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-tertiary);
+      padding: 8px 8px 4px;
+    }
+
+    .nav-link {
+      display: block;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 0.8125rem;
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: all 150ms ease;
+      font-weight: 500;
+    }
+
+    .nav-link:hover {
+      background: var(--bg-input);
+      color: var(--text-primary);
+    }
+
+    .nav-link.active {
+      background: rgba(59,130,246,0.1);
+      color: var(--color-primary);
+      font-weight: 600;
+    }
+
+    /* Main Content */
+    .wiki-main {
+      max-width: 800px;
+      padding: 40px 48px;
+    }
+
+    @media (max-width: 768px) {
+      .wiki-main { padding: 24px 16px; }
+    }
+
+    .mobile-toggle {
+      display: none;
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: none;
+      background: var(--color-primary);
+      color: white;
+      font-size: 1.25rem;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(59,130,246,0.3);
+      align-items: center;
+      justify-content: center;
+      z-index: 150;
+    }
+
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.3);
+      z-index: 150;
+    }
+
+    /* Content Styling */
+    .wiki-section {
+      margin-bottom: 48px;
+      scroll-margin-top: 24px;
+    }
+
+    .wiki-section h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border-color);
+      letter-spacing: -0.02em;
+    }
+
+    .wiki-section h3 {
+      font-size: 1.125rem;
+      font-weight: 650;
+      margin: 24px 0 12px;
+      color: var(--text-primary);
+    }
+
+    .wiki-section p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      font-size: 0.9375rem;
+    }
+
+    .wiki-section ul, .wiki-section ol {
+      margin-bottom: 16px;
+      padding-left: 24px;
+    }
+
+    .wiki-section li {
+      margin-bottom: 8px;
+      color: var(--text-secondary);
+      font-size: 0.9375rem;
+    }
+
+    .wiki-section code {
+      font-family: var(--font-mono);
+      background: var(--bg-code);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.8125em;
+      color: var(--color-primary);
+    }
+
+    .wiki-section pre {
+      background: var(--bg-code);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+      overflow-x: auto;
+      font-size: 0.8125rem;
+      line-height: 1.6;
+    }
+
+    .wiki-section pre code {
+      background: none;
+      padding: 0;
+      color: var(--text-primary);
+    }
+
+    .callout {
+      padding: 16px 20px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+      font-size: 0.875rem;
+    }
+
+    .callout.info {
+      background: rgba(59,130,246,0.08);
+      border-left: 3px solid var(--color-primary);
+    }
+
+    .callout.tip {
+      background: rgba(16,185,129,0.08);
+      border-left: 3px solid var(--color-accent);
+    }
+
+    .callout.warning {
+      background: rgba(245,158,11,0.08);
+      border-left: 3px solid #F59E0B;
+    }
+
+    .callout strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 16px;
+      font-size: 0.875rem;
+    }
+
+    th {
+      text-align: left;
+      padding: 10px 12px;
+      background: var(--bg-input);
+      font-weight: 600;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--text-secondary);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border-color);
+      color: var(--text-secondary);
+    }
+
+    kbd {
+      padding: 2px 6px;
+      border-radius: 4px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-input);
+      font-family: var(--font-mono);
+      font-size: 0.75em;
+    }
+
+    /* Back to top */
+    .back-to-top {
+      display: none;
+      position: fixed;
+      bottom: 20px;
+      right: 80px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 1px solid var(--border-color);
+      background: var(--bg-card);
+      color: var(--text-secondary);
+      font-size: 1rem;
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      transition: all 150ms ease;
+    }
+
+    .back-to-top.visible {
+      display: flex;
+    }
+
+    .back-to-top:hover {
+      border-color: var(--color-primary);
+      color: var(--color-primary);
+    }
+
+    /* Scrollbar */
+    .sidebar::-webkit-scrollbar { width: 4px; }
+    .sidebar::-webkit-scrollbar-track { background: transparent; }
+    .sidebar::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 2px; }
+  </style>
+</head>
+<body>
+  <div class="wiki-layout">
+
+    <!-- Sidebar -->
+    <nav class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <a href="/" class="sidebar-logo">
+          <div class="sidebar-logo-icon">B</div>
+          <span class="sidebar-logo-text" id="sidebar-title">BizBrain OS</span>
+        </a>
+        <div class="search-box">
+          <span class="search-icon">&#128269;</span>
+          <input type="text" class="search-input" id="search-input" placeholder="Search wiki...">
+        </div>
+      </div>
+      <div id="nav-links">
+        <!-- Populated by script -->
+      </div>
+    </nav>
+
+    <!-- Overlay for mobile -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Main -->
+    <main class="wiki-main" id="wiki-content">
+      <!-- Populated by script -->
+    </main>
+  </div>
+
+  <!-- Mobile menu toggle -->
+  <button class="mobile-toggle" id="mobile-toggle">&#9776;</button>
+  <button class="back-to-top" id="back-to-top">&uarr;</button>
+
+  <script>
+  (function () {
+    'use strict';
+
+    let config = {};
+    let wikiContent = null;
+
+    const defaultSections = [
+      {
+        id: 'getting-started',
+        title: 'Getting Started',
+        category: 'Basics',
+        content: `
+          <p>Welcome to <strong>{{BUSINESS_NAME}}</strong>'s Business Brain, powered by BizBrain OS.</p>
+          <div class="callout tip">
+            <strong>What is BizBrain OS?</strong>
+            A self-configuring AI business management system that runs locally on your machine. It uses Claude Code as the AI engine and organizes your business knowledge, projects, clients, and workflows.
+          </div>
+          <h3>How It Works</h3>
+          <ol>
+            <li><strong>Your Brain Folder</strong> is the central repository for all business data &mdash; it lives on your filesystem and syncs via Git.</li>
+            <li><strong>Claude Code</strong> is your AI assistant. Open a terminal in your Brain folder and interact naturally.</li>
+            <li><strong>Modules</strong> extend your Brain with integrations like GitHub, Notion, Slack, and more.</li>
+            <li><strong>The Dashboard</strong> (you are here) provides a visual overview and quick actions.</li>
+          </ol>
+          <h3>First Steps</h3>
+          <ul>
+            <li>Complete the setup wizard to configure your core modules</li>
+            <li>Create your first project folder</li>
+            <li>Try a voice session to capture ideas naturally</li>
+            <li>Set up your preferred integrations (GitHub, Notion, etc.)</li>
+          </ul>
+        `
+      },
+      {
+        id: 'daily-workflow',
+        title: 'Daily Workflow',
+        category: 'Basics',
+        content: `
+          <p>Here is a recommended daily workflow for {{USER_NAME}} using the Brain:</p>
+          <h3>Morning</h3>
+          <ol>
+            <li>Open the Dashboard or run <code>claude</code> in your Brain folder</li>
+            <li>Check the intake folder for any new items (emails, voice notes, documents)</li>
+            <li>Review active projects and priorities</li>
+          </ol>
+          <h3>During the Day</h3>
+          <ul>
+            <li><strong>Quick capture:</strong> Use the Voice Session button to quickly dictate notes or ideas</li>
+            <li><strong>Conversations:</strong> Open Claude Code for any business task &mdash; writing emails, analyzing data, managing clients</li>
+            <li><strong>Intake:</strong> Drop files into the <code>_intake-dump</code> folder &mdash; they will be automatically processed</li>
+          </ul>
+          <h3>End of Day</h3>
+          <ul>
+            <li>Review what was accomplished</li>
+            <li>Your conversations are automatically captured and archived</li>
+            <li>Time tracking (if configured) logs your session duration</li>
+          </ul>
+          <div class="callout info">
+            <strong>Tip</strong>
+            You do not need to keep the Dashboard open. It is primarily for setup and quick actions. Most day-to-day work happens directly in Claude Code.
+          </div>
+        `
+      },
+      {
+        id: 'commands',
+        title: 'Commands Reference',
+        category: 'Reference',
+        content: `
+          <p>These slash commands are available when running Claude Code in your Brain folder:</p>
+          <table>
+            <thead>
+              <tr><th>Command</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>/setup</code></td><td>Run the initial setup wizard</td></tr>
+              <tr><td><code>/setup-module [name]</code></td><td>Configure a specific module</td></tr>
+              <tr><td><code>/dashboard</code></td><td>Open this dashboard in your browser</td></tr>
+              <tr><td><code>/status</code></td><td>Show current Brain status overview</td></tr>
+              <tr><td><code>/intake</code></td><td>Process files in the intake folder</td></tr>
+              <tr><td><code>/project [name]</code></td><td>Switch to or create a project</td></tr>
+            </tbody>
+          </table>
+          <div class="callout tip">
+            <strong>Custom Commands</strong>
+            Modules can register their own commands. After configuring a module, its commands will become available automatically.
+          </div>
+        `
+      },
+      {
+        id: 'brain-structure',
+        title: 'Brain Structure',
+        category: 'Reference',
+        content: `
+          <p>Your Brain folder has the following structure:</p>
+          <pre><code>your-brain/
+  .bizbrain/          # System files (do not edit manually)
+    dashboard/        # This dashboard
+    modules/          # Module definitions
+    wizard/           # Setup wizard state
+    hooks/            # Automation hooks
+  _intake-dump/       # Drop files here for processing
+    conversations/    # Auto-captured conversations
+    email/            # Email imports
+    slack/            # Slack imports
+  config.json         # Your Brain configuration
+  CLAUDE.md           # Instructions for Claude Code
+  Projects/           # Your project folders
+  Clients/            # Client records
+  </code></pre>
+          <h3>Key Files</h3>
+          <table>
+            <thead><tr><th>File</th><th>Purpose</th></tr></thead>
+            <tbody>
+              <tr><td><code>config.json</code></td><td>Main configuration &mdash; brand colors, preferences, module settings</td></tr>
+              <tr><td><code>CLAUDE.md</code></td><td>Context file that Claude Code reads automatically</td></tr>
+              <tr><td><code>.bizbrain/wizard/state.json</code></td><td>Tracks setup progress</td></tr>
+            </tbody>
+          </table>
+        `
+      },
+      {
+        id: 'troubleshooting',
+        title: 'Troubleshooting',
+        category: 'Help',
+        content: `
+          <h3>Dashboard will not load</h3>
+          <ul>
+            <li>Make sure the server is running: <code>npm start</code> from your Brain folder</li>
+            <li>Check that port 5555 is not in use by another application</li>
+            <li>Try opening <code>http://localhost:5555</code> directly in your browser</li>
+          </ul>
+          <h3>Claude Code is not launching</h3>
+          <ul>
+            <li>Verify Claude Code is installed: run <code>claude --version</code> in your terminal</li>
+            <li>On Windows, make sure Windows Terminal is installed (or cmd.exe is available)</li>
+            <li>Check the Health API: visit <code>http://localhost:5555/api/health</code></li>
+          </ul>
+          <h3>Voice input is not working</h3>
+          <ul>
+            <li>Voice input requires Google Chrome or Microsoft Edge</li>
+            <li>Make sure your microphone is allowed in browser settings</li>
+            <li>Check that you are accessing the page via <code>http://localhost</code> (not a file:// URL)</li>
+          </ul>
+          <h3>Modules are not showing up</h3>
+          <ul>
+            <li>Module definitions are stored as .json files in <code>.bizbrain/modules/</code></li>
+            <li>Make sure the files are valid JSON</li>
+            <li>Core modules go in <code>.bizbrain/modules/_core/</code></li>
+          </ul>
+          <div class="callout warning">
+            <strong>Still stuck?</strong>
+            Open Claude Code in your Brain folder and describe the issue. Claude can diagnose and fix most problems directly.
+          </div>
+        `
+      },
+      {
+        id: 'updating',
+        title: 'Updating',
+        category: 'Help',
+        content: `
+          <p>BizBrain OS is distributed via Git. To update to the latest version:</p>
+          <pre><code># Navigate to your Brain folder
+cd your-brain
+
+# Pull the latest changes
+git pull origin main
+
+# The dashboard and modules will be updated automatically</code></pre>
+          <h3>What gets updated</h3>
+          <ul>
+            <li><strong>System files</strong> in <code>.bizbrain/</code> &mdash; dashboard, modules, scripts</li>
+            <li><strong>Templates</strong> &mdash; config templates, CLAUDE.md templates</li>
+          </ul>
+          <h3>What is preserved</h3>
+          <ul>
+            <li><strong>Your data</strong> &mdash; projects, clients, intake files</li>
+            <li><strong>Your config</strong> &mdash; <code>config.json</code>, wizard state</li>
+            <li><strong>Your customizations</strong> &mdash; any custom modules or hooks you have added</li>
+          </ul>
+          <div class="callout info">
+            <strong>Auto-update</strong>
+            A future version will check for updates automatically and notify you on the Dashboard.
+          </div>
+        `
+      }
+    ];
+
+    // --- Init ---
+    async function init() {
+      try {
+        config = await fetch('/api/config').then(r => r.json()).catch(() => ({}));
+      } catch (_) { config = {}; }
+
+      try {
+        wikiContent = await fetch('/wiki-content.json').then(r => {
+          if (!r.ok) throw new Error('not found');
+          return r.json();
+        });
+      } catch (_) {
+        wikiContent = null;
+      }
+
+      applyBranding();
+      renderNav();
+      renderContent();
+      bindEvents();
+      highlightActiveSection();
+    }
+
+    function applyBranding() {
+      const colors = config?.profile?.brandColors;
+      if (colors) {
+        const root = document.documentElement;
+        if (colors.primary) root.style.setProperty('--color-primary', colors.primary);
+        if (colors.secondary) root.style.setProperty('--color-secondary', colors.secondary);
+        if (colors.accent) root.style.setProperty('--color-accent', colors.accent);
+      }
+
+      const name = config?.profile?.businessName || 'BizBrain OS';
+      document.getElementById('sidebar-title').textContent = name + ' Wiki';
+      document.title = name + ' - Wiki';
+    }
+
+    function replacePlaceholders(text) {
+      const bname = config?.profile?.businessName || 'Your Business';
+      const uname = config?.profile?.userName || 'User';
+      return text
+        .replace(/\{\{BUSINESS_NAME\}\}/g, escapeHtml(bname))
+        .replace(/\{\{USER_NAME\}\}/g, escapeHtml(uname));
+    }
+
+    // --- Render ---
+    function renderNav() {
+      const sections = wikiContent?.sections || defaultSections;
+      const categories = {};
+      sections.forEach(s => {
+        const cat = s.category || 'General';
+        if (!categories[cat]) categories[cat] = [];
+        categories[cat].push(s);
+      });
+
+      let html = '';
+      for (const [cat, items] of Object.entries(categories)) {
+        html += `
+          <div class="nav-section">
+            <div class="nav-section-title">${escapeHtml(cat)}</div>
+            ${items.map(s => `<a href="#${s.id}" class="nav-link" data-section="${s.id}">${escapeHtml(s.title)}</a>`).join('')}
+          </div>`;
+      }
+
+      html += `
+        <div class="nav-section" style="margin-top:24px;padding:0 20px;">
+          <a href="/" style="font-size:0.8125rem;color:var(--text-tertiary);text-decoration:none;">&larr; Back to Dashboard</a>
+        </div>`;
+
+      document.getElementById('nav-links').innerHTML = html;
+    }
+
+    function renderContent() {
+      const sections = wikiContent?.sections || defaultSections;
+      const container = document.getElementById('wiki-content');
+
+      container.innerHTML = sections.map(s => `
+        <section class="wiki-section" id="${s.id}">
+          <h2>${escapeHtml(s.title)}</h2>
+          ${replacePlaceholders(s.content)}
+        </section>`).join('');
+    }
+
+    // --- Events ---
+    function bindEvents() {
+      // Search
+      const searchInput = document.getElementById('search-input');
+      searchInput.addEventListener('input', (e) => {
+        const query = e.target.value.toLowerCase().trim();
+        const sections = document.querySelectorAll('.wiki-section');
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        sections.forEach((section, i) => {
+          const text = section.textContent.toLowerCase();
+          const matches = !query || text.includes(query);
+          section.style.display = matches ? '' : 'none';
+          if (navLinks[i]) navLinks[i].style.display = matches ? '' : 'none';
+        });
+      });
+
+      // Mobile toggle
+      const toggle = document.getElementById('mobile-toggle');
+      const sidebar = document.getElementById('sidebar');
+      const overlay = document.getElementById('overlay');
+
+      toggle.addEventListener('click', () => {
+        sidebar.classList.toggle('open');
+        overlay.style.display = sidebar.classList.contains('open') ? 'block' : 'none';
+      });
+
+      overlay.addEventListener('click', () => {
+        sidebar.classList.remove('open');
+        overlay.style.display = 'none';
+      });
+
+      // Nav link clicks (close mobile sidebar)
+      document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', () => {
+          sidebar.classList.remove('open');
+          overlay.style.display = 'none';
+        });
+      });
+
+      // Scroll highlight
+      window.addEventListener('scroll', highlightActiveSection);
+
+      // Back to top
+      const backToTop = document.getElementById('back-to-top');
+      window.addEventListener('scroll', () => {
+        backToTop.classList.toggle('visible', window.scrollY > 300);
+      });
+      backToTop.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    }
+
+    function highlightActiveSection() {
+      const sections = document.querySelectorAll('.wiki-section');
+      const navLinks = document.querySelectorAll('.nav-link');
+      let activeId = null;
+
+      sections.forEach(section => {
+        const rect = section.getBoundingClientRect();
+        if (rect.top <= 100) activeId = section.id;
+      });
+
+      navLinks.forEach(link => {
+        link.classList.toggle('active', link.dataset.section === activeId);
+      });
+    }
+
+    function escapeHtml(str) {
+      const div = document.createElement('div');
+      div.textContent = String(str || '');
+      return div.innerHTML;
+    }
+
+    // --- Boot ---
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+  })();
+  </script>
+</body>
+</html>

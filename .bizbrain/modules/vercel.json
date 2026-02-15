@@ -1,0 +1,30 @@
+{
+  "id": "vercel",
+  "name": "Vercel",
+  "category": "development",
+  "description": "Alternative deployment platform, optimized for Next.js and serverless.",
+  "estimatedMinutes": 3,
+  "dependencies": ["chrome-extension"],
+  "chromeAutomation": true,
+  "manualFallback": true,
+  "recommendedFor": ["startup", "small-agency"],
+  "icon": "▲",
+  "generates": {
+    "mcpConfigs": ["vercel.json"],
+    "commands": ["deploy-vercel"],
+    "wikiSections": ["deploying-with-vercel"]
+  },
+  "configSchema": {
+    "authToken": {
+      "type": "string",
+      "required": true,
+      "secret": true,
+      "description": "Vercel authentication token"
+    },
+    "defaultTeam": {
+      "type": "string",
+      "required": false,
+      "description": "Default team/organization for deployments"
+    }
+  }
+}

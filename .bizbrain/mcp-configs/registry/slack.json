@@ -1,0 +1,12 @@
+{
+  "name": "slack",
+  "displayName": "Slack",
+  "command": "npx",
+  "args": ["-y", "@anthropic-ai/slack-mcp-server"],
+  "env": {
+    "SLACK_BOT_TOKEN": "{{SLACK_BOT_TOKEN}}",
+    "SLACK_TEAM_ID": "{{SLACK_TEAM_ID}}"
+  },
+  "description": "Slack messaging and channel management",
+  "requiredBy": ["slack"]
+}

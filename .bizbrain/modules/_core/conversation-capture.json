@@ -1,0 +1,14 @@
+{
+  "id": "conversation-capture",
+  "name": "Conversation Capture",
+  "category": "core",
+  "description": "Automatically captures Claude Code conversations for reference and intake.",
+  "core": true,
+  "autoIncluded": true,
+  "generates": {
+    "hooks": ["conversation-capture"],
+    "folders": ["_intake-dump/conversations/", "_intake-dump/conversations/_live/", "_intake-dump/conversations/_archive/"],
+    "agents": ["conversation-intake"],
+    "commands": ["conversation-intake"]
+  }
+}

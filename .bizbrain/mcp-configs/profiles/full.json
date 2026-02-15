@@ -1,0 +1,6 @@
+{
+  "name": "full",
+  "description": "All connected services",
+  "estimatedTokens": 80000,
+  "servers": ["github", "netlify", "notion", "slack", "supabase", "stripe", "clerk", "gmail"]
+}

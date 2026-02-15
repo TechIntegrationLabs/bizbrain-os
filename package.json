@@ -1,0 +1,27 @@
+{
+  "name": "bizbrain-os",
+  "version": "1.0.0",
+  "description": "AI-Powered Business Brain - self-configuring business management system",
+  "main": ".bizbrain/dashboard/server.js",
+  "scripts": {
+    "start": "node .bizbrain/dashboard/server.js",
+    "setup": "echo 'Run Claude Code in this folder and type /setup to begin'",
+    "dashboard": "node .bizbrain/dashboard/server.js"
+  },
+  "keywords": [
+    "business-brain",
+    "claude-code",
+    "ai",
+    "automation",
+    "business-management"
+  ],
+  "author": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/bizbrain-os.git"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

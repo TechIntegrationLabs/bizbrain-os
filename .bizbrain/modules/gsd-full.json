@@ -1,0 +1,45 @@
+{
+  "id": "gsd-full",
+  "name": "GSD (Full)",
+  "category": "project-management",
+  "description": "Full structured project execution: requirements, roadmaps, phases, wave-based parallel execution.",
+  "estimatedMinutes": 3,
+  "dependencies": ["github"],
+  "chromeAutomation": false,
+  "manualFallback": false,
+  "recommendedFor": ["small-agency", "startup"],
+  "icon": "🎯",
+  "generates": {
+    "agents": ["gsd-orchestrator", "gsd-executor"],
+    "commands": ["gsd", "gsd-plan", "gsd-execute", "gsd-status", "gsd-roadmap", "gsd-requirements"],
+    "knowledge": ["gsd-system.md"],
+    "wikiSections": ["project-management-gsd"],
+    "templates": ["gsd"],
+    "folders": [".planning/"]
+  },
+  "configSchema": {
+    "projectScale": {
+      "type": "enum",
+      "values": ["small", "medium", "large"],
+      "default": "medium",
+      "description": "Typical project scale"
+    },
+    "sprintLength": {
+      "type": "enum",
+      "values": ["1-week", "2-weeks", "continuous"],
+      "default": "2-weeks",
+      "description": "Sprint/iteration length"
+    },
+    "waveExecution": {
+      "type": "boolean",
+      "default": true,
+      "description": "Enable wave-based parallel task execution"
+    },
+    "planningDepth": {
+      "type": "enum",
+      "values": ["detailed", "high-level"],
+      "default": "detailed",
+      "description": "Level of planning detail"
+    }
+  }
+}

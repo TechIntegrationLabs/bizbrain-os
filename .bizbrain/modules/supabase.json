@@ -1,0 +1,55 @@
+{
+  "id": "supabase",
+  "name": "Supabase",
+  "category": "development",
+  "description": "PostgreSQL database, authentication, storage, and real-time subscriptions for your apps.",
+  "estimatedMinutes": 5,
+  "dependencies": ["chrome-extension"],
+  "chromeAutomation": true,
+  "manualFallback": true,
+  "recommendedFor": ["startup", "small-agency"],
+  "icon": "🗄️",
+  "generates": {
+    "mcpConfigs": ["supabase.json"],
+    "agents": ["supabase-agent"],
+    "commands": ["supabase"],
+    "knowledge": ["supabase-workflow.md"],
+    "wikiSections": ["database-with-supabase"]
+  },
+  "configSchema": {
+    "projects": {
+      "type": "array",
+      "required": true,
+      "description": "List of Supabase projects",
+      "items": {
+        "name": {
+          "type": "string",
+          "required": true,
+          "description": "Project name"
+        },
+        "ref": {
+          "type": "string",
+          "required": true,
+          "description": "Project reference ID"
+        },
+        "url": {
+          "type": "string",
+          "required": true,
+          "description": "Project URL"
+        },
+        "anonKey": {
+          "type": "string",
+          "required": true,
+          "secret": true,
+          "description": "Anonymous public key"
+        },
+        "serviceRoleKey": {
+          "type": "string",
+          "required": true,
+          "secret": true,
+          "description": "Service role key (admin access)"
+        }
+      }
+    }
+  }
+}

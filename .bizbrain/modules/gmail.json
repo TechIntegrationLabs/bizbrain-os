@@ -1,0 +1,32 @@
+{
+  "id": "gmail",
+  "name": "Gmail",
+  "category": "communication",
+  "description": "Email management, intake processing, and automated responses.",
+  "estimatedMinutes": 5,
+  "dependencies": ["chrome-extension"],
+  "chromeAutomation": true,
+  "manualFallback": true,
+  "recommendedFor": ["solo-freelancer", "small-agency", "startup", "consultancy"],
+  "icon": "📧",
+  "generates": {
+    "mcpConfigs": ["gmail.json"],
+    "agents": ["email-intake"],
+    "commands": ["email", "email-check"],
+    "knowledge": ["email-integration.md"],
+    "wikiSections": ["email-integration"]
+  },
+  "configSchema": {
+    "account": {
+      "type": "string",
+      "required": true,
+      "description": "Gmail account email address"
+    },
+    "oauthToken": {
+      "type": "string",
+      "required": true,
+      "secret": true,
+      "description": "OAuth token for Gmail API"
+    }
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "id": "entity-watchdog",
+  "name": "Entity Watchdog",
+  "category": "automation",
+  "description": "Auto-detect entity mentions in conversations and update records automatically.",
+  "estimatedMinutes": 2,
+  "dependencies": ["client-tracking"],
+  "chromeAutomation": false,
+  "manualFallback": false,
+  "recommendedFor": ["solo-freelancer", "small-agency", "startup", "consultancy"],
+  "icon": "🔍",
+  "generates": {
+    "knowledge": ["entity-watchdog.md"],
+    "wikiSections": ["entity-watchdog"]
+  },
+  "configSchema": {
+    "sensitivity": {
+      "type": "enum",
+      "values": ["high", "medium", "low"],
+      "default": "medium",
+      "description": "How aggressively to detect entity mentions"
+    },
+    "autoUpdate": {
+      "type": "boolean",
+      "default": true,
+      "description": "Automatically update entity records when new info is detected"
+    },
+    "askBeforeCreate": {
+      "type": "boolean",
+      "default": true,
+      "description": "Ask before creating new entity records"
+    }
+  }
+}

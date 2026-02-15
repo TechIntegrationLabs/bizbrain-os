@@ -1,0 +1,19 @@
+{
+  "id": "slideshow",
+  "name": "Slideshow Generator",
+  "category": "content",
+  "description": "Generate professional slideshows and presentations from markdown or documents.",
+  "estimatedMinutes": 2,
+  "dependencies": [],
+  "chromeAutomation": false,
+  "manualFallback": false,
+  "recommendedFor": ["solo-freelancer", "small-agency", "startup", "consultancy"],
+  "icon": "📊",
+  "generates": {
+    "agents": ["slideshow-generator"],
+    "commands": ["slideshow"],
+    "knowledge": ["slideshow-system.md"],
+    "wikiSections": ["presentations"]
+  },
+  "configSchema": {}
+}

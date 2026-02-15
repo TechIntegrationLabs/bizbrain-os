@@ -1,0 +1,44 @@
+{
+  "id": "notion",
+  "name": "Notion",
+  "category": "communication",
+  "description": "Bi-directional sync with Notion for notes, wikis, databases, and project tracking.",
+  "estimatedMinutes": 5,
+  "dependencies": ["chrome-extension"],
+  "chromeAutomation": true,
+  "manualFallback": true,
+  "recommendedFor": ["solo-freelancer", "small-agency", "startup", "consultancy"],
+  "icon": "📔",
+  "generates": {
+    "mcpConfigs": ["notion.json"],
+    "agents": ["notion-sync"],
+    "commands": ["notion", "notion-sync"],
+    "knowledge": ["notion-integration.md"],
+    "wikiSections": ["notion-integration"]
+  },
+  "configSchema": {
+    "apiToken": {
+      "type": "string",
+      "required": true,
+      "secret": true,
+      "description": "Notion integration token"
+    },
+    "workspaceId": {
+      "type": "string",
+      "required": false,
+      "description": "Notion workspace ID"
+    },
+    "syncDirection": {
+      "type": "enum",
+      "values": ["push", "pull", "both"],
+      "default": "both",
+      "description": "Sync direction between Brain and Notion"
+    },
+    "syncFrequency": {
+      "type": "enum",
+      "values": ["realtime", "daily", "manual"],
+      "default": "manual",
+      "description": "How often to sync"
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "name": "netlify",
+  "displayName": "Netlify",
+  "command": "npx",
+  "args": ["-y", "@anthropic-ai/netlify-mcp-server"],
+  "env": {
+    "NETLIFY_AUTH_TOKEN": "{{NETLIFY_AUTH_TOKEN}}"
+  },
+  "description": "Netlify deployment and site management",
+  "requiredBy": ["netlify"]
+}

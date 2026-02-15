@@ -1,0 +1,141 @@
+# =============================================================================
+# USER DATA - These folders contain user-specific business data
+# =============================================================================
+
+# Entity folders (clients, partners, vendors)
+Clients/
+Partners/
+Vendors/
+
+# Project and product data
+Projects/
+Products/
+
+# Business operations
+Communications/
+Finance/
+Strategy/
+
+# Voice transcripts and archives
+Transcripts/
+Archive/
+
+# Brand identity (generated during setup)
+Brand/brand-dna.json
+
+# =============================================================================
+# CREDENTIALS & SECRETS
+# =============================================================================
+
+# Secure credential vault
+.bizbrain/vault/
+
+# User configuration (generated from template during setup)
+config.json
+
+# Local Claude Code settings
+.claude/settings.local.json
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# =============================================================================
+# GENERATED USER-SPECIFIC FILES
+# =============================================================================
+
+# Generated Claude context (created by wizard)
+CLAUDE.md
+
+# User's Claude Code configuration
+.claude/
+
+# =============================================================================
+# WIZARD STATE (temporary during setup)
+# =============================================================================
+
+# Wizard state and progress
+.bizbrain/wizard/state.json
+.bizbrain/wizard/voice-buffer.txt
+.bizbrain/wizard/answers.json
+.bizbrain/wizard/transcripts/
+
+# =============================================================================
+# INTAKE DATA (keep structure, ignore contents)
+# =============================================================================
+
+# Intake dump contents (but keep .gitkeep files)
+_intake-dump/**/*.md
+_intake-dump/**/*.json
+_intake-dump/**/*.txt
+_intake-dump/**/*.wav
+_intake-dump/**/*.mp3
+!_intake-dump/**/.gitkeep
+
+# =============================================================================
+# LOGS & TEMP FILES
+# =============================================================================
+
+# Application logs
+*.log
+.bizbrain/logs/
+.bizbrain/dashboard/logs/
+
+# Temporary files
+*.tmp
+*.temp
+.bizbrain/temp/
+
+# =============================================================================
+# OS & EDITOR FILES
+# =============================================================================
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+.directory
+
+# Editor directories
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# =============================================================================
+# NODE & DEPENDENCIES
+# =============================================================================
+
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# =============================================================================
+# SESSION DATA
+# =============================================================================
+
+# Claude Code session archives (user-specific)
+.claude/sessions/
+.claude/timesheet/
+
+# =============================================================================
+# BUILD ARTIFACTS (if dashboard gets build step in future)
+# =============================================================================
+
+dist/
+build/
+.cache/

@@ -1,0 +1,45 @@
+{
+  "id": "github",
+  "name": "GitHub",
+  "category": "development",
+  "description": "Connect GitHub for repository management, pull requests, and code tracking.",
+  "estimatedMinutes": 4,
+  "dependencies": ["chrome-extension"],
+  "chromeAutomation": true,
+  "manualFallback": true,
+  "recommendedFor": ["solo-freelancer", "small-agency", "startup", "consultancy"],
+  "icon": "🐙",
+  "generates": {
+    "mcpConfigs": ["github.json"],
+    "agents": [],
+    "commands": ["repos", "clone", "new-repo"],
+    "hooks": ["git-auto-track"],
+    "knowledge": ["github-workflow.md"],
+    "wikiSections": ["working-with-github"],
+    "folders": ["Repos/"]
+  },
+  "configSchema": {
+    "username": {
+      "type": "string",
+      "required": true,
+      "description": "GitHub username"
+    },
+    "organizations": {
+      "type": "array",
+      "default": [],
+      "description": "GitHub organizations you belong to"
+    },
+    "personalAccessToken": {
+      "type": "string",
+      "required": true,
+      "secret": true,
+      "description": "GitHub personal access token with repo permissions"
+    },
+    "defaultVisibility": {
+      "type": "enum",
+      "values": ["public", "private"],
+      "default": "private",
+      "description": "Default visibility for new repositories"
+    }
+  }
+}

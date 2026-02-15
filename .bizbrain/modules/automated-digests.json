@@ -1,0 +1,42 @@
+{
+  "id": "automated-digests",
+  "name": "Automated Digests",
+  "category": "automation",
+  "description": "Automated summaries of activity across all your Brain systems.",
+  "estimatedMinutes": 2,
+  "dependencies": [],
+  "chromeAutomation": false,
+  "manualFallback": false,
+  "recommendedFor": ["solo-freelancer", "small-agency", "startup", "consultancy"],
+  "icon": "📰",
+  "generates": {
+    "agents": ["digest-generator"],
+    "commands": ["digest"],
+    "knowledge": ["digest-system.md"],
+    "wikiSections": ["automated-digests"]
+  },
+  "configSchema": {
+    "frequency": {
+      "type": "enum",
+      "values": ["daily", "weekly", "both"],
+      "default": "weekly",
+      "description": "How often to generate digests"
+    },
+    "includeTimesheets": {
+      "type": "boolean",
+      "default": false,
+      "description": "Include timesheet data in digests"
+    },
+    "includeGitActivity": {
+      "type": "boolean",
+      "default": false,
+      "description": "Include git commit activity in digests"
+    },
+    "deliveryMethod": {
+      "type": "enum",
+      "values": ["dashboard", "notion", "email"],
+      "default": "dashboard",
+      "description": "Where to deliver digests"
+    }
+  }
+}

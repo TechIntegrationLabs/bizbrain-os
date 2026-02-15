@@ -1,0 +1,15 @@
+{
+  "id": "brain-core",
+  "name": "Brain Core",
+  "category": "core",
+  "description": "Core folder structure, CLAUDE.md, and base configuration.",
+  "core": true,
+  "autoIncluded": true,
+  "generates": {
+    "folders": ["Brand/", "Knowledge/", "_intake-dump/"],
+    "files": ["CLAUDE.md", "config.json"],
+    "agents": ["brain-gateway"],
+    "commands": ["status", "help", "knowledge"],
+    "knowledge": ["folder-structure.md", "commands-reference.md"]
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "version": "1.0.0",
+  "name": "BizBrain OS",
+  "modules": {
+    "core": ["brain-core", "conversation-capture", "knowledge-base"],
+    "setup": ["chrome-extension", "voice-input"],
+    "development": ["github", "netlify", "vercel", "supabase", "stripe", "clerk"],
+    "entity-management": ["client-tracking", "partner-tracking", "vendor-tracking"],
+    "project-management": ["gsd-full", "gsd-light", "timesheet", "spec-implement"],
+    "communication": ["notion", "slack", "gmail", "comms-hub"],
+    "content": ["content-factory", "video-studio", "slideshow"],
+    "automation": ["entity-watchdog", "automated-digests"]
+  },
+  "commands": {},
+  "agents": {},
+  "updatedAt": "2026-02-15"
+}

@@ -1,0 +1,25 @@
+{
+  "id": "vendor-tracking",
+  "name": "Vendor Tracking",
+  "category": "entity-management",
+  "description": "Track services you pay for, contracts, and vendor relationships.",
+  "estimatedMinutes": 3,
+  "dependencies": [],
+  "chromeAutomation": false,
+  "manualFallback": false,
+  "recommendedFor": ["solo-freelancer", "small-agency", "startup", "consultancy"],
+  "icon": "🏢",
+  "generates": {
+    "folders": ["Vendors/"],
+    "commands": ["add-vendor", "list-vendors"],
+    "wikiSections": ["managing-vendors"],
+    "templates": ["vendor"]
+  },
+  "configSchema": {
+    "terminology": {
+      "type": "string",
+      "default": "Vendors",
+      "description": "What you call your vendors (e.g., 'Vendors', 'Suppliers', 'Service Providers')"
+    }
+  }
+}

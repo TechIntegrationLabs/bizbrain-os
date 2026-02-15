@@ -1,0 +1,36 @@
+{
+  "id": "stripe",
+  "name": "Stripe",
+  "category": "development",
+  "description": "Accept payments, manage subscriptions, and handle billing in your applications.",
+  "estimatedMinutes": 5,
+  "dependencies": ["chrome-extension", "supabase"],
+  "chromeAutomation": true,
+  "manualFallback": true,
+  "recommendedFor": ["startup", "small-agency"],
+  "icon": "💳",
+  "generates": {
+    "mcpConfigs": ["stripe.json"],
+    "commands": ["stripe-products", "stripe-status"],
+    "wikiSections": ["payments-with-stripe"]
+  },
+  "configSchema": {
+    "secretKey": {
+      "type": "string",
+      "required": true,
+      "secret": true,
+      "description": "Stripe secret key"
+    },
+    "publishableKey": {
+      "type": "string",
+      "required": true,
+      "description": "Stripe publishable key"
+    },
+    "webhookSecret": {
+      "type": "string",
+      "required": false,
+      "secret": true,
+      "description": "Webhook signing secret"
+    }
+  }
+}

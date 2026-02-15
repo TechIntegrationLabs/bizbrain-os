@@ -1,0 +1,20 @@
+{
+  "name": "",
+  "slug": "",
+  "type": "vendor",
+  "status": "active",
+  "sensitivity": "normal",
+  "created": "",
+  "updated": "",
+  "primaryContact": "",
+  "costs": {
+    "type": "subscription",
+    "billingCycle": "monthly",
+    "currency": "USD",
+    "monthlyAmount": 0,
+    "annualAmount": 0,
+    "renewalDate": ""
+  },
+  "tags": [],
+  "aliases": []
+}

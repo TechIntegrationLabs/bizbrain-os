@@ -1,0 +1,25 @@
+{
+  "id": "chrome-extension",
+  "name": "Chrome Extension",
+  "category": "setup",
+  "description": "Browser automation assistant for connecting accounts and automating workflows.",
+  "estimatedMinutes": 2,
+  "dependencies": [],
+  "chromeAutomation": false,
+  "manualFallback": false,
+  "recommendedFor": ["solo-freelancer", "small-agency", "startup", "consultancy"],
+  "icon": "🌐",
+  "generates": {},
+  "configSchema": {
+    "installed": {
+      "type": "boolean",
+      "required": true,
+      "description": "Whether the Chrome extension is installed"
+    },
+    "verified": {
+      "type": "boolean",
+      "required": true,
+      "description": "Whether the extension connection is verified"
+    }
+  }
+}

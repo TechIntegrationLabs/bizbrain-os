@@ -1,0 +1,31 @@
+{
+  "id": "netlify",
+  "name": "Netlify",
+  "category": "development",
+  "description": "Deploy websites and web apps to the internet with one command.",
+  "estimatedMinutes": 3,
+  "dependencies": ["chrome-extension"],
+  "chromeAutomation": true,
+  "manualFallback": true,
+  "recommendedFor": ["solo-freelancer", "small-agency", "startup", "consultancy"],
+  "icon": "🚀",
+  "generates": {
+    "mcpConfigs": ["netlify.json"],
+    "commands": ["deploy", "sites"],
+    "wikiSections": ["deploying-with-netlify"]
+  },
+  "configSchema": {
+    "authToken": {
+      "type": "string",
+      "required": true,
+      "secret": true,
+      "description": "Netlify authentication token"
+    },
+    "defaultFramework": {
+      "type": "enum",
+      "values": ["static", "nextjs", "sveltekit", "astro", "other"],
+      "default": "static",
+      "description": "Default framework for deployments"
+    }
+  }
+}

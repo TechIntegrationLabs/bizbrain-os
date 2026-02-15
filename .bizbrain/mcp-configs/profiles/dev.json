@@ -1,0 +1,6 @@
+{
+  "name": "dev",
+  "description": "Development workflow",
+  "estimatedTokens": 30000,
+  "servers": ["github", "netlify"]
+}

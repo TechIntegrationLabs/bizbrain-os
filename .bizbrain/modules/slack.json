@@ -1,0 +1,38 @@
+{
+  "id": "slack",
+  "name": "Slack",
+  "category": "communication",
+  "description": "Team communication, channel monitoring, intake from Slack messages.",
+  "estimatedMinutes": 5,
+  "dependencies": ["chrome-extension"],
+  "chromeAutomation": true,
+  "manualFallback": true,
+  "recommendedFor": ["small-agency", "startup", "consultancy"],
+  "icon": "💬",
+  "generates": {
+    "mcpConfigs": ["slack.json"],
+    "agents": ["slack-intake"],
+    "commands": ["slack-intake", "slack-summary"],
+    "knowledge": ["slack-integration.md"],
+    "wikiSections": ["slack-integration"]
+  },
+  "configSchema": {
+    "botToken": {
+      "type": "string",
+      "required": true,
+      "secret": true,
+      "description": "Slack bot token (xoxb-...)"
+    },
+    "appToken": {
+      "type": "string",
+      "required": false,
+      "secret": true,
+      "description": "Slack app token (xapp-...)"
+    },
+    "channels": {
+      "type": "array",
+      "default": [],
+      "description": "Channels to monitor for intake"
+    }
+  }
+}

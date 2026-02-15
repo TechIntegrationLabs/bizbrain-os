@@ -1,0 +1,28 @@
+{
+  "id": "voice-input",
+  "name": "Voice Input",
+  "category": "setup",
+  "description": "Speak instead of type. Uses Chrome's built-in speech recognition for hands-free Brain interaction.",
+  "estimatedMinutes": 1,
+  "dependencies": ["chrome-extension"],
+  "chromeAutomation": true,
+  "manualFallback": false,
+  "recommendedFor": ["solo-freelancer", "small-agency", "startup", "consultancy"],
+  "icon": "🎤",
+  "generates": {
+    "wikiSections": ["voice-input"]
+  },
+  "configSchema": {
+    "mode": {
+      "type": "enum",
+      "values": ["push-to-talk", "continuous"],
+      "default": "push-to-talk",
+      "description": "How voice input is activated"
+    },
+    "language": {
+      "type": "string",
+      "default": "en-US",
+      "description": "Speech recognition language"
+    }
+  }
+}

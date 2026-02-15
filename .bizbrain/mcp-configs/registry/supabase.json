@@ -1,0 +1,12 @@
+{
+  "name": "supabase",
+  "displayName": "Supabase",
+  "command": "npx",
+  "args": ["-y", "supabase-mcp-server", "--read-only"],
+  "env": {
+    "SUPABASE_URL": "{{SUPABASE_URL}}",
+    "SUPABASE_SERVICE_ROLE_KEY": "{{SUPABASE_SERVICE_ROLE_KEY}}"
+  },
+  "description": "Supabase database management and queries",
+  "requiredBy": ["supabase"]
+}

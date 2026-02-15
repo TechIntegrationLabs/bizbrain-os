@@ -1,0 +1,7 @@
+{
+  "version": "1.0.0",
+  "minNodeVersion": "18.0.0",
+  "minClaudeCode": "1.0.0",
+  "releaseDate": "2026-02-15",
+  "migrations": []
+}

@@ -1,0 +1,43 @@
+{
+  "id": "client-tracking",
+  "name": "Client Tracking",
+  "category": "entity-management",
+  "description": "Track clients, contacts, project history, and financial relationships.",
+  "estimatedMinutes": 4,
+  "dependencies": [],
+  "chromeAutomation": false,
+  "manualFallback": false,
+  "recommendedFor": ["solo-freelancer", "small-agency", "startup", "consultancy"],
+  "icon": "👥",
+  "generates": {
+    "folders": ["Clients/"],
+    "agents": ["entity-manager"],
+    "commands": ["add-client", "list-clients"],
+    "knowledge": ["entity-system.md"],
+    "wikiSections": ["managing-clients"],
+    "templates": ["client"]
+  },
+  "configSchema": {
+    "terminology": {
+      "type": "string",
+      "default": "Clients",
+      "description": "What you call your clients (e.g., 'Clients', 'Customers', 'Accounts')"
+    },
+    "trackFinancials": {
+      "type": "boolean",
+      "default": false,
+      "description": "Track revenue, invoices, and financial data"
+    },
+    "entityWatchdog": {
+      "type": "boolean",
+      "default": false,
+      "description": "Auto-detect and update entity mentions in conversations"
+    },
+    "importSource": {
+      "type": "enum",
+      "values": ["csv", "json", "manual", "none"],
+      "default": "none",
+      "description": "Initial import source for existing clients"
+    }
+  }
+}

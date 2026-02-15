@@ -1,0 +1,11 @@
+{
+  "name": "stripe",
+  "displayName": "Stripe",
+  "command": "npx",
+  "args": ["-y", "@stripe/mcp-server"],
+  "env": {
+    "STRIPE_SECRET_KEY": "{{STRIPE_SECRET_KEY}}"
+  },
+  "description": "Stripe payment processing and subscription management",
+  "requiredBy": ["stripe"]
+}

@@ -1,0 +1,31 @@
+{
+  "id": "spec-implement",
+  "name": "Spec & Implement",
+  "category": "project-management",
+  "description": "Write detailed specs before building. Specs become executable implementation plans.",
+  "estimatedMinutes": 2,
+  "dependencies": ["gsd-full"],
+  "chromeAutomation": false,
+  "manualFallback": false,
+  "recommendedFor": ["small-agency", "startup"],
+  "icon": "📝",
+  "generates": {
+    "agents": ["spec-writer", "implement-agent"],
+    "commands": ["spec", "implement"],
+    "knowledge": ["spec-system.md"],
+    "wikiSections": ["spec-driven-development"]
+  },
+  "configSchema": {
+    "specDepth": {
+      "type": "enum",
+      "values": ["detailed", "quick"],
+      "default": "detailed",
+      "description": "Level of detail in specifications"
+    },
+    "autoTests": {
+      "type": "boolean",
+      "default": false,
+      "description": "Automatically generate tests from specs"
+    }
+  }
+}

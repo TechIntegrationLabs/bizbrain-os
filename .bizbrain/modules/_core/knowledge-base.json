@@ -1,0 +1,13 @@
+{
+  "id": "knowledge-base",
+  "name": "Knowledge Base",
+  "category": "core",
+  "description": "On-demand documentation and searchable knowledge system.",
+  "core": true,
+  "autoIncluded": true,
+  "generates": {
+    "folders": ["Knowledge/"],
+    "commands": ["knowledge", "find"],
+    "knowledge": ["INDEX.md"]
+  }
+}

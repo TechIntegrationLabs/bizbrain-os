@@ -1,0 +1,18 @@
+{
+  "id": "gsd-light",
+  "name": "GSD (Light)",
+  "category": "project-management",
+  "description": "Lightweight task tracking without the full planning overhead.",
+  "estimatedMinutes": 2,
+  "dependencies": [],
+  "mutuallyExclusive": ["gsd-full"],
+  "chromeAutomation": false,
+  "manualFallback": false,
+  "recommendedFor": ["solo-freelancer", "consultancy"],
+  "icon": "✅",
+  "generates": {
+    "commands": ["tasks", "task-add", "task-done"],
+    "wikiSections": ["simple-task-tracking"]
+  },
+  "configSchema": {}
+}

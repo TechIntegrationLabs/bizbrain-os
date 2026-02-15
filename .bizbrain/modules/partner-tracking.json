@@ -1,0 +1,25 @@
+{
+  "id": "partner-tracking",
+  "name": "Partner Tracking",
+  "category": "entity-management",
+  "description": "Manage strategic partnerships, shared projects, and collaboration history.",
+  "estimatedMinutes": 3,
+  "dependencies": [],
+  "chromeAutomation": false,
+  "manualFallback": false,
+  "recommendedFor": ["solo-freelancer", "small-agency", "startup", "consultancy"],
+  "icon": "🤝",
+  "generates": {
+    "folders": ["Partners/"],
+    "commands": ["add-partner", "list-partners"],
+    "wikiSections": ["managing-partners"],
+    "templates": ["partner"]
+  },
+  "configSchema": {
+    "terminology": {
+      "type": "string",
+      "default": "Partners",
+      "description": "What you call your partners (e.g., 'Partners', 'Collaborators', 'Allies')"
+    }
+  }
+}

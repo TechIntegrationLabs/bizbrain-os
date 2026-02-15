@@ -1,0 +1,30 @@
+{
+  "id": "clerk",
+  "name": "Clerk",
+  "category": "development",
+  "description": "User authentication, sign-up/sign-in flows, and user management for your apps.",
+  "estimatedMinutes": 5,
+  "dependencies": ["chrome-extension"],
+  "chromeAutomation": true,
+  "manualFallback": true,
+  "recommendedFor": ["startup", "small-agency"],
+  "icon": "🔐",
+  "generates": {
+    "mcpConfigs": ["clerk.json"],
+    "commands": ["clerk-users"],
+    "wikiSections": ["auth-with-clerk"]
+  },
+  "configSchema": {
+    "secretKey": {
+      "type": "string",
+      "required": true,
+      "secret": true,
+      "description": "Clerk secret key"
+    },
+    "publishableKey": {
+      "type": "string",
+      "required": true,
+      "description": "Clerk publishable key"
+    }
+  }
+}

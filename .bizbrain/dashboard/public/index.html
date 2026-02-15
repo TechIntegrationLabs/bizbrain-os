@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BizBrain OS</title>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%233B82F6'/><text x='16' y='22' font-size='18' text-anchor='middle' fill='white' font-family='system-ui' font-weight='bold'>B</text></svg>">
+  <style>
+    /* Critical inline styles for fast first paint */
+    body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', Roboto, sans-serif; }
+    .app-container { min-height: 100vh; display: flex; flex-direction: column; }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+
+    <!-- Header -->
+    <header class="header">
+      <div class="header-left">
+        <div class="header-logo">B</div>
+        <div>
+          <span class="header-title" id="header-title">BizBrain OS</span>
+          <span class="header-subtitle" id="header-subtitle">Dashboard</span>
+        </div>
+      </div>
+      <div class="header-right">
+        <span class="header-badge" id="connection-badge">
+          <span class="dot"></span> Connecting...
+        </span>
+        <a href="/wiki.html" class="icon-btn" title="Wiki / Help" aria-label="Wiki">&#128214;</a>
+        <button class="icon-btn" id="btn-settings" title="Settings" aria-label="Settings">&#9881;</button>
+      </div>
+    </header>
+
+    <!-- Main Content - Rendered by app.js -->
+    <main class="main" id="main">
+      <div class="loading-container">
+        <div class="spinner"></div>
+        <span>Loading BizBrain OS...</span>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-links">
+        <a href="/wiki.html" class="footer-link">Wiki</a>
+        <a href="#" class="footer-link" id="footer-update">Check for Updates</a>
+        <a href="https://github.com" class="footer-link" target="_blank">GitHub</a>
+      </div>
+      <span id="footer-version">BizBrain OS v1.0.0</span>
+    </footer>
+
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>

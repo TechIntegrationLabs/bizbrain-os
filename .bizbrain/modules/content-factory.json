@@ -1,0 +1,36 @@
+{
+  "id": "content-factory",
+  "name": "Content Factory",
+  "category": "content",
+  "description": "Auto-generate blog posts, social media content, and documentation from your work.",
+  "estimatedMinutes": 3,
+  "dependencies": [],
+  "chromeAutomation": false,
+  "manualFallback": false,
+  "recommendedFor": ["solo-freelancer", "small-agency", "startup", "consultancy"],
+  "icon": "✍️",
+  "generates": {
+    "agents": ["content-factory"],
+    "commands": ["content", "blog-post", "social-post"],
+    "knowledge": ["content-factory.md"],
+    "wikiSections": ["content-creation"]
+  },
+  "configSchema": {
+    "platforms": {
+      "type": "array",
+      "default": [],
+      "description": "Target platforms (e.g., LinkedIn, Twitter, Medium)"
+    },
+    "autoGenerate": {
+      "type": "boolean",
+      "default": false,
+      "description": "Automatically generate content from completed work"
+    },
+    "tone": {
+      "type": "enum",
+      "values": ["professional", "casual", "technical"],
+      "default": "professional",
+      "description": "Default content tone"
+    }
+  }
+}

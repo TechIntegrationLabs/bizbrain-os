@@ -1,0 +1,34 @@
+{
+  "version": "1.0.0",
+  "profile": {
+    "businessName": "",
+    "userName": "",
+    "userRole": "",
+    "businessType": "",
+    "industry": "",
+    "description": "",
+    "brandColors": {
+      "primary": "#3B82F6",
+      "secondary": "#1E293B",
+      "accent": "#10B981"
+    },
+    "logo": null,
+    "website": null,
+    "socialProfiles": {}
+  },
+  "preferences": {
+    "commStyle": "professional",
+    "timeTracking": "none",
+    "conversationCapture": "always",
+    "setupDepth": "thorough",
+    "autoStartDashboard": false,
+    "voiceInput": false
+  },
+  "modules": {},
+  "integrations": {},
+  "paths": {
+    "brain": "",
+    "repos": "",
+    "conversations": ""
+  }
+}

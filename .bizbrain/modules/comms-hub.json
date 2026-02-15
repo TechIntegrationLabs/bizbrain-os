@@ -1,0 +1,32 @@
+{
+  "id": "comms-hub",
+  "name": "Communications Hub",
+  "category": "communication",
+  "description": "Unified inbox combining email, Slack, and other channels. Entity-aware routing.",
+  "estimatedMinutes": 3,
+  "dependencies": [],
+  "softDependencies": ["gmail", "slack"],
+  "chromeAutomation": false,
+  "manualFallback": false,
+  "recommendedFor": ["small-agency", "startup", "consultancy"],
+  "icon": "📬",
+  "generates": {
+    "agents": ["communication-hub"],
+    "commands": ["comms", "inbox"],
+    "folders": ["Communications/"],
+    "knowledge": ["communication-hub.md"],
+    "wikiSections": ["unified-communications"]
+  },
+  "configSchema": {
+    "voiceProfiles": {
+      "type": "array",
+      "default": [],
+      "description": "Voice/tone profiles for different contexts"
+    },
+    "followUpReminders": {
+      "type": "boolean",
+      "default": false,
+      "description": "Enable automatic follow-up reminders"
+    }
+  }
+}

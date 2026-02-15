@@ -1,0 +1,31 @@
+{
+  "id": "video-studio",
+  "name": "Video Studio",
+  "category": "content",
+  "description": "Create programmatic videos using Remotion - motion graphics, promos, data visualizations.",
+  "estimatedMinutes": 5,
+  "dependencies": [],
+  "chromeAutomation": false,
+  "manualFallback": false,
+  "recommendedFor": ["small-agency", "startup"],
+  "icon": "🎬",
+  "generates": {
+    "agents": ["remotion-studio"],
+    "commands": ["video"],
+    "knowledge": ["video-generation.md"],
+    "wikiSections": ["video-creation"]
+  },
+  "configSchema": {
+    "outputDir": {
+      "type": "string",
+      "required": false,
+      "description": "Default output directory for rendered videos"
+    },
+    "defaultResolution": {
+      "type": "enum",
+      "values": ["1080p", "4k"],
+      "default": "1080p",
+      "description": "Default video resolution"
+    }
+  }
+}

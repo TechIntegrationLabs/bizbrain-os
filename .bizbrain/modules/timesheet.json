@@ -1,0 +1,53 @@
+{
+  "id": "timesheet",
+  "name": "Timesheet",
+  "category": "project-management",
+  "description": "Track hours, generate timesheets, and manage billing.",
+  "estimatedMinutes": 2,
+  "dependencies": [],
+  "chromeAutomation": false,
+  "manualFallback": false,
+  "recommendedFor": ["solo-freelancer", "consultancy"],
+  "icon": "⏱️",
+  "generates": {
+    "hooks": ["timesheet-tracker"],
+    "commands": ["hours", "timesheet"],
+    "knowledge": ["timesheet-system.md"],
+    "wikiSections": ["time-tracking"]
+  },
+  "configSchema": {
+    "billingModel": {
+      "type": "enum",
+      "values": ["hourly", "daily", "fixed", "tracking-only"],
+      "default": "tracking-only",
+      "description": "How you bill for your work"
+    },
+    "defaultRate": {
+      "type": "number",
+      "required": false,
+      "description": "Default hourly or daily rate"
+    },
+    "currency": {
+      "type": "string",
+      "default": "USD",
+      "description": "Currency for billing"
+    },
+    "autoTrack": {
+      "type": "boolean",
+      "default": false,
+      "description": "Automatically track time in Claude Code sessions"
+    },
+    "exportFormat": {
+      "type": "enum",
+      "values": ["pdf", "csv", "notion", "all"],
+      "default": "csv",
+      "description": "Preferred export format"
+    },
+    "period": {
+      "type": "enum",
+      "values": ["weekly", "biweekly", "monthly"],
+      "default": "weekly",
+      "description": "Timesheet reporting period"
+    }
+  }
+}
