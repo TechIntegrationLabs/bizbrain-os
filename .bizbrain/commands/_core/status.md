@@ -47,7 +47,7 @@ Entity Counts:
 Activity:
   Open todos: 12
   Recent intake: 3 items (last 24h)
-  Active projects: BuildTrack, GEOViz
+  Active projects: ProjectAlpha, AppBeta
   Last sync: 2h ago
 
 Integrations:

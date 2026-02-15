@@ -43,7 +43,7 @@ Define what "done" looks like for the project or current phase.
    **Project-level (requirements.json):**
    ```json
    {
-     "projectName": "BuildTrack",
+     "projectName": "ProjectAlpha",
      "version": "1.0.0",
      "functional": [
        {

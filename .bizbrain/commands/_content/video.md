@@ -196,7 +196,7 @@ Video types: `promo`, `demo`, `tutorial`, `data`, `intro`
    ```json
    {
      "video-id": {
-       "title": "BuildTrack Promo",
+       "title": "ProjectAlpha Promo",
        "type": "promo",
        "duration": 30,
        "created": "2024-01-15T10:00:00Z",

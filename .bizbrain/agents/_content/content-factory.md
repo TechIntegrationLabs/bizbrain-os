@@ -347,9 +347,9 @@ Returns dashboard data for authenticated user.
 2. **Structure case study:**
 
 ```markdown
-# Case Study: BuildTrack User Dashboard
+# Case Study: ProjectAlpha User Dashboard
 
-**Client:** Tim (Disruptors Media)
+**Client:** Alex (Acme Design Co)
 **Timeline:** 2 weeks
 **Technologies:** Next.js, React Query, Supabase, Tailwind
 
@@ -357,7 +357,7 @@ Returns dashboard data for authenticated user.
 
 ## The Challenge
 
-Tim needed a centralized dashboard where users could view all their
+Alex needed a centralized dashboard where users could view all their
 active projects, upcoming tasks, and recent activity at a glance.
 
 **Key Requirements:**
@@ -422,7 +422,7 @@ We designed a hybrid architecture:
 > "The new dashboard completely transformed how our team works. Everything
 > is right there, updating in real-time. The performance is incredible."
 >
-> — Tim, Founder at Disruptors Media
+> — Alex, Founder at Acme Design Co
 
 ---
 
@@ -448,7 +448,7 @@ We designed a hybrid architecture:
 **Ready to build something similar?** [Contact us](#contact)
 ```
 
-**Save to:** `{{BRAIN_PATH}}/_content/case-studies/buildtrack-dashboard.md`
+**Save to:** `{{BRAIN_PATH}}/_content/case-studies/projectalpha-dashboard.md`
 
 ---
 
@@ -476,11 +476,11 @@ Quick update on what we've been working on this week.
 
 ## What We Shipped 🚀
 
-**BuildTrack User Dashboard**
+**ProjectAlpha User Dashboard**
 Built a real-time dashboard that displays projects, tasks, and activity
 with sub-2-second load times. The client is thrilled.
 
-**GEOViz Authentication Fix**
+**AppBeta Authentication Fix**
 Squashed a tricky bug in the authentication flow. Added regression tests
 to make sure it doesn't come back.
 
@@ -506,8 +506,8 @@ Sometimes the right architecture makes all the difference.
 ## What's Next 👀
 
 Next week we're diving into:
-- Team invitation system for GEOViz
-- Performance testing the BuildTrack dashboard
+- Team invitation system for AppBeta
+- Performance testing the ProjectAlpha dashboard
 - Kicking off the TechCo backend upgrade
 
 ## By the Numbers 📊

@@ -77,7 +77,7 @@ Optional type filter: `clients`, `partners`, `vendors`, or `all` (default)
    ────────────────────────────────────────────────
    1. Acme Corp
       Primary: John Smith (john@acme.com)
-      Projects: 2 active (BuildTrack, Dashboard)
+      Projects: 2 active (ProjectAlpha, Dashboard)
       Status: Active engagement
       Since: Jan 2024
       Last contact: 3 days ago

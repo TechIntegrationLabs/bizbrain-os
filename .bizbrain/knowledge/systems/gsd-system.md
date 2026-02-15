@@ -129,7 +129,7 @@ Process:
 Example:
 ```json
 {
-  "projectName": "BuildTrack",
+  "projectName": "ProjectAlpha",
   "phases": [
     {
       "id": "phase-1",

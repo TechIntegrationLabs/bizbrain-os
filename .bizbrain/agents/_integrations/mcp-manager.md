@@ -335,7 +335,7 @@ Would you like to enable GitHub MCP permanently?
    supabase: ✓ Healthy
    - Process: Running
    - Connection: Connected to 2 projects
-   - Test: Successfully queried buildtrack database
+   - Test: Successfully queried projectalpha database
 
    gmail: ✗ Error
    - Process: Running

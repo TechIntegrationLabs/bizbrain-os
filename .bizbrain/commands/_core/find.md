@@ -49,7 +49,7 @@ Search across all Brain content using ripgrep.
 ```
 Found 12 matches for "client onboarding"
 
-Projects/BuildTrack/_context/notes.md:
+Projects/ProjectAlpha/_context/notes.md:
   23: Planning client onboarding flow for new users
   24: - Create onboarding checklist
 

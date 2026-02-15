@@ -30,9 +30,9 @@ Actions: `connect`, `schema`, `query`, `migrate`, `status`, `setup`
    Supabase Status - {{PROJECT_NAME}}
    ════════════════════════════════════════════════
 
-   Project: BuildTrack
-   Ref: ooptrrxdmhctxnqsiqjs
-   URL: https://ooptrrxdmhctxnqsiqjs.supabase.co
+   Project: ProjectAlpha
+   Ref: your-project-ref
+   URL: https://your-project-ref.supabase.co
 
    Connection: ✓ Connected
    Status: Active
@@ -63,8 +63,8 @@ Actions: `connect`, `schema`, `query`, `migrate`, `status`, `setup`
    Connecting to Supabase project...
 
    1. Select project:
-      [ ] BuildTrack (ooptrrxdmhctxnqsiqjs)
-      [ ] GEOViz (different-ref)
+      [ ] ProjectAlpha (your-project-ref)
+      [ ] AppBeta (your-project-ref-2)
       [ ] New project
 
    2. Enter credentials:
@@ -81,14 +81,14 @@ Actions: `connect`, `schema`, `query`, `migrate`, `status`, `setup`
       Location: {{BRAIN_PATH}}/.bizbrain/integrations/supabase/
       [Y/n]
 
-   ✓ Connected to BuildTrack project
+   ✓ Connected to ProjectAlpha project
    ```
 
 5. **Action: Schema**
 
    View or modify database schema:
    ```
-   Database Schema - BuildTrack
+   Database Schema - ProjectAlpha
    ════════════════════════════════════════════════
 
    Tables (20):
@@ -125,7 +125,7 @@ Actions: `connect`, `schema`, `query`, `migrate`, `status`, `setup`
    Supabase Query Console
    ════════════════════════════════════════════════
 
-   Project: BuildTrack
+   Project: ProjectAlpha
 
    Enter SQL query (or select a template):
    Templates:
@@ -243,9 +243,9 @@ Actions: `connect`, `schema`, `query`, `migrate`, `status`, `setup`
    Auto-detect from repo patterns:
    ```json
    {
-     "buildtrack": "ooptrrxdmhctxnqsiqjs",
-     "geoviz": "knorygkqxqnppnpwjxag",
-     "content-engine": "lqyqhlxljarqcubomjos"
+     "projectalpha": "your-project-ref",
+     "appbeta": "your-project-ref-2",
+     "content-app": "your-project-ref-3"
    }
    ```
 

@@ -471,7 +471,7 @@ Your choice: (1/2/3/4)
 Setting up Notion sync...
 
 ✓ Notion MCP connected
-✓ Workspace: Tech Integration Labs
+✓ Workspace: {{BUSINESS_NAME}}
 
 Available databases (4):
 1. Projects (12 items)

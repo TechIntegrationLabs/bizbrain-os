@@ -261,7 +261,7 @@ Format:
 - **Aliases:** Acme, Acme Corporation
 - **Primary Contact:** John Smith (john@acme.com)
 - **Keywords:** enterprise, saas, technology
-- **Projects:** BuildTrack, Dashboard
+- **Projects:** ProjectAlpha, Dashboard
 - **Status:** Active
 
 ## Partners
@@ -327,19 +327,19 @@ Update `_pulse/STATUS.md` regularly:
 
 ## Current State
 - Status: Active engagement
-- Active projects: 2 (BuildTrack, Dashboard)
+- Active projects: 2 (ProjectAlpha, Dashboard)
 - Next action: Schedule Phase 2 planning call
 - Health: 🟢 Good
 
 ## Recent Activity
 - 2024-01-15: Sent Phase 2 proposal
 - 2024-01-12: Weekly check-in call
-- 2024-01-10: Deployed BuildTrack v1.2
+- 2024-01-10: Deployed ProjectAlpha v1.2
 - 2024-01-08: Code review session
 
 ## Upcoming
 - 2024-01-17: Phase 2 planning call
-- 2024-01-20: BuildTrack v1.3 release
+- 2024-01-20: ProjectAlpha v1.3 release
 - 2024-01-25: Contract renewal discussion
 ```
 

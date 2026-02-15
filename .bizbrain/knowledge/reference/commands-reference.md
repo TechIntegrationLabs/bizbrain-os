@@ -545,7 +545,7 @@ Create video with Remotion.
 
 **Example:**
 ```
-/video promo "BuildTrack Launch"
+/video promo "ProjectAlpha Launch"
 → Creates 30-second promo video
 ```
 

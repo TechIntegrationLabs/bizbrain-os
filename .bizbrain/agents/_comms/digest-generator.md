@@ -123,12 +123,12 @@
 
 ## 🎯 Top Accomplishments
 
-1. **BuildTrack:** Implemented user dashboard with caching
+1. **ProjectAlpha:** Implemented user dashboard with caching
    - Created 4 new components
    - All tests passing
    - Ready for client review
 
-2. **GEOViz:** Fixed authentication flow bug
+2. **AppBeta:** Fixed authentication flow bug
    - Issue resolved in 45 minutes
    - Regression test added
    - Deployed to staging
@@ -142,16 +142,16 @@
 
 ## 💼 Projects Activity
 
-### BuildTrack (Active)
+### ProjectAlpha (Active)
 - ✓ User dashboard implementation (complete)
 - ✓ Caching layer added
 - → Next: Loading states and testing
 
-### GEOViz (Active)
+### AppBeta (Active)
 - ✓ Auth bug fixed
 - → Next: Team invitation UI
 
-### ContentEngine (Paused)
+### ContentApp (Paused)
 - No activity today
 - Scheduled to resume next week
 
@@ -172,8 +172,8 @@
 - Email: Launch date confirmed (March 1)
 
 ### Partners
-**AI Revolution Labs** - Medium activity
-- GEOViz progress update sent
+**Nova Analytics** - Medium activity
+- AppBeta progress update sent
 - Next milestone: Feb 22
 
 ---
@@ -226,12 +226,12 @@ Low Priority (3):
 ## 💻 Development Activity
 
 **Git Commits:** 5
-- BuildTrack: 3 commits (dashboard feature)
-- GEOViz: 2 commits (auth bug fix)
+- ProjectAlpha: 3 commits (dashboard feature)
+- AppBeta: 2 commits (auth bug fix)
 
 **Code Sessions:** 2 (total 4.5 hours)
-- Session 1: BuildTrack dashboard (3 hours)
-- Session 2: GEOViz auth debugging (1.5 hours)
+- Session 1: ProjectAlpha dashboard (3 hours)
+- Session 2: AppBeta auth debugging (1.5 hours)
 
 **Files Modified:** 23
 **Tests Added:** 8
@@ -244,8 +244,8 @@ Low Priority (3):
 **Total Time:** 6.5 hours
 
 By Project:
-- BuildTrack: 3.5 hours (54%)
-- GEOViz: 1.5 hours (23%)
+- ProjectAlpha: 3.5 hours (54%)
+- AppBeta: 1.5 hours (23%)
 - Admin/Comms: 1.5 hours (23%)
 
 By Activity:
@@ -260,7 +260,7 @@ By Activity:
 1. **Action Item Backlog:** Net +4 today, +12 this week
    - Recommendation: Block 2 hours tomorrow for task clearing
 
-2. **GEOViz Timeline:** Milestone in 7 days
+2. **AppBeta Timeline:** Milestone in 7 days
    - Status: On track but tight
    - Watch: Team invitation feature (new requirement)
 
@@ -271,10 +271,10 @@ By Activity:
 
 ## 📅 Tomorrow's Priorities
 
-1. **BuildTrack:** Add loading states and run large dataset tests
-2. **GEOViz:** Start team invitation UI implementation
+1. **ProjectAlpha:** Add loading states and run large dataset tests
+2. **AppBeta:** Start team invitation UI implementation
 3. **Communications:** Follow up on 3 deferred emails
-4. **Planning:** Review GEOViz milestone checklist
+4. **Planning:** Review AppBeta milestone checklist
 
 ---
 
@@ -361,10 +361,10 @@ Similar to daily, but aggregates 7 days:
 **Focus on single project:**
 
 ```markdown
-# Project Digest: BuildTrack
+# Project Digest: ProjectAlpha
 
 **Period:** February 15, 2026
-**Client:** Tim (Disruptors Media)
+**Client:** Alex (Acme Design Co)
 **Status:** Active - Phase 2 of 4
 
 ---
@@ -554,7 +554,7 @@ Generating report...
 - 6.5 hours logged
 
 📌 Top Priority Tomorrow:
-BuildTrack loading states + testing
+ProjectAlpha loading states + testing
 
 Full digest: {{BRAIN_PATH}}/_digests/daily/2026-02-15.md
 

@@ -34,16 +34,16 @@
 {
   "projects": [
     {
-      "name": "BuildTrack",
-      "ref": "ooptrrxdmhctxnqsiqjs",
-      "repoMatch": ["buildtrack", "BuildTrack"],
-      "url": "https://ooptrrxdmhctxnqsiqjs.supabase.co"
+      "name": "ProjectAlpha",
+      "ref": "your-project-ref",
+      "repoMatch": ["projectalpha", "ProjectAlpha"],
+      "url": "https://your-project-ref.supabase.co"
     },
     {
-      "name": "GEOViz",
-      "ref": "knorygkqxqnppnpwjxag",
-      "repoMatch": ["geoviz", "GEOViz", "geoviz-app"],
-      "url": "https://knorygkqxqnppnpwjxag.supabase.co"
+      "name": "AppBeta",
+      "ref": "your-project-ref-2",
+      "repoMatch": ["appbeta", "AppBeta", "appbeta-app"],
+      "url": "https://your-project-ref-2.supabase.co"
     }
   ]
 }
@@ -72,9 +72,9 @@
    ```
    Supabase Project Detected
 
-   Project: BuildTrack
-   Ref: ooptrrxdmhctxnqsiqjs
-   URL: https://ooptrrxdmhctxnqsiqjs.supabase.co
+   Project: ProjectAlpha
+   Ref: your-project-ref
+   URL: https://your-project-ref.supabase.co
 
    ✓ Connected
    ✓ Service role key loaded
@@ -102,7 +102,7 @@
 **Example output:**
 
 ```
-Database Schema: BuildTrack
+Database Schema: ProjectAlpha
 
 Tables (8):
 
@@ -498,7 +498,7 @@ Generate migration? (y/n)
 
 **Switch project:**
 ```
-/supabase connect GEOViz
+/supabase connect AppBeta
 ```
 
 **Export schema:**
@@ -538,11 +538,11 @@ Generate migration? (y/n)
 ```
 Auto-detecting Supabase project...
 
-Current repo: C:\Users\Disruptors\Repos\buildtrack
-Matched pattern: "buildtrack"
+Current repo: ~/Repos/projectalpha
+Matched pattern: "projectalpha"
 
-✓ Project: BuildTrack
-✓ Ref: ooptrrxdmhctxnqsiqjs
+✓ Project: ProjectAlpha
+✓ Ref: your-project-ref
 ✓ Connected
 
 Database Summary:

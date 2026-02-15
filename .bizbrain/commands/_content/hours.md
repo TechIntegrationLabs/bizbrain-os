@@ -45,12 +45,12 @@ Periods: `today`, `week`, `month`, or date range
 
    By Project:
    ────────────────────────────────────────────────
-   BuildTrack              4.0 hours
+   ProjectAlpha            4.0 hours
      - Feature development (2.5h)
      - Bug fixes (1.0h)
      - Code review (0.5h)
 
-   GEOViz                  2.0 hours
+   AppBeta                 2.0 hours
      - Schema design (1.5h)
      - Testing (0.5h)
 
@@ -59,11 +59,11 @@ Periods: `today`, `week`, `month`, or date range
 
    Sessions:
    ────────────────────────────────────────────────
-   09:00 - 11:30  BuildTrack  Feature development
-   11:30 - 12:00  BuildTrack  Bug fixes
-   13:00 - 14:30  GEOViz      Schema design
-   14:30 - 15:00  GEOViz      Testing
-   15:00 - 16:00  BuildTrack  Code review + bugs
+   09:00 - 11:30  ProjectAlpha  Feature development
+   11:30 - 12:00  ProjectAlpha  Bug fixes
+   13:00 - 14:30  AppBeta       Schema design
+   14:30 - 15:00  AppBeta       Testing
+   15:00 - 16:00  ProjectAlpha  Code review + bugs
    16:00 - 16:30  Admin       Email follow-ups
    ```
 
@@ -84,14 +84,14 @@ Periods: `today`, `week`, `month`, or date range
 
    By Project:
    ────────────────────────────────────────────────
-   BuildTrack   18.0 hours  (55%)
-   GEOViz       12.0 hours  (37%)
+   ProjectAlpha 18.0 hours  (55%)
+   AppBeta      12.0 hours  (37%)
    Admin         2.5 hours  (8%)
 
    By Client:
    ────────────────────────────────────────────────
-   Disruptors Media (BuildTrack)   18.0 hours
-   AI Revolution (GEOViz)          12.0 hours
+   Acme Design Co (ProjectAlpha)   18.0 hours
+   Nova Analytics (AppBeta)        12.0 hours
    Internal                         2.5 hours
    ```
 
@@ -112,16 +112,16 @@ Periods: `today`, `week`, `month`, or date range
 
    By Project:
    ────────────────────────────────────────────────
-   BuildTrack    72.0 hours  (51%)
-   GEOViz        48.5 hours  (34%)
-   EDF-Pro       15.0 hours  (11%)
+   ProjectAlpha  72.0 hours  (51%)
+   AppBeta       48.5 hours  (34%)
+   MediCare Pro  15.0 hours  (11%)
    Admin          7.0 hours  (5%)
 
    By Client:
    ────────────────────────────────────────────────
-   Disruptors Media   72.0 hours
-   AI Revolution      48.5 hours
-   Elite Dental       15.0 hours
+   Acme Design Co     72.0 hours
+   Nova Analytics     48.5 hours
+   MediCare Pro       15.0 hours
    Internal            7.0 hours
 
    Billable: 135.5 hours (95%)
@@ -132,8 +132,8 @@ Periods: `today`, `week`, `month`, or date range
 
    Use progress bars for relative time:
    ```
-   BuildTrack   ████████████░░░░░░░░  60%  (18.0h)
-   GEOViz       ████████░░░░░░░░░░░░  40%  (12.0h)
+   ProjectAlpha ████████████░░░░░░░░  60%  (18.0h)
+   AppBeta      ████████░░░░░░░░░░░░  40%  (12.0h)
    ```
 
 6. **Calculate rates**
@@ -142,8 +142,8 @@ Periods: `today`, `week`, `month`, or date range
    ```
    Revenue This Week:
    ────────────────────────────────────────────────
-   BuildTrack   18.0h × $150/h = $2,700
-   GEOViz       12.0h × $175/h = $2,100
+   ProjectAlpha 18.0h × $XX/h = $X,XXX
+   AppBeta      12.0h × $XX/h = $X,XXX
    ────────────────────────────────────────────────
    Total billable: $4,800
    ```
@@ -166,7 +166,7 @@ Periods: `today`, `week`, `month`, or date range
    ```
    Current Session:
    Started: 16:45 (30 minutes ago)
-   Project: BuildTrack
+   Project: ProjectAlpha
    Running time: 0.5 hours
    ```
 

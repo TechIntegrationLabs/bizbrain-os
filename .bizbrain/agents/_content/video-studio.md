@@ -56,7 +56,7 @@
 
 ## Video Type: Promo
 
-**Command:** `/video create buildtrack-promo --type=promo`
+**Command:** `/video create projectalpha-promo --type=promo`
 
 **Interview:**
 - What's the product/service?
@@ -69,10 +69,10 @@
 **Generated Remotion composition:**
 
 ```typescript
-// compositions/BuildTrackPromo.tsx
+// compositions/ProjectAlphaPromo.tsx
 import { AbsoluteFill, Audio, Sequence, useCurrentFrame, useVideoConfig, interpolate } from 'remotion';
 
-export const BuildTrackPromo: React.FC = () => {
+export const ProjectAlphaPromo: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps, durationInFrames } = useVideoConfig();
 
@@ -96,7 +96,7 @@ export const BuildTrackPromo: React.FC = () => {
       <Sequence from={0} durationInFrames={90}>
         <AbsoluteFill style={{ opacity: titleOpacity, alignItems: 'center', justifyContent: 'center' }}>
           <h1 style={{ fontSize: 80, color: 'white', fontWeight: 'bold' }}>
-            BuildTrack
+            ProjectAlpha
           </h1>
           <p style={{ fontSize: 40, color: '#93c5fd', marginTop: 20 }}>
             Project Management, Simplified
@@ -145,7 +145,7 @@ export const BuildTrackPromo: React.FC = () => {
               borderRadius: 10,
               fontWeight: 'bold'
             }}>
-              buildtrack.com
+              projectalpha.com
             </div>
           </div>
         </AbsoluteFill>
@@ -157,7 +157,7 @@ export const BuildTrackPromo: React.FC = () => {
 
 **Render command:**
 ```bash
-npx remotion render src/index.ts BuildTrackPromo buildtrack-promo.mp4 --fps=30 --codec=h264
+npx remotion render src/index.ts ProjectAlphaPromo projectalpha-promo.mp4 --fps=30 --codec=h264
 ```
 
 ---
@@ -372,7 +372,7 @@ Let me gather some information:
 1. What product/service is this for?
 ```
 
-**User:** "BuildTrack - project management app"
+**User:** "ProjectAlpha - project management app"
 
 **You:**
 ```
@@ -393,7 +393,7 @@ Let me gather some information:
 4. Call to action?
 ```
 
-**User:** "Visit buildtrack.com"
+**User:** "Visit projectalpha.com"
 
 **You:**
 ```
@@ -407,12 +407,12 @@ Let me gather some information:
 Perfect! Generating video composition...
 
 Structure:
-- 0-3s: BuildTrack logo + tagline
+- 0-3s: ProjectAlpha logo + tagline
 - 3-9s: Real-time dashboard feature
 - 9-15s: Team collaboration feature
 - 15-21s: Task automation feature
 - 21-27s: Benefits summary
-- 27-30s: CTA - Visit buildtrack.com
+- 27-30s: CTA - Visit projectalpha.com
 
 ✓ Created Remotion composition
 ✓ Applied brand colors

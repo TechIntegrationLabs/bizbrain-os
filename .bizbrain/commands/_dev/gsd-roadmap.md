@@ -61,7 +61,7 @@ Create or update the project phase roadmap.
 
 ```json
 {
-  "projectName": "BuildTrack",
+  "projectName": "ProjectAlpha",
   "created": "2024-01-10T09:00:00Z",
   "updated": "2024-01-10T09:00:00Z",
   "phases": [

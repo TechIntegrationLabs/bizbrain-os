@@ -13,13 +13,22 @@
     "claude-code",
     "ai",
     "automation",
-    "business-management"
+    "business-management",
+    "local-first",
+    "dashboard",
+    "modular",
+    "productivity",
+    "no-code"
   ],
-  "author": "",
+  "author": "Tech Integration Labs LLC",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/bizbrain-os.git"
+    "url": "https://github.com/TechIntegrationLabs/bizbrain-os.git"
+  },
+  "homepage": "https://github.com/TechIntegrationLabs/bizbrain-os",
+  "bugs": {
+    "url": "https://github.com/TechIntegrationLabs/bizbrain-os/issues"
   },
   "engines": {
     "node": ">=18.0.0"

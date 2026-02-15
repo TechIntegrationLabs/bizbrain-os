@@ -80,7 +80,7 @@
 ```markdown
 # Claude Code Session - 2026-02-15 10:30
 
-**Project:** BuildTrack
+**Project:** ProjectAlpha
 **Branch:** feature/user-dashboard
 **Duration:** 45 minutes
 
@@ -134,8 +134,8 @@ Topics identified:
 **Example:**
 ```
 Entity mentions:
-- Project: BuildTrack
-- Client: Tim (Disruptors Media)
+- Project: ProjectAlpha
+- Client: Alex (Acme Design Co)
 - Technology: Next.js, Supabase
 ```
 
@@ -181,7 +181,7 @@ Action items:
 ```markdown
 # Conversation Summary - 2026-02-15
 
-**Project:** BuildTrack
+**Project:** ProjectAlpha
 **Duration:** 45 minutes
 **Participants:** {{USER_NAME}}, Claude Code
 
@@ -189,7 +189,7 @@ Action items:
 
 ## Overview
 
-Implemented user dashboard for BuildTrack application. Created React
+Implemented user dashboard for ProjectAlpha application. Created React
 components with server-side data fetching and caching.
 
 ---
@@ -206,8 +206,8 @@ components with server-side data fetching and caching.
 
 ## Entities Mentioned
 
-- **Project:** BuildTrack
-- **Client:** Tim (Disruptors Media)
+- **Project:** ProjectAlpha
+- **Client:** Alex (Acme Design Co)
 - **Technologies:** Next.js, React Query, Supabase, Tailwind
 
 ---
@@ -277,14 +277,14 @@ Continue with:
 **Distribute extracted information:**
 
 **Action Items →**
-- Project action items: `{{BRAIN_PATH}}/Projects/BuildTrack/_context/action-items.md`
+- Project action items: `{{BRAIN_PATH}}/Projects/ProjectAlpha/_context/action-items.md`
 - Entity action items: Entity's `_context/action-items.md` (if entity-specific)
 
 **Decisions →**
-- Project decisions log: `{{BRAIN_PATH}}/Projects/BuildTrack/_context/decisions.md`
+- Project decisions log: `{{BRAIN_PATH}}/Projects/ProjectAlpha/_context/decisions.md`
 
 **History →**
-- Project history: `{{BRAIN_PATH}}/Projects/BuildTrack/_context/history.md`
+- Project history: `{{BRAIN_PATH}}/Projects/ProjectAlpha/_context/history.md`
 - Entity history: Entity's `_context/history.md` (if client work)
 
 ### Step 8: Archive Conversation
@@ -304,14 +304,14 @@ Continue with:
 ✓ Conversation processed and archived
 
 Session: 2026-02-15 10:30 (45 minutes)
-Project: BuildTrack
+Project: ProjectAlpha
 Topics: 5
 Decisions: 3
 Action items: 4
 
 Routed to:
-- BuildTrack action items (4 items)
-- BuildTrack history (session logged)
+- ProjectAlpha action items (4 items)
+- ProjectAlpha history (session logged)
 
 Archived to: _archive/2026/02/conversation-20260215-103045.md
 ```
@@ -400,7 +400,7 @@ Active Sessions: 0
 
 Pending Processing: 2
 1. conversation-20260215-083015.md (32 messages, 1 hour ago)
-   Preview: "Working on GEOViz authentication flow..."
+   Preview: "Working on AppBeta authentication flow..."
 
 2. conversation-20260214-143020.md (18 messages, 1 day ago)
    Preview: "Debugging payment integration..."
@@ -419,11 +419,11 @@ Processing pending conversations...
 
 [1/2] conversation-20260215-083015.md
 → Analyzing... (32 messages)
-→ Identified: Project GEOViz, Client AI Revolution Labs
+→ Identified: Project AppBeta, Client Nova Analytics
 → Topics: Authentication, Clerk integration, middleware
 → Decisions: 2
 → Action items: 5
-→ Routed to GEOViz project
+→ Routed to AppBeta project
 → Archived ✓
 
 [2/2] conversation-20260214-143020.md

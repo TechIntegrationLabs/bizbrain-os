@@ -10,6 +10,24 @@
 
 **Your AI-Powered Business Brain - Clone, Configure, Conquer**
 
+[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/TechIntegrationLabs/bizbrain-os/blob/main/LICENSE)
+[![GitHub Stars](https://img.shields.io/github/stars/TechIntegrationLabs/bizbrain-os?style=social)](https://github.com/TechIntegrationLabs/bizbrain-os)
+
+---
+
+## Table of Contents
+
+- [What is BizBrain OS?](#what-is-bizbrain-os)
+- [Key Features](#key-features)
+- [Quick Start](#quick-start)
+- [Prerequisites](#prerequisites)
+- [How It Works](#how-it-works)
+- [Module Categories](#module-categories)
+- [Dashboard Screenshots](#dashboard-screenshots)
+- [Updating](#updating)
+- [Contributing](#contributing)
+- [License](#license)
+
 ---
 
 ## What is BizBrain OS?
@@ -32,7 +50,7 @@ Unlike traditional business software, BizBrain OS adapts to you. Clone the repo,
 
 1. **Clone the repo**
    ```bash
-   git clone https://github.com/yourusername/bizbrain-os.git
+   git clone https://github.com/TechIntegrationLabs/bizbrain-os.git
    cd bizbrain-os
    ```
 
@@ -43,7 +61,7 @@ Unlike traditional business software, BizBrain OS adapts to you. Clone the repo,
    ```
 
 3. **Configure modules**
-   - Launch the dashboard (auto-opens at http://localhost:3737)
+   - Launch the dashboard (auto-opens at http://localhost:5555)
    - Browse module cards organized by category
    - Enable modules with one click
    - Follow guided setup for integrations
@@ -170,11 +188,7 @@ When you enable a module requiring external accounts:
 
 ## Dashboard Screenshots
 
-*Dashboard home with module cards coming soon*
-
-*Setup wizard voice interface coming soon*
-
-*Module configuration panel coming soon*
+> Screenshots and demo video coming with v1.1. Run `/setup` to see the dashboard live!
 
 ## Updating
 
@@ -213,4 +227,4 @@ MIT License - see LICENSE file for details
 
 ---
 
-**Built with Claude Code** | [Documentation](#) | [Community](#) | [Examples](#)
+**Built with Claude Code** | [Documentation](https://github.com/TechIntegrationLabs/bizbrain-os/wiki) | [Issues](https://github.com/TechIntegrationLabs/bizbrain-os/issues) | [Discussions](https://github.com/TechIntegrationLabs/bizbrain-os/discussions)
