@@ -139,3 +139,6 @@ yarn-error.log*
 dist/
 build/
 .cache/
+
+# Tauri build artifacts
+src-tauri/target/
