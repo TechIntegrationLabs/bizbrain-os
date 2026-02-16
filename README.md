@@ -10,7 +10,7 @@
 
 # BizBrain OS
 
-**Your AI-powered business operating system. Clone. Configure. Conquer.**
+**The context layer that teaches AI your business.**
 
 [![AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://github.com/TechIntegrationLabs/bizbrain-os/blob/main/LICENSE)
 [![GitHub Stars](https://img.shields.io/github/stars/TechIntegrationLabs/bizbrain-os?style=social)](https://github.com/TechIntegrationLabs/bizbrain-os/stargazers)
@@ -18,16 +18,32 @@
 [![Discord](https://img.shields.io/discord/1234567890?color=5865F2&label=Discord&logo=discord&logoColor=white)](https://discord.gg/bizbrain)
 [![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey)]()
 [![Powered by Claude](https://img.shields.io/badge/Powered%20by-Claude%20Code-orange)](https://claude.ai)
+[![Works with OpenClaw](https://img.shields.io/badge/Works%20with-OpenClaw-purple)](https://github.com/openclaw)
 
 <br />
 
-**Stop juggling 12 tabs, 5 SaaS subscriptions, and a folder called "stuff-FINAL-v3."**<br />
-BizBrain OS turns your local machine into an intelligent business hub that<br />
-actually understands how you work.
+**AI is only as useful as what it knows about your business.** Every AI tool has the same limitation: it doesn't know your clients' preferences, your project history, or your workflows. BizBrain OS fixes that permanently.
 
-[Get Started](#quick-install) &bull; [Demo](#demo) &bull; [Modules](#module-catalog) &bull; [Docs](https://github.com/TechIntegrationLabs/bizbrain-os/wiki) &bull; [Discord](https://discord.gg/bizbrain)
+[Get Started](#quick-install) &bull; [Why Context Matters](#why-context-matters) &bull; [Works with OpenClaw](#works-with-openclaw) &bull; [Modules](#module-catalog) &bull; [Docs](https://github.com/TechIntegrationLabs/bizbrain-os/wiki) &bull; [Discord](https://discord.gg/bizbrain)
 
 </div>
+
+---
+
+## Why Context Matters
+
+Every AI tool you use -- ChatGPT, Claude, OpenClaw, Cursor -- is brilliant at general tasks. But ask about *your* business, and it starts from zero. Every session. Every time.
+
+**The bottleneck isn't AI intelligence. It's AI ignorance about you.**
+
+BizBrain OS solves this by building a structured context layer that captures and compounds your business knowledge:
+
+- **Day 1:** Your AI knows your clients, projects, and basic preferences
+- **Month 1:** Historical decisions, resolved issues, and proven approaches are captured
+- **Month 6:** AI drafts content in your voice and anticipates client needs
+- **Year 2:** A competitor starting now is two years behind. Their context starts from scratch
+
+> Your AI context layer will be the most valuable digital asset your business owns within 5 years. It compounds every day. The businesses that start building now will have an insurmountable advantage.
 
 ---
 
@@ -58,17 +74,58 @@ Then open Claude Code in the folder and run:
 /setup
 ```
 
-That's it. A voice-guided interview learns your business, activates the right modules, and launches your personal dashboard at `http://localhost:5555`.
+A voice-guided interview learns your business, activates the right modules, and launches your personal dashboard at `http://localhost:5555`. Your context layer starts compounding immediately.
 
 ---
 
 ## What is BizBrain OS?
 
-BizBrain OS is a **local-first, AI-native business operating system** powered by [Claude Code](https://claude.ai). It replaces the patchwork of Notion databases, spreadsheet trackers, forgotten Slack threads, and scattered docs with a single, intelligent system that lives on your machine.
+At its core, BizBrain OS is a **structured context layer for AI** -- the knowledge substrate that makes every AI tool smarter about *your* business.
 
-**Who it's for:** Solopreneurs, freelancers, agencies, consultancies, and small startups who are tired of paying for 10 different tools that don't talk to each other -- and who want AI that actually knows their business context.
+It captures every client interaction, project decision, and business preference into a structured, local-first knowledge system that any AI tool can understand. It replaces the patchwork of Notion databases, spreadsheet trackers, forgotten Slack threads, and scattered docs with a single intelligent system that compounds over time.
 
-**What makes it different:** BizBrain OS doesn't force you into someone else's workflow. A 5-minute voice interview maps your real business, then activates only the modules you need from a catalog of 27+. Your data never leaves your machine. Updates arrive via `git pull` without breaking your configuration. And because it runs on Claude Code, every module is AI-native from day one -- not a traditional app with "AI features" bolted on.
+**Who it's for:** Solopreneurs, freelancers, agencies, consultancies, and small startups who want AI that actually knows their business context -- not just general knowledge.
+
+**What makes it different:**
+
+1. **Context, not features.** Other tools give you a CRM, a project manager, a content generator. BizBrain OS gives you all of those *and* uses them to build a unified understanding of your business that makes every tool smarter.
+2. **It compounds.** Every day you use it, the context layer grows richer. Month 6 is exponentially more valuable than Month 1.
+3. **Local-first.** Your business context is your competitive moat. It lives on your machine, not in someone else's cloud.
+4. **AI-native.** Not a traditional app with "AI features" bolted on. Every module is built to feed and consume the AI context layer.
+5. **Works with OpenClaw.** BizBrain provides the knowledge. OpenClaw provides the hands. Together: an AI employee.
+
+---
+
+## Works with OpenClaw
+
+OpenClaw has taken the AI world by storm -- an autonomous agent that can send messages, execute commands, automate browsers, and take real action. But OpenClaw has a blind spot: **it doesn't know anything about your business.**
+
+BizBrain OS is the missing piece.
+
+```
+┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
+│   BizBrain OS   │     │    OpenClaw      │     │   AI Employee   │
+│   ─────────     │  +  │    ────────      │  =  │   ───────────   │
+│   The Brain     │     │    The Hands     │     │   The Result    │
+│                 │     │                  │     │                 │
+│ Knows your      │     │ Sends messages   │     │ Autonomous      │
+│ clients,        │     │ Executes code    │     │ agent that      │
+│ projects,       │     │ Automates        │     │ knows your      │
+│ history, and    │     │ browsers         │     │ business and    │
+│ workflows       │     │                  │     │ gets things done│
+└─────────────────┘     └─────────────────┘     └─────────────────┘
+```
+
+### Use Cases
+
+| Scenario | BizBrain Knows | OpenClaw Does |
+|----------|---------------|---------------|
+| **Morning briefing** | Your 3 active projects, deadlines, and client preferences | Drafts priority list, sends status updates, schedules follow-ups |
+| **Client onboarding** | Your onboarding workflow, contract templates, intake questions | Sends welcome email, creates project folder, schedules kickoff |
+| **Content creation** | Your brand voice, audience, past performance, client stories | Writes blog posts, creates social content, publishes across channels |
+| **Invoice follow-up** | Payment history, client communication preferences, overdue amount | Sends personalized reminder via preferred channel, logs interaction |
+
+> BizBrain OS pairs with OpenClaw. It doesn't require it. BizBrain works standalone with Claude Code and any other AI tool.
 
 ---
 
@@ -98,11 +155,11 @@ BizBrain OS is a **local-first, AI-native business operating system** powered by
 <tr>
 <td width="50%" valign="top">
 
-### Setup & Onboarding
-- **Voice-First Interview** -- Speak naturally about your business; AI extracts everything
-- **Social Profile Scraping** -- Drop a LinkedIn/website URL and auto-import brand colors, logo, bio
-- **Smart Module Pre-selection** -- Recommends modules based on your business type
-- **Chrome Automation** -- AI-guided credential setup through your browser
+### Context Layer
+- **Structured Business Memory** -- Every interaction captured and structured for AI consumption
+- **Compounding Knowledge** -- Context grows richer every day, automatically
+- **Universal AI Context** -- Feeds context to Claude, OpenClaw, or any LLM
+- **Entity Watchdog** -- Mentions in conversation auto-update your records
 
 ### Your Data, Your Machine
 - **Local-First Architecture** -- All data stays on disk. No cloud lock-in, ever
@@ -121,9 +178,9 @@ BizBrain OS is a **local-first, AI-native business operating system** powered by
 - **Communications Hub** -- Unified inbox across email, Slack, WhatsApp
 
 ### AI-Native
+- **Voice-First Setup** -- Speak naturally; AI builds your context layer from conversation
 - **Auto-Generated Wiki** -- Personalized knowledge base tailored to your business
 - **Conversation Capture** -- Every Claude Code session archived and searchable
-- **Entity Watchdog** -- Mentions in conversation auto-update your records
 - **Content Factory** -- Turn your work into blog posts, social content, presentations
 
 </td>
@@ -134,7 +191,7 @@ BizBrain OS is a **local-first, AI-native business operating system** powered by
 
 ## Module Catalog
 
-BizBrain OS ships with **27 modules** across 7 categories. Core modules activate automatically. Everything else is opt-in.
+BizBrain OS ships with **27 modules** across 7 categories. Core modules activate automatically. Everything else is opt-in. Every module feeds the context layer.
 
 ### Core (Always Active)
 
@@ -203,13 +260,13 @@ BizBrain OS ships with **27 modules** across 7 categories. Core modules activate
 ## How It Works
 
 ```
- Install              Interview             Configure             Run
- ───────              ─────────             ─────────             ───
+ Install              Teach It             Configure             Compound
+ ───────              ────────             ─────────             ────────
 
-  npx                  "Tell me              Pick your             Your AI
-  create-              about your     ->     modules       ->     business
-  bizbrain     ->      business..."          from the              brain is
-                                             dashboard              live
+  npx                  "Tell me              Pick your             Context
+  create-              about your     ->     modules       ->     grows
+  bizbrain     ->      business..."          from the              richer
+                                             dashboard              daily
   30 seconds           5 minutes             2 minutes             Forever
 ```
 
@@ -220,16 +277,16 @@ BizBrain OS ships with **27 modules** across 7 categories. Core modules activate
 <p>One command. Clone the repo, or <code>npx create-bizbrain</code>. No build step, no Docker, no config files to create.</p>
 </td>
 <td align="center" width="25%">
-<h3>2. Voice Interview</h3>
-<p>Speak (or type) about your business. AI extracts your name, company, tools, pain points, and brand identity.</p>
+<h3>2. Teach It</h3>
+<p>Speak (or type) about your business. AI extracts your clients, tools, workflows, and preferences into structured context.</p>
 </td>
 <td align="center" width="25%">
 <h3>3. Configure Modules</h3>
-<p>A local dashboard shows smart-recommended module cards. Enable what you need with one click. Chrome automation handles credentials.</p>
+<p>A local dashboard shows smart-recommended module cards. Enable what you need with one click. Each module feeds the context layer.</p>
 </td>
 <td align="center" width="25%">
-<h3>4. Run Your Business</h3>
-<p>Your Brain is live. Track clients, manage projects, capture conversations, generate content -- all from Claude Code.</p>
+<h3>4. Watch It Compound</h3>
+<p>Every interaction, every decision, every conversation gets captured. Your AI context layer grows richer every day -- automatically.</p>
 </td>
 </tr>
 </table>
@@ -335,7 +392,7 @@ git pull origin main   # System files update. Your data and config are untouched
 
 ## Integrations
 
-BizBrain OS connects to the tools you already use. Each integration is a module you can activate (or skip).
+BizBrain OS connects to the tools you already use. Each integration is a module you can activate (or skip). Every integration feeds the context layer.
 
 <table>
 <tr>
@@ -353,7 +410,7 @@ BizBrain OS connects to the tools you already use. Each integration is a module 
 <td align="center" width="12.5%"><b>Vercel</b><br/>Deploy</td>
 <td align="center" width="12.5%"><b>Obsidian</b><br/>Archive</td>
 <td align="center" width="12.5%"><b>Remotion</b><br/>Video</td>
-<td align="center" width="12.5%"><b>LinkedIn</b><br/>Scraping</td>
+<td align="center" width="12.5%"><b>OpenClaw</b><br/>AI Agent</td>
 <td align="center" width="12.5%"><b>WhatsApp</b><br/>Gateway</td>
 <td align="center" width="12.5%"><b>X / Twitter</b><br/>Scraping</td>
 <td align="center" width="12.5%"><b>+ More</b><br/>Extensible</td>
@@ -368,7 +425,10 @@ BizBrain OS connects to the tools you already use. Each integration is a module 
 
 | Feature | BizBrain OS | Notion | Monday | Trello | DIY Scripts |
 |:--------|:----------:|:------:|:------:|:------:|:-----------:|
+| AI context layer (structured, compounding) | :white_check_mark: | :x: | :x: | :x: | :x: |
+| Works with OpenClaw | :white_check_mark: | :x: | :x: | :x: | :x: |
 | AI-native (not bolted on) | :white_check_mark: | :x: | :x: | :x: | :x: |
+| Compounding context over time | :white_check_mark: | :x: | :x: | :x: | :x: |
 | Voice-first onboarding | :white_check_mark: | :x: | :x: | :x: | :x: |
 | Local-first (your data, your disk) | :white_check_mark: | :x: | :x: | :x: | :white_check_mark: |
 | Zero monthly cost | :white_check_mark: | :x: | :x: | :x: | :white_check_mark: |
@@ -377,8 +437,6 @@ BizBrain OS connects to the tools you already use. Each integration is a module 
 | Entity auto-detection | :white_check_mark: | :x: | :x: | :x: | :x: |
 | Modular (pick only what you need) | :white_check_mark: | :x: | :x: | :x: | :white_check_mark: |
 | Updates without breaking config | :white_check_mark: | N/A | N/A | N/A | :x: |
-| Personalized AI wiki | :white_check_mark: | :x: | :x: | :x: | :x: |
-| Social profile scraping onboard | :white_check_mark: | :x: | :x: | :x: | :x: |
 | Open source | :white_check_mark: | :x: | :x: | :x: | :white_check_mark: |
 
 ---
@@ -445,7 +503,7 @@ Bug reports and tracking
 
 </div>
 
-If BizBrain OS helps you run your business better, consider giving it a star. It helps others discover the project.
+If BizBrain OS helps you build your AI context layer, consider giving it a star. It helps others discover the project.
 
 ---
 
@@ -456,6 +514,8 @@ If BizBrain OS helps you run your business better, consider giving it a star. It
 ---
 
 <div align="center">
+
+**The context layer that teaches AI your business. Open source. Local-first. Compounding daily.**
 
 **Built by [Tech Integration Labs](https://github.com/TechIntegrationLabs) and the open-source community.**
 
