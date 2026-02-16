@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BizBrain OS - Launch Center</title>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%233B82F6'/><text x='16' y='22' font-size='18' text-anchor='middle' fill='white' font-family='system-ui' font-weight='bold'>B</text></svg>">
+  <style>
+    body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', Roboto, sans-serif; }
+    .app-container { min-height: 100vh; display: flex; flex-direction: column; }
+
+    /* Launch-specific styles */
+    .back-link { font-size: 0.8125rem; color: var(--text-tertiary); display: inline-flex; align-items: center; gap: 4px; margin-bottom: 8px; }
+    .back-link:hover { color: var(--color-primary); }
+
+    .launch-title { font-size: 1.875rem; font-weight: 700; margin-bottom: 4px; letter-spacing: -0.02em; }
+    .launch-subtitle { color: var(--text-secondary); font-size: 0.9375rem; margin-bottom: 24px; }
+
+    /* Checklist */
+    .checklist-group { margin-bottom: 8px; }
+    .checklist-group-title { font-size: 0.8125rem; font-weight: 650; color: var(--text-secondary); margin: 16px 0 8px; display: flex; align-items: center; gap: 6px; }
+    .checklist-group-title .badge { font-size: 0.6875rem; font-weight: 600; padding: 1px 8px; border-radius: 10px; background: var(--bg-input); color: var(--text-tertiary); }
+    .checklist-group-title .badge.done { background: rgba(16,185,129,0.1); color: var(--color-green); }
+
+    .checklist-item { display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: var(--border-radius-xs); transition: background var(--transition-fast); cursor: pointer; user-select: none; }
+    .checklist-item:hover { background: var(--bg-hover); }
+    .checklist-item input[type="checkbox"] { display: none; }
+    .check-box { width: 20px; height: 20px; border: 2px solid var(--border-color); border-radius: 5px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all var(--transition-fast); font-size: 0.75rem; color: transparent; }
+    .checklist-item.checked .check-box { background: var(--color-accent); border-color: var(--color-accent); color: white; }
+    .checklist-item.checked .check-label { text-decoration: line-through; color: var(--text-tertiary); }
+    .check-label { font-size: 0.875rem; }
+
+    /* Timeline */
+    .timeline-header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 20px; }
+    .launch-date-picker { display: flex; align-items: center; gap: 8px; font-size: 0.875rem; }
+    .launch-date-picker label { color: var(--text-secondary); font-weight: 500; }
+    .launch-date-picker input[type="date"] { padding: 6px 12px; border: 1px solid var(--border-color); border-radius: var(--border-radius-xs); background: var(--bg-input); color: var(--text-primary); font-family: var(--font-sans); font-size: 0.875rem; }
+
+    .timeline { position: relative; padding: 0 0 0 32px; }
+    .timeline::before { content: ''; position: absolute; left: 11px; top: 8px; bottom: 8px; width: 2px; background: var(--border-color); }
+    .timeline-item { position: relative; padding: 0 0 24px; }
+    .timeline-item:last-child { padding-bottom: 0; }
+    .timeline-dot { position: absolute; left: -32px; top: 4px; width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--border-color); background: var(--bg-card); display: flex; align-items: center; justify-content: center; font-size: 0.625rem; z-index: 1; }
+    .timeline-item.done .timeline-dot { border-color: var(--color-accent); background: var(--color-accent); color: white; }
+    .timeline-item.active .timeline-dot { border-color: var(--color-primary); background: var(--color-primary); color: white; animation: pulse-status 2s ease-in-out infinite; }
+    .timeline-week { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-primary); margin-bottom: 4px; }
+    .timeline-date { font-size: 0.6875rem; color: var(--text-tertiary); margin-bottom: 6px; }
+    .timeline-tasks { display: flex; flex-wrap: wrap; gap: 6px; }
+    .timeline-tag { font-size: 0.75rem; padding: 3px 10px; border-radius: 100px; background: var(--bg-input); color: var(--text-secondary); border: 1px solid var(--border-color); }
+    .timeline-item.done .timeline-tag { background: rgba(16,185,129,0.08); color: var(--color-green); border-color: rgba(16,185,129,0.2); }
+
+    /* Expandable post cards */
+    .post-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--border-radius); margin-bottom: 12px; overflow: hidden; transition: box-shadow var(--transition-base); }
+    .post-card:hover { box-shadow: var(--shadow-sm); }
+    .post-card-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; cursor: pointer; user-select: none; gap: 12px; }
+    .post-card-left { display: flex; align-items: center; gap: 10px; min-width: 0; }
+    .post-card-icon { width: 32px; height: 32px; border-radius: var(--border-radius-xs); background: var(--bg-input); display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
+    .post-card-name { font-size: 0.875rem; font-weight: 600; }
+    .post-card-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+    .post-status { font-size: 0.6875rem; font-weight: 600; padding: 2px 10px; border-radius: 100px; }
+    .post-status.draft { background: var(--bg-input); color: var(--text-tertiary); }
+    .post-status.posted { background: rgba(16,185,129,0.1); color: var(--color-green); }
+    .post-chevron { font-size: 0.75rem; color: var(--text-tertiary); transition: transform var(--transition-fast); }
+    .post-card.expanded .post-chevron { transform: rotate(180deg); }
+    .post-card-body { display: none; padding: 0 18px 16px; }
+    .post-card.expanded .post-card-body { display: block; }
+    .post-content { font-size: 0.8125rem; line-height: 1.7; color: var(--text-secondary); white-space: pre-wrap; background: var(--bg-input); padding: 14px 16px; border-radius: var(--border-radius-xs); max-height: 300px; overflow-y: auto; margin-bottom: 12px; font-family: var(--font-mono); }
+    .post-actions { display: flex; gap: 8px; }
+    .copy-btn { display: inline-flex; align-items: center; gap: 5px; padding: 6px 14px; border-radius: 100px; font-size: 0.75rem; font-weight: 600; border: 1px solid var(--border-color); background: var(--bg-body); color: var(--text-secondary); cursor: pointer; transition: all var(--transition-fast); font-family: var(--font-sans); }
+    .copy-btn:hover { border-color: var(--color-primary); color: var(--color-primary); }
+    .copy-btn.copied { border-color: var(--color-accent); color: var(--color-accent); }
+    .status-toggle { display: inline-flex; align-items: center; gap: 5px; padding: 6px 14px; border-radius: 100px; font-size: 0.75rem; font-weight: 600; border: 1px solid var(--border-color); background: var(--bg-body); color: var(--text-secondary); cursor: pointer; transition: all var(--transition-fast); font-family: var(--font-sans); }
+    .status-toggle:hover { border-color: var(--color-accent); color: var(--color-accent); }
+
+    /* Metrics cards */
+    .metrics-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
+    .metric-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--border-radius); padding: 20px; position: relative; overflow: hidden; }
+    .metric-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+    .metric-card:nth-child(1)::before { background: linear-gradient(90deg, var(--color-primary), #818CF8); }
+    .metric-card:nth-child(2)::before { background: linear-gradient(90deg, var(--color-accent), #34D399); }
+    .metric-card:nth-child(3)::before { background: linear-gradient(90deg, #8B5CF6, #A78BFA); }
+    .metric-card:nth-child(4)::before { background: linear-gradient(90deg, var(--color-yellow), #FBBF24); }
+    .metric-label { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-tertiary); margin-bottom: 8px; }
+    .metric-value { font-size: 1.75rem; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 4px; }
+    .metric-goal { font-size: 0.75rem; color: var(--text-tertiary); }
+    .metric-bar { height: 4px; background: var(--bg-input); border-radius: 100px; margin-top: 12px; overflow: hidden; }
+    .metric-bar-fill { height: 100%; border-radius: 100px; transition: width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1); }
+    .metric-card:nth-child(1) .metric-bar-fill { background: var(--color-primary); }
+    .metric-card:nth-child(2) .metric-bar-fill { background: var(--color-accent); }
+    .metric-card:nth-child(3) .metric-bar-fill { background: #8B5CF6; }
+    .metric-card:nth-child(4) .metric-bar-fill { background: var(--color-yellow); }
+
+    /* Quick actions grid */
+    .quick-actions-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; }
+    .quick-action-btn { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 20px 16px; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--border-radius); cursor: pointer; transition: all var(--transition-base); text-decoration: none; color: var(--text-primary); font-family: var(--font-sans); font-size: 0.8125rem; font-weight: 500; }
+    .quick-action-btn:hover { border-color: var(--color-primary); box-shadow: var(--shadow-md); transform: translateY(-2px); color: var(--text-primary); }
+    .quick-action-btn .qa-icon { font-size: 1.5rem; }
+
+    /* Section spacing */
+    .launch-section { margin-bottom: 40px; }
+
+    @media (max-width: 640px) {
+      .metrics-grid { grid-template-columns: 1fr 1fr; }
+      .quick-actions-grid { grid-template-columns: 1fr 1fr; }
+      .timeline-header { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+
+    <!-- Header -->
+    <header class="header">
+      <div class="header-left">
+        <div class="header-logo">B</div>
+        <div>
+          <span class="header-title">BizBrain OS</span>
+          <span class="header-subtitle">Launch Center</span>
+        </div>
+      </div>
+      <div class="header-right">
+        <a href="/" class="icon-btn" title="Back to Dashboard" aria-label="Dashboard">&#127968;</a>
+        <a href="/wiki.html" class="icon-btn" title="Wiki / Help" aria-label="Wiki">&#128214;</a>
+      </div>
+    </header>
+
+    <main class="main" id="main">
+      <!-- Page Header -->
+      <div style="margin-bottom: 32px;">
+        <a href="/" class="back-link">&#8592; Back to Dashboard</a>
+        <h1 class="launch-title">Launch Center</h1>
+        <p class="launch-subtitle">Track every step from repo to rocket. Check items off, plan your timeline, and draft your launch posts.</p>
+      </div>
+
+      <!-- Overall Progress -->
+      <div class="progress-container">
+        <div class="progress-label">
+          <span>Overall Launch Readiness</span>
+          <strong id="progress-pct">0%</strong>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+        </div>
+      </div>
+
+      <!-- Section 1: Pre-Launch Checklist -->
+      <div class="launch-section" id="section-checklist">
+        <div class="section-title">
+          <span>&#9745; Pre-Launch Checklist</span>
+          <span class="count" id="checklist-count">0 / 0</span>
+        </div>
+        <div class="panel">
+          <div class="panel-body" style="max-height: none; padding: 12px 16px;" id="checklist-container">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 2: Launch Calendar -->
+      <div class="launch-section" id="section-calendar">
+        <div class="section-title">
+          <span>&#128197; Launch Calendar</span>
+        </div>
+        <div class="panel" style="padding: 20px;">
+          <div class="timeline-header">
+            <div>
+              <h3 style="font-size: 1rem; margin-bottom: 2px;">Rollout Timeline</h3>
+              <p style="font-size: 0.8125rem; color: var(--text-secondary);">Set your launch date and the schedule auto-calculates.</p>
+            </div>
+            <div class="launch-date-picker">
+              <label for="launch-date">Launch Day:</label>
+              <input type="date" id="launch-date">
+            </div>
+          </div>
+          <div class="timeline" id="timeline-container">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 3: Launch Posts -->
+      <div class="launch-section" id="section-posts">
+        <div class="section-title">
+          <span>&#128220; Launch Posts</span>
+          <span class="count" id="posts-count">10 platforms</span>
+        </div>
+        <div id="posts-container">
+          <!-- Rendered by JS -->
+        </div>
+      </div>
+
+      <!-- Section 4: Metrics Dashboard -->
+      <div class="launch-section" id="section-metrics">
+        <div class="section-title">
+          <span>&#128200; Metrics Dashboard</span>
+        </div>
+        <div class="metrics-grid" id="metrics-container">
+          <!-- Rendered by JS -->
+        </div>
+      </div>
+
+      <!-- Section 5: Quick Actions -->
+      <div class="launch-section" id="section-actions">
+        <div class="section-title">
+          <span>&#9889; Quick Actions</span>
+        </div>
+        <div class="quick-actions-grid" id="actions-container">
+          <!-- Rendered by JS -->
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-links">
+        <a href="/" class="footer-link">Dashboard</a>
+        <a href="/wiki.html" class="footer-link">Wiki</a>
+        <a href="https://github.com/Disruptors-AI/bizbrain-os" class="footer-link" target="_blank">GitHub</a>
+      </div>
+      <span>BizBrain OS Launch Center</span>
+    </footer>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+  </div>
+
+<script>
+(function() {
+  'use strict';
+
+  // ---- Storage helpers ----
+  const STORAGE_KEY = 'bizbrain-launch';
+  function loadState() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; } catch { return {}; }
+  }
+  function saveState(state) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  }
+
+  let state = loadState();
+  if (!state.checklist) state.checklist = {};
+  if (!state.postStatus) state.postStatus = {};
+  if (!state.launchDate) state.launchDate = '';
+
+  // ---- Toast ----
+  function showToast(msg, type) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = 'toast ' + (type || '');
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2500);
+  }
+
+  // ---- Checklist Data ----
+  const checklistGroups = [
+    { name: 'Foundation', badge: 'done', items: [
+      { id: 'repo-built', label: 'Repository built and pushed to GitHub', locked: true },
+      { id: 'data-scrubbed', label: 'Personal data scrubbed', locked: true },
+      { id: 'agpl-license', label: 'AGPL v3 license applied', locked: true },
+      { id: 'cla', label: 'CLA for contributors', locked: true },
+      { id: 'readme', label: 'Comprehensive README', locked: true },
+      { id: 'discussions', label: 'GitHub Discussions enabled', locked: true },
+      { id: 'topics', label: 'GitHub topics set', locked: true },
+    ]},
+    { name: 'Distribution', items: [
+      { id: 'npm-publish', label: 'npm package published (npx create-bizbrain)' },
+      { id: 'vercel-deploy', label: 'Website deployed to Vercel' },
+      { id: 'domain-connect', label: 'Domain connected (bizbrain-os.com)' },
+    ]},
+    { name: 'Platform Security', items: [
+      { id: 'twitter-handle', label: 'X/Twitter handle secured' },
+      { id: 'discord-server', label: 'Discord server configured' },
+      { id: 'producthunt-page', label: 'Product Hunt page created' },
+      { id: 'trademark', label: 'Trademark filed' },
+    ]},
+    { name: 'Content Assets', items: [
+      { id: 'demo-video', label: 'Demo video recorded (60 sec)' },
+      { id: 'screenshots', label: 'Dashboard screenshots taken' },
+      { id: 'social-banner', label: 'Social banner created (1200x630)' },
+    ]},
+  ];
+
+  // Set Foundation items to checked by default
+  checklistGroups[0].items.forEach(item => {
+    if (!(item.id in state.checklist)) state.checklist[item.id] = true;
+  });
+
+  function renderChecklist() {
+    const container = document.getElementById('checklist-container');
+    let totalItems = 0, checkedItems = 0;
+    let html = '';
+
+    checklistGroups.forEach(group => {
+      const groupChecked = group.items.filter(i => state.checklist[i.id]).length;
+      totalItems += group.items.length;
+      checkedItems += groupChecked;
+      const allDone = groupChecked === group.items.length;
+      html += '<div class="checklist-group">';
+      html += '<div class="checklist-group-title">' + group.name +
+        ' <span class="badge' + (allDone ? ' done' : '') + '">' + groupChecked + '/' + group.items.length + '</span></div>';
+      group.items.forEach(item => {
+        const checked = state.checklist[item.id];
+        html += '<label class="checklist-item' + (checked ? ' checked' : '') + '" data-id="' + item.id + '"' +
+          (item.locked ? ' data-locked="true"' : '') + '>' +
+          '<input type="checkbox"' + (checked ? ' checked' : '') + '>' +
+          '<span class="check-box">' + (checked ? '&#10003;' : '') + '</span>' +
+          '<span class="check-label">' + item.label + '</span></label>';
+      });
+      html += '</div>';
+    });
+
+    container.innerHTML = html;
+    document.getElementById('checklist-count').textContent = checkedItems + ' / ' + totalItems;
+    updateProgress(checkedItems, totalItems);
+
+    // Bind click events
+    container.querySelectorAll('.checklist-item').forEach(el => {
+      el.addEventListener('click', function(e) {
+        e.preventDefault();
+        if (this.dataset.locked === 'true') {
+          showToast('Foundation items are locked as completed', 'success');
+          return;
+        }
+        const id = this.dataset.id;
+        state.checklist[id] = !state.checklist[id];
+        saveState(state);
+        renderChecklist();
+      });
+    });
+  }
+
+  function updateProgress(checked, total) {
+    const pct = total > 0 ? Math.round((checked / total) * 100) : 0;
+    document.getElementById('progress-pct').textContent = pct + '%';
+    document.getElementById('progress-fill').style.width = pct + '%';
+  }
+
+  // ---- Timeline Data ----
+  const timelineWeeks = [
+    { week: 'Week 1', label: 'Initial Launch', tasks: ['Hacker News', 'X/Twitter thread'], offset: 0 },
+    { week: 'Week 2', label: 'Community Push', tasks: ['Reddit r/opensource', 'Reddit r/selfhosted', 'Reddit r/SideProject', 'Product Hunt'], offset: 7 },
+    { week: 'Week 3', label: 'Content Wave', tasks: ['Dev.to article', 'LinkedIn post', 'Newsletter outreach'], offset: 14 },
+    { week: 'Ongoing', label: 'Content Marketing', tasks: ['Blog posts', 'Tutorial videos', 'Community engagement'], offset: 28 },
+  ];
+
+  function formatDate(date) {
+    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  }
+
+  function renderTimeline() {
+    const container = document.getElementById('timeline-container');
+    const dateInput = document.getElementById('launch-date');
+    const baseDate = state.launchDate ? new Date(state.launchDate + 'T00:00:00') : null;
+    const today = new Date();
+
+    let html = '';
+    timelineWeeks.forEach((tw, idx) => {
+      let dateStr = '';
+      let statusClass = '';
+      if (baseDate) {
+        const d = new Date(baseDate);
+        d.setDate(d.getDate() + tw.offset);
+        dateStr = formatDate(d);
+        if (tw.offset === 28) {
+          dateStr = formatDate(d) + ' onwards';
+        }
+        if (d < today && tw.offset < 28) statusClass = 'done';
+        else if (idx === 0 || (timelineWeeks[idx - 1] && new Date(baseDate.getTime() + timelineWeeks[idx - 1].offset * 86400000) < today)) {
+          const weekStart = new Date(baseDate.getTime() + tw.offset * 86400000);
+          const weekEnd = new Date(weekStart.getTime() + 6 * 86400000);
+          if (today >= weekStart && today <= weekEnd) statusClass = 'active';
+        }
+      } else {
+        dateStr = 'Set launch date above';
+      }
+
+      html += '<div class="timeline-item ' + statusClass + '">' +
+        '<div class="timeline-dot">' + (statusClass === 'done' ? '&#10003;' : (idx + 1)) + '</div>' +
+        '<div class="timeline-week">' + tw.week + ' &mdash; ' + tw.label + '</div>' +
+        '<div class="timeline-date">' + dateStr + '</div>' +
+        '<div class="timeline-tasks">' +
+        tw.tasks.map(t => '<span class="timeline-tag">' + t + '</span>').join('') +
+        '</div></div>';
+    });
+
+    container.innerHTML = html;
+  }
+
+  // ---- Launch Posts Data ----
+  const posts = [
+    { id: 'hn', name: 'Hacker News', icon: '&#128293;', content:
+      'Title: Show HN: BizBrain OS - Open-source business brain that runs your ops with AI\n\n' +
+      'Creator Comment:\n' +
+      'Hey HN, I built BizBrain OS because I was drowning in scattered business tools.\n\n' +
+      'It\'s a modular AI-powered operating system for small businesses and freelancers:\n' +
+      '- Client/vendor/partner management with auto-tracking\n' +
+      '- AI-powered intake (voice notes, emails, docs -> structured data)\n' +
+      '- Project management with GSD (Get Shit Done) methodology\n' +
+      '- Time tracking, invoicing, and knowledge base\n' +
+      '- Everything runs locally, your data stays yours\n\n' +
+      'Stack: Node.js, zero external dependencies for the core.\n' +
+      'License: AGPL v3 (open source, copyleft)\n\n' +
+      'GitHub: https://github.com/Disruptors-AI/bizbrain-os\n\n' +
+      'Would love feedback from the HN community. What ops pain points would you want solved?' },
+    { id: 'reddit-os', name: 'Reddit r/opensource', icon: '&#129513;', content:
+      'Title: BizBrain OS - Open-source AI business operating system (AGPL v3)\n\n' +
+      'I just open-sourced BizBrain OS, a modular business operating system built with Node.js.\n\n' +
+      'What it does:\n' +
+      '- Manages clients, vendors, partners with relationship tracking\n' +
+      '- AI-powered document intake and processing\n' +
+      '- Project management with automated workflows\n' +
+      '- Time tracking and knowledge management\n' +
+      '- Zero external dependencies for core functionality\n' +
+      '- Everything runs on your machine, fully self-hosted\n\n' +
+      'Licensed under AGPL v3 with a contributor CLA.\n\n' +
+      'GitHub: https://github.com/Disruptors-AI/bizbrain-os\n' +
+      'Docs: https://bizbrain-os.com\n\n' +
+      'Looking for contributors and feedback!' },
+    { id: 'reddit-sh', name: 'Reddit r/selfhosted', icon: '&#128421;', content:
+      'Title: BizBrain OS - Self-hosted AI business OS (Node.js, zero-dep core)\n\n' +
+      'Built a self-hosted business operating system that keeps all your data local:\n\n' +
+      '- No cloud dependency, runs entirely on your machine\n' +
+      '- Modular architecture: enable only what you need\n' +
+      '- Built-in dashboard on localhost:5555\n' +
+      '- Entity management (clients, vendors, partners)\n' +
+      '- AI intake system for processing documents and voice notes\n' +
+      '- Project tracking with time management\n\n' +
+      'Setup: npx create-bizbrain (soon) or clone from GitHub\n' +
+      'Stack: Pure Node.js, no external runtime dependencies\n' +
+      'License: AGPL v3\n\n' +
+      'GitHub: https://github.com/Disruptors-AI/bizbrain-os' },
+    { id: 'reddit-sp', name: 'Reddit r/SideProject', icon: '&#128640;', content:
+      'Title: I built an AI-powered business OS and open-sourced it\n\n' +
+      'After years of juggling Notion, spreadsheets, and random scripts to run my business,\n' +
+      'I built BizBrain OS - an open-source operating system for small businesses.\n\n' +
+      'Key features:\n' +
+      '- AI processes your voice notes, emails, and docs automatically\n' +
+      '- Tracks clients, vendors, and partners with relationship history\n' +
+      '- GSD project methodology (plan -> execute -> ship)\n' +
+      '- Built-in time tracking and invoicing\n' +
+      '- Beautiful localhost dashboard\n' +
+      '- Fully self-hosted, your data never leaves your machine\n\n' +
+      'Tech: Node.js, zero deps, AGPL v3\n' +
+      'GitHub: https://github.com/Disruptors-AI/bizbrain-os' },
+    { id: 'twitter', name: 'X/Twitter Thread', icon: '&#120143;', content:
+      'Thread (10 tweets):\n\n' +
+      '1/ I just open-sourced BizBrain OS -- an AI-powered operating system for running your entire business.\n\n' +
+      'No more juggling 15 SaaS tools. One system. Your machine. Your data.\n\n' +
+      'Here\'s what it does (thread):\n\n' +
+      '2/ PROBLEM: Running a small business means scattered tools everywhere.\n' +
+      'CRM here, project management there, invoicing somewhere else.\n' +
+      'Nothing talks to each other. You\'re the integration layer.\n\n' +
+      '3/ BizBrain OS replaces that chaos with a modular, AI-powered system:\n' +
+      '- Entity management (clients, vendors, partners)\n' +
+      '- Project tracking with GSD methodology\n' +
+      '- AI document intake\n' +
+      '- Time tracking & invoicing\n' +
+      '- Knowledge base\n\n' +
+      '4/ The AI intake system is wild.\n' +
+      'Drop in a voice note, email, or document.\n' +
+      'It extracts entities, action items, and routes everything to the right place.\n' +
+      'No manual data entry.\n\n' +
+      '5/ Everything runs locally on YOUR machine.\n' +
+      'No cloud. No subscriptions. No data leaving your control.\n' +
+      'Built with pure Node.js -- zero external dependencies for the core.\n\n' +
+      '6/ The dashboard runs on localhost:5555.\n' +
+      'Real-time module management, health checks, and a beautiful dark mode UI.\n' +
+      'Zero-dependency web server. No React, no webpack, just HTML + CSS + JS.\n\n' +
+      '7/ Modular architecture means you enable only what you need:\n' +
+      '- Core (always on)\n' +
+      '- Entity Watchdog\n' +
+      '- Intake System\n' +
+      '- GSD Projects\n' +
+      '- Time Tracking\n' +
+      'Each module is independent.\n\n' +
+      '8/ Built for developers and power users who want:\n' +
+      '- Full control over their business data\n' +
+      '- CLI-first workflow\n' +
+      '- Extensible architecture\n' +
+      '- No vendor lock-in\n\n' +
+      '9/ Licensed under AGPL v3 (strong copyleft).\n' +
+      'Contributions welcome -- we have a CLA and GitHub Discussions set up.\n\n' +
+      '10/ Try it:\n' +
+      'GitHub: github.com/Disruptors-AI/bizbrain-os\n' +
+      'Docs: bizbrain-os.com\n\n' +
+      'Star it, fork it, tell me what features you\'d want.\n' +
+      'Let\'s build the future of business ops together.' },
+    { id: 'linkedin', name: 'LinkedIn', icon: '&#128188;', content:
+      'Excited to announce BizBrain OS is now open source!\n\n' +
+      'After building internal business operations tools for years, I\'ve packaged everything ' +
+      'into a modular, AI-powered operating system that any small business or freelancer can use.\n\n' +
+      'What makes it different:\n\n' +
+      '- Runs entirely on your machine (no cloud dependency)\n' +
+      '- AI-powered intake processes voice notes, emails, and documents automatically\n' +
+      '- Manages client/vendor/partner relationships with full history tracking\n' +
+      '- Built-in project management using the GSD (Get Shit Done) methodology\n' +
+      '- Zero external dependencies for the core -- pure Node.js\n' +
+      '- Beautiful localhost dashboard for real-time management\n\n' +
+      'The vision: replace the 15+ SaaS subscriptions that small businesses juggle ' +
+      'with one unified, self-hosted system that respects your data privacy.\n\n' +
+      'Licensed under AGPL v3. Contributions welcome.\n\n' +
+      'Check it out: https://github.com/Disruptors-AI/bizbrain-os\n\n' +
+      '#OpenSource #AI #BusinessTools #SelfHosted #NodeJS' },
+    { id: 'devto', name: 'Dev.to Article', icon: '&#128187;', content:
+      'Title: Building an AI-Powered Business OS with Zero Dependencies\n\n' +
+      '---\n' +
+      'tags: opensource, nodejs, ai, selfhosted\n' +
+      '---\n\n' +
+      'I spent the last year building BizBrain OS, an open-source business operating system.\n\n' +
+      'In this article, I\'ll walk through:\n' +
+      '- Why I built it (the problem with SaaS sprawl)\n' +
+      '- Architecture decisions (zero-dep Node.js, modular design)\n' +
+      '- The AI intake system that processes any document\n' +
+      '- How the Entity Watchdog auto-tracks relationships\n' +
+      '- The GSD project methodology\n' +
+      '- What\'s next for the project\n\n' +
+      '[Full article content would go here - approximately 1500-2000 words]\n\n' +
+      'GitHub: https://github.com/Disruptors-AI/bizbrain-os\n' +
+      'Website: https://bizbrain-os.com' },
+    { id: 'producthunt', name: 'Product Hunt', icon: '&#128049;', content:
+      'Tagline: Open-source AI business OS -- run your entire business from your terminal\n\n' +
+      'Description:\n' +
+      'BizBrain OS is a modular, AI-powered operating system for small businesses and freelancers.\n\n' +
+      'Stop juggling 15 SaaS tools. BizBrain OS gives you:\n\n' +
+      '- Client, vendor, and partner management with AI-powered relationship tracking\n' +
+      '- Intelligent document intake (voice notes, emails, PDFs -> structured data)\n' +
+      '- Project management with the GSD (Get Shit Done) methodology\n' +
+      '- Time tracking and invoicing\n' +
+      '- Knowledge base and wiki\n' +
+      '- Beautiful localhost dashboard\n\n' +
+      'Everything runs on YOUR machine. No cloud. No subscriptions. Your data stays yours.\n\n' +
+      'Built with pure Node.js (zero external dependencies).\n' +
+      'Licensed under AGPL v3.\n\n' +
+      'Maker\'s comment: I built this because I was tired of being the "integration layer" ' +
+      'between scattered business tools. BizBrain OS is the system I wish existed.' },
+    { id: 'discord', name: 'Discord Announcement', icon: '&#128172;', content:
+      'Welcome to the BizBrain OS community!\n\n' +
+      'BizBrain OS is an open-source, AI-powered business operating system.\n\n' +
+      'What you can do here:\n' +
+      '- Get help setting up BizBrain OS\n' +
+      '- Share your configuration and workflows\n' +
+      '- Request features and report bugs\n' +
+      '- Connect with other users and contributors\n\n' +
+      'Quick links:\n' +
+      '- GitHub: https://github.com/Disruptors-AI/bizbrain-os\n' +
+      '- Docs: https://bizbrain-os.com\n' +
+      '- Getting Started: check #getting-started\n\n' +
+      'Rules:\n' +
+      '1. Be respectful\n' +
+      '2. No spam\n' +
+      '3. Search before asking\n' +
+      '4. Share what you build!\n\n' +
+      'Let\'s build the future of business ops together.' },
+    { id: 'newsletter', name: 'Email Newsletter', icon: '&#9993;', content:
+      'Subject: Introducing BizBrain OS -- Open-Source AI Business Operating System\n\n' +
+      'Hi,\n\n' +
+      'I\'m excited to share something I\'ve been building: BizBrain OS.\n\n' +
+      'It\'s an open-source, AI-powered operating system for running your business -- ' +
+      'clients, projects, documents, time tracking, everything -- from your own machine.\n\n' +
+      'Why I built it:\n' +
+      'Small businesses and freelancers juggle too many tools. ' +
+      'BizBrain OS replaces that chaos with one unified, self-hosted system.\n\n' +
+      'Highlights:\n' +
+      '- AI intake processes voice notes, emails, and docs automatically\n' +
+      '- Entity management with relationship tracking\n' +
+      '- GSD project methodology (plan, execute, ship)\n' +
+      '- Zero external dependencies, runs locally\n' +
+      '- AGPL v3 open source\n\n' +
+      'Check it out: https://github.com/Disruptors-AI/bizbrain-os\n\n' +
+      'I\'d love your feedback. Reply to this email or join the discussion on GitHub.\n\n' +
+      'Best,\n[Name]' },
+  ];
+
+  function renderPosts() {
+    const container = document.getElementById('posts-container');
+    let html = '';
+    posts.forEach(post => {
+      const status = state.postStatus[post.id] || 'draft';
+      html += '<div class="post-card" data-id="' + post.id + '">' +
+        '<div class="post-card-header">' +
+          '<div class="post-card-left">' +
+            '<div class="post-card-icon">' + post.icon + '</div>' +
+            '<span class="post-card-name">' + post.name + '</span>' +
+          '</div>' +
+          '<div class="post-card-right">' +
+            '<span class="post-status ' + status + '">' + (status === 'posted' ? 'Posted' : 'Draft') + '</span>' +
+            '<span class="post-chevron">&#9660;</span>' +
+          '</div>' +
+        '</div>' +
+        '<div class="post-card-body">' +
+          '<div class="post-content">' + escapeHtml(post.content) + '</div>' +
+          '<div class="post-actions">' +
+            '<button class="copy-btn" data-id="' + post.id + '">&#128203; Copy to Clipboard</button>' +
+            '<button class="status-toggle" data-id="' + post.id + '">' +
+              (status === 'posted' ? '&#8617; Mark as Draft' : '&#10003; Mark as Posted') +
+            '</button>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+    });
+    container.innerHTML = html;
+
+    // Bind expand/collapse
+    container.querySelectorAll('.post-card-header').forEach(header => {
+      header.addEventListener('click', function() {
+        this.closest('.post-card').classList.toggle('expanded');
+      });
+    });
+
+    // Bind copy buttons
+    container.querySelectorAll('.copy-btn').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const id = this.dataset.id;
+        const post = posts.find(p => p.id === id);
+        if (post) {
+          navigator.clipboard.writeText(post.content).then(() => {
+            this.classList.add('copied');
+            this.innerHTML = '&#10003; Copied!';
+            showToast('Copied ' + post.name + ' content to clipboard', 'success');
+            setTimeout(() => {
+              this.classList.remove('copied');
+              this.innerHTML = '&#128203; Copy to Clipboard';
+            }, 2000);
+          });
+        }
+      });
+    });
+
+    // Bind status toggles
+    container.querySelectorAll('.status-toggle').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const id = this.dataset.id;
+        const current = state.postStatus[id] || 'draft';
+        state.postStatus[id] = current === 'posted' ? 'draft' : 'posted';
+        saveState(state);
+        renderPosts();
+        showToast('Updated status', 'success');
+      });
+    });
+  }
+
+  function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
+
+  // ---- Metrics ----
+  const metrics = [
+    { label: 'GitHub Stars', current: 0, goals: { day1: 50, week1: 500, month1: 2000 }, color: 'primary' },
+    { label: 'npm Downloads', current: 0, goals: { day1: 20, week1: 200, month1: 1000 }, color: 'accent' },
+    { label: 'Discord Members', current: 0, goals: { day1: 10, week1: 100, month1: 500 }, color: 'purple' },
+    { label: 'Website Visitors', current: 0, goals: { day1: 100, week1: 1000, month1: 5000 }, color: 'yellow' },
+  ];
+
+  function renderMetrics() {
+    const container = document.getElementById('metrics-container');
+    let html = '';
+    metrics.forEach(m => {
+      const pct = m.goals.month1 > 0 ? Math.min(100, Math.round((m.current / m.goals.month1) * 100)) : 0;
+      html += '<div class="metric-card">' +
+        '<div class="metric-label">' + m.label + '</div>' +
+        '<div class="metric-value">' + m.current.toLocaleString() + '</div>' +
+        '<div class="metric-goal">Day 1: ' + m.goals.day1 + ' / Week 1: ' + m.goals.week1 + ' / Month 1: ' + m.goals.month1 + '</div>' +
+        '<div class="metric-bar"><div class="metric-bar-fill" style="width: ' + pct + '%"></div></div>' +
+      '</div>';
+    });
+    container.innerHTML = html;
+  }
+
+  // ---- Quick Actions ----
+  const actions = [
+    { label: 'Open GitHub Repo', icon: '&#128025;', url: 'https://github.com/Disruptors-AI/bizbrain-os', external: true },
+    { label: 'Open npm Package', icon: '&#128230;', url: 'https://www.npmjs.com/package/create-bizbrain', external: true },
+    { label: 'Open Vercel', icon: '&#9652;', url: 'https://vercel.com/dashboard', external: true },
+    { label: 'Open Discord', icon: '&#128172;', url: 'https://discord.gg/bizbrain', external: true },
+    { label: 'Run Status Check', icon: '&#128161;', action: 'statusCheck' },
+    { label: 'View Launch Content', icon: '&#128196;', action: 'viewContent' },
+  ];
+
+  function renderActions() {
+    const container = document.getElementById('actions-container');
+    let html = '';
+    actions.forEach(a => {
+      if (a.url) {
+        html += '<a href="' + a.url + '" target="_blank" class="quick-action-btn">' +
+          '<span class="qa-icon">' + a.icon + '</span>' + a.label + '</a>';
+      } else {
+        html += '<button class="quick-action-btn" data-action="' + a.action + '">' +
+          '<span class="qa-icon">' + a.icon + '</span>' + a.label + '</button>';
+      }
+    });
+    container.innerHTML = html;
+
+    container.querySelectorAll('[data-action]').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const action = this.dataset.action;
+        if (action === 'statusCheck') {
+          showToast('Running status check...', '');
+          fetch('/api/status').then(r => r.json()).then(data => {
+            showToast('Status: ' + (data.status || 'OK'), 'success');
+          }).catch(() => {
+            showToast('Status check: Dashboard server is running', 'success');
+          });
+        } else if (action === 'viewContent') {
+          showToast('Launch content is displayed in the Posts section above', '');
+          document.getElementById('section-posts').scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+  }
+
+  // ---- Launch Date ----
+  const dateInput = document.getElementById('launch-date');
+  if (state.launchDate) {
+    dateInput.value = state.launchDate;
+  }
+  dateInput.addEventListener('change', function() {
+    state.launchDate = this.value;
+    saveState(state);
+    renderTimeline();
+  });
+
+  // ---- Initialize ----
+  renderChecklist();
+  renderTimeline();
+  renderPosts();
+  renderMetrics();
+  renderActions();
+
+})();
+</script>
+</body>
+</html>
