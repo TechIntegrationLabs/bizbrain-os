@@ -5,7 +5,7 @@ mod watcher;
 use tauri::{
     menu::{Menu, MenuItem},
     tray::TrayIconBuilder,
-    Manager,
+    Manager, WindowEvent,
 };
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
@@ -46,6 +46,13 @@ pub fn run() {
             watcher::start_state_watcher(app.handle().clone());
 
             Ok(())
+        })
+        .on_window_event(|window, event| {
+            // Minimize to tray instead of quitting when window is closed
+            if let WindowEvent::CloseRequested { api, .. } = event {
+                let _ = window.hide();
+                api.prevent_close();
+            }
         })
         .invoke_handler(tauri::generate_handler![
             commands::config::get_config,

@@ -585,15 +585,21 @@
       }, 100);
     }
 
-    // --- Send to server ---
+    // --- Send to server (Tauri or HTTP) ---
+    const isTauri = !!(window.__TAURI__ || window.__TAURI_INTERNALS__);
+
     async function sendToBuffer(text) {
       if (!text) return;
       try {
-        await fetch('/api/voice-buffer', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ text }),
-        });
+        if (isTauri && window.__TAURI__?.core?.invoke) {
+          await window.__TAURI__.core.invoke('write_voice_buffer', { text });
+        } else {
+          await fetch('/api/voice-buffer', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ text }),
+          });
+        }
       } catch (err) {
         console.error('Failed to send to buffer:', err);
       }
@@ -603,11 +609,15 @@
       const text = stripHtml(fullTranscript).trim();
       if (!text) return;
       try {
-        await fetch('/api/voice-buffer', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ text: '[FULL TRANSCRIPT] ' + text }),
-        });
+        if (isTauri && window.__TAURI__?.core?.invoke) {
+          await window.__TAURI__.core.invoke('write_voice_buffer', { text: '[FULL TRANSCRIPT] ' + text });
+        } else {
+          await fetch('/api/voice-buffer', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ text: '[FULL TRANSCRIPT] ' + text }),
+          });
+        }
         setStatus('Transcript sent to Brain');
       } catch (err) {
         setStatus('Failed to send: ' + err.message, true);

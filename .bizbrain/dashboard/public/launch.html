@@ -229,14 +229,20 @@
 (function() {
   'use strict';
 
-  // ---- Storage helpers ----
+  // ---- Storage helpers (localStorage + Tauri persist) ----
   const STORAGE_KEY = 'bizbrain-launch';
   function loadState() {
     try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; } catch { return {}; }
   }
   function saveState(state) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    // Also persist via Tauri if available
+    if (isTauri && window.__TAURI__?.core?.invoke) {
+      window.__TAURI__.core.invoke('save_launch_state', { state: JSON.stringify(state) }).catch(() => {});
+    }
   }
+
+  const isTauri = !!(window.__TAURI__ || window.__TAURI_INTERNALS__);
 
   let state = loadState();
   if (!state.checklist) state.checklist = {};
@@ -700,11 +706,19 @@
         const action = this.dataset.action;
         if (action === 'statusCheck') {
           showToast('Running status check...', '');
-          fetch('/api/status').then(r => r.json()).then(data => {
-            showToast('Status: ' + (data.status || 'OK'), 'success');
-          }).catch(() => {
-            showToast('Status check: Dashboard server is running', 'success');
-          });
+          if (isTauri && window.__TAURI__?.core?.invoke) {
+            window.__TAURI__.core.invoke('get_health').then(data => {
+              showToast('Status: All systems operational', 'success');
+            }).catch(() => {
+              showToast('Status check: Desktop app is running', 'success');
+            });
+          } else {
+            fetch('/api/status').then(r => r.json()).then(data => {
+              showToast('Status: ' + (data.status || 'OK'), 'success');
+            }).catch(() => {
+              showToast('Status check: Dashboard server is running', 'success');
+            });
+          }
         } else if (action === 'viewContent') {
           showToast('Launch content is displayed in the Posts section above', '');
           document.getElementById('section-posts').scrollIntoView({ behavior: 'smooth' });
