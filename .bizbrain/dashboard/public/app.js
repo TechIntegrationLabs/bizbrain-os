@@ -43,14 +43,67 @@
     }
   }
 
+  // --- Tauri Detection ---
+  // withGlobalTauri: true exposes the API at window.__TAURI__
+  const IS_TAURI = typeof window !== 'undefined' && '__TAURI_INTERNALS__' in window;
+
+  function getTauriInvoke() {
+    if (IS_TAURI && window.__TAURI__?.core?.invoke) {
+      return window.__TAURI__.core.invoke;
+    }
+    return null;
+  }
+
+  function getTauriListen() {
+    if (IS_TAURI && window.__TAURI__?.event?.listen) {
+      return window.__TAURI__.event.listen;
+    }
+    return null;
+  }
+
+  // Map API paths to Tauri command names and argument extractors
+  const TAURI_COMMANDS = {
+    '/api/config': { cmd: 'get_config' },
+    '/api/state': { cmd: 'get_state' },
+    '/api/modules': { cmd: 'get_modules' },
+    '/api/health': { cmd: 'get_health' },
+    '/api/recent-activity': { cmd: 'get_recent_activity' },
+    '/api/launch': { cmd: 'get_launch_state' },
+    '/api/launch-terminal': { cmd: 'launch_terminal' },
+    '/api/launch-voice': { cmd: 'launch_terminal' }, // voice opens in Tauri webview
+    '/api/open-folder': { cmd: 'open_brain_folder' },
+  };
+
   // --- API ---
   async function fetchAPI(path, opts = {}) {
+    const invoke = getTauriInvoke();
+    if (invoke) {
+      const mapping = TAURI_COMMANDS[path];
+      if (mapping) return invoke(mapping.cmd);
+    }
     const res = await fetch(path, opts);
     if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
     return res.json();
   }
 
   async function postAPI(path, body = {}) {
+    const invoke = getTauriInvoke();
+    if (invoke) {
+      if (path === '/api/launch-terminal') return invoke('launch_terminal');
+      if (path === '/api/launch-module') return invoke('launch_module', { module: body.module });
+      if (path === '/api/open-folder') return invoke('open_brain_folder');
+      if (path === '/api/voice-buffer') return invoke('write_voice_buffer', { text: body.text });
+      if (path === '/api/launch' && body) return invoke('save_launch_state', { data: body });
+      if (path === '/api/launch-voice') {
+        // In Tauri, open voice.html as a new Tauri window
+        if (window.__TAURI__?.webviewWindow?.WebviewWindow) {
+          new window.__TAURI__.webviewWindow.WebviewWindow('voice', {
+            url: '/voice.html', title: 'Voice Input', width: 600, height: 700, center: true
+          });
+          return { ok: true };
+        }
+      }
+    }
     return fetchAPI(path, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -58,8 +111,23 @@
     });
   }
 
-  // --- SSE ---
+  // --- SSE / Tauri Events ---
   function connectSSE() {
+    if (IS_TAURI) {
+      // Use Tauri event system instead of SSE
+      const listen = getTauriListen();
+      if (listen) {
+        listen('state-changed', (event) => {
+          state = event.payload;
+          determineMode();
+          render();
+        });
+        console.log('[BizBrain] Connected via Tauri events');
+        return;
+      }
+    }
+
+    // Fallback: HTTP SSE for web mode
     const evtSource = new EventSource('/api/events');
     evtSource.onmessage = (e) => {
       try {

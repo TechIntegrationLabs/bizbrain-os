@@ -1,0 +1,30 @@
+[package]
+name = "bizbrain-os"
+version = "1.0.0"
+description = "BizBrain OS - AI-Powered Business Brain Desktop"
+authors = ["Tech Integration Labs LLC"]
+edition = "2021"
+
+[lib]
+name = "bizbrain_os_lib"
+crate-type = ["lib", "cdylib", "staticlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = ["tray-icon"] }
+tauri-plugin-opener = "2"
+tauri-plugin-single-instance = "2"
+tauri-plugin-notification = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+chrono = { version = "0.4", features = ["serde"] }
+notify = "7"
+
+[profile.release]
+panic = "abort"
+codegen-units = 1
+lto = true
+opt-level = "s"
+strip = true
