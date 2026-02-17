@@ -6,7 +6,7 @@
 - Modular onboarding wizard with voice-first discovery
 - Social profile scraping via Chrome automation
 - Dashboard with setup mode and operational mode
-- 25+ configurable modules
+- 27 configurable modules across 7 categories
 - Module dependency tracking and auto-unlocking
 - Per-module setup wizards with Chrome automation
 - Auto-generated personalized wiki/guide
