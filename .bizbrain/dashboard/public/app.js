@@ -11,9 +11,10 @@
   let state = {};
   let modules = [];
   let health = {};
-  let mode = 'loading'; // loading | setup | operational
+  let mode = 'loading'; // loading | welcome | setup | operational
   let completedCollapsed = true;
   let forceOperational = false;
+  let promptCopied = false;
 
   const $ = (sel, ctx = document) => ctx.querySelector(sel);
   const $$ = (sel, ctx = document) => [...ctx.querySelectorAll(sel)];
@@ -160,6 +161,14 @@
   function determineMode() {
     if (forceOperational) { mode = 'operational'; return; }
 
+    // First-run detection: no config.json or empty business name means welcome screen
+    const hasProfile = config?.profile?.businessName && config.profile.businessName.trim() !== '';
+    const hasCompletedInterview = state?.interview?.completedAt;
+    if (!hasProfile && !hasCompletedInterview) {
+      mode = 'welcome';
+      return;
+    }
+
     const moduleStates = state.modules || {};
     const allIds = modules.map(m => m.id || m.name || m._file?.replace('.json', ''));
     const completedIds = state.completedModules || [];
@@ -176,7 +185,8 @@
     const main = $('#main');
     if (!main) return;
     main.innerHTML = '';
-    if (mode === 'setup') renderSetup(main);
+    if (mode === 'welcome') renderWelcome(main);
+    else if (mode === 'setup') renderSetup(main);
     else renderOperational(main);
     updateHeader();
   }
@@ -208,10 +218,226 @@
     const titleEl = $('#header-title');
     if (titleEl) titleEl.textContent = name;
 
+    const subtitleEl = $('#header-subtitle');
+    if (subtitleEl) subtitleEl.textContent = mode === 'welcome' ? 'Getting Started' : 'Dashboard';
+
     const badgeEl = $('#connection-badge');
     if (badgeEl) {
       badgeEl.className = 'header-badge connected';
       badgeEl.innerHTML = '<span class="dot"></span> Live';
+    }
+  }
+
+  // --- Welcome / First-Run Mode ---
+  function getSetupPrompt() {
+    return `I just cloned BizBrain OS and I'm ready to set up my Business Brain.
+
+You are now my BizBrain OS setup assistant. Here's what I need you to do:
+
+## Step 1: Find and verify my BizBrain OS installation
+Look for the bizbrain-os folder. It should be in my current working directory, or check common locations like ~/bizbrain-os, ~/Repos/bizbrain-os, or ~/Desktop/bizbrain-os. Once found, verify these files exist:
+- .bizbrain/wizard/interview.md (your setup guide)
+- config.template.json (config template)
+- .bizbrain/modules/ (module definitions)
+
+## Step 2: Read the interview guide
+Read the file .bizbrain/wizard/interview.md in the bizbrain-os folder. This contains your complete instructions for walking me through setup.
+
+## Step 3: Walk me through the setup interview
+Follow the interview.md guide step by step:
+1. Check my prerequisites (Node.js 18+, Git, Claude Code)
+2. Ask if I want to use voice input or type
+3. Have a natural conversation to learn about my business - my name, business name, what I do, my clients, tools I use, pain points
+4. Show me what you understood and let me correct anything
+5. Recommend modules based on my business type
+6. Ask about my preferences (communication style, time tracking, etc.)
+
+## Step 4: Generate my Brain
+After the interview:
+1. Create config.json from config.template.json with all my info filled in
+2. Run: node .bizbrain/wizard/generators/base-brain.js (to create folder structure)
+3. Generate the wizard state.json in .bizbrain/wizard/
+4. Generate my personalized CLAUDE.md
+5. Start the dashboard: node .bizbrain/dashboard/server.js
+
+## Important
+- Be conversational and friendly, not robotic
+- If I give short answers, use smart defaults - don't over-ask
+- If I ramble, that's great - extract everything you can
+- This should feel like talking to a smart assistant, not filling out a form
+- The whole setup should take about 5 minutes of chatting
+
+Let's begin! Start by verifying my installation, then jump into Step 3 - the interview.`;
+  }
+
+  function renderWelcome(container) {
+    const claudeOk = health.claude;
+    const nodeOk = health.node;
+    const gitOk = health.git;
+    const allPrereqs = claudeOk && nodeOk && gitOk;
+
+    let html = `
+      <div class="welcome-container fade-in">
+        <div class="welcome-hero">
+          <div class="welcome-logo">
+            <div class="welcome-logo-icon">B</div>
+          </div>
+          <h1 class="welcome-title">Welcome to BizBrain OS</h1>
+          <p class="welcome-tagline">The context layer that teaches AI your business.</p>
+          <p class="welcome-desc">
+            BizBrain OS builds a structured knowledge layer about your business that makes every AI tool smarter.
+            Your clients, projects, workflows, and preferences -- captured once, compounding forever.
+          </p>
+        </div>
+
+        <div class="welcome-prereqs">
+          <div class="welcome-section-title">System Check</div>
+          <div class="prereq-list">
+            <div class="prereq-item ${nodeOk ? 'ok' : 'missing'}">
+              <span class="prereq-icon">${nodeOk ? '&#10003;' : '&#10005;'}</span>
+              <div class="prereq-info">
+                <span class="prereq-name">Node.js</span>
+                <span class="prereq-detail">${nodeOk ? health.nodeVersion || 'Installed' : 'Required -- install from nodejs.org'}</span>
+              </div>
+            </div>
+            <div class="prereq-item ${gitOk ? 'ok' : 'missing'}">
+              <span class="prereq-icon">${gitOk ? '&#10003;' : '&#10005;'}</span>
+              <div class="prereq-info">
+                <span class="prereq-name">Git</span>
+                <span class="prereq-detail">${gitOk ? health.gitVersion || 'Installed' : 'Required -- install from git-scm.com'}</span>
+              </div>
+            </div>
+            <div class="prereq-item ${claudeOk ? 'ok' : 'missing'}">
+              <span class="prereq-icon">${claudeOk ? '&#10003;' : '&#10005;'}</span>
+              <div class="prereq-info">
+                <span class="prereq-name">Claude Code</span>
+                <span class="prereq-detail">${claudeOk ? health.claudeVersion || 'Installed' : 'Required -- see instructions below'}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="welcome-steps">
+          <div class="welcome-section-title">Get Started</div>
+
+          ${!claudeOk ? `
+          <div class="welcome-step-card highlight">
+            <div class="step-number">1</div>
+            <div class="step-content">
+              <h3>Install Claude Code</h3>
+              <p>Claude Code is the AI engine that powers BizBrain OS. Install it globally:</p>
+              <div class="code-block" id="install-cmd">
+                <code>npm install -g @anthropic-ai/claude-code</code>
+                <button class="copy-btn" id="copy-install" title="Copy to clipboard">&#128203;</button>
+              </div>
+              <p class="step-note">After installing, run <code>claude</code> in your terminal to authenticate with your Anthropic account. Then refresh this page.</p>
+            </div>
+          </div>
+          ` : ''}
+
+          <div class="welcome-step-card ${!claudeOk ? 'dimmed' : 'highlight'}">
+            <div class="step-number">${!claudeOk ? '2' : '1'}</div>
+            <div class="step-content">
+              <h3>Open Claude Code in this folder</h3>
+              <p>Open a terminal, navigate to your bizbrain-os folder, and start Claude Code:</p>
+              <div class="code-block">
+                <code>cd ${escapeHtml(health.platform === 'win32' ? 'bizbrain-os' : '~/bizbrain-os')}</code>
+              </div>
+              <div class="code-block" id="claude-cmd">
+                <code>claude</code>
+                <button class="copy-btn" id="copy-claude" title="Copy to clipboard">&#128203;</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="welcome-step-card ${!claudeOk ? 'dimmed' : 'highlight'}">
+            <div class="step-number">${!claudeOk ? '3' : '2'}</div>
+            <div class="step-content">
+              <h3>Paste the setup prompt</h3>
+              <p>Click the button below to copy a setup prompt to your clipboard. Paste it into Claude Code and it will walk you through a guided interview to learn about your business and configure everything.</p>
+              <button class="btn btn-primary btn-lg welcome-copy-btn" id="copy-prompt-btn" ${!allPrereqs ? 'disabled' : ''}>
+                <span id="copy-prompt-text">${promptCopied ? '&#10003; Copied! Paste into Claude Code' : '&#128203; Copy Setup Prompt to Clipboard'}</span>
+              </button>
+              ${promptCopied ? '<p class="step-success">Prompt copied! Open Claude Code and paste it in to begin your guided setup.</p>' : ''}
+            </div>
+          </div>
+        </div>
+
+        <div class="welcome-alt">
+          <div class="welcome-section-title">Already set up?</div>
+          <p>If you've already configured BizBrain OS in another location, or want to explore the dashboard first:</p>
+          <button class="btn btn-secondary" id="skip-welcome">Skip to Dashboard &#8594;</button>
+        </div>
+
+        <div class="welcome-what">
+          <div class="welcome-section-title">What happens during setup</div>
+          <div class="what-grid">
+            <div class="what-item">
+              <div class="what-icon">&#128172;</div>
+              <h4>5-minute interview</h4>
+              <p>Claude learns about your business through natural conversation -- your name, clients, tools, workflows.</p>
+            </div>
+            <div class="what-item">
+              <div class="what-icon">&#9881;</div>
+              <h4>Smart module selection</h4>
+              <p>Based on your business type, Claude recommends the right modules: CRM, time tracking, content, and more.</p>
+            </div>
+            <div class="what-item">
+              <div class="what-icon">&#128640;</div>
+              <h4>Ready to use</h4>
+              <p>Your Brain folder structure, personalized config, and dashboard are generated automatically. Start using it immediately.</p>
+            </div>
+          </div>
+        </div>
+      </div>`;
+
+    container.innerHTML = html;
+
+    // Event handlers
+    const copyPromptBtn = $('#copy-prompt-btn');
+    if (copyPromptBtn) {
+      copyPromptBtn.addEventListener('click', async () => {
+        try {
+          await navigator.clipboard.writeText(getSetupPrompt());
+          promptCopied = true;
+          const textEl = $('#copy-prompt-text');
+          if (textEl) textEl.innerHTML = '&#10003; Copied! Paste into Claude Code';
+          copyPromptBtn.classList.add('copied');
+          toast('Setup prompt copied to clipboard!', 'success');
+          // Re-render to show success message
+          render();
+        } catch (err) {
+          // Fallback for browsers that block clipboard
+          toast('Could not copy -- try selecting and copying manually', 'error');
+        }
+      });
+    }
+
+    const copyInstall = $('#copy-install');
+    if (copyInstall) {
+      copyInstall.addEventListener('click', () => {
+        navigator.clipboard.writeText('npm install -g @anthropic-ai/claude-code').then(() => {
+          toast('Install command copied!', 'success');
+        });
+      });
+    }
+
+    const copyClaude = $('#copy-claude');
+    if (copyClaude) {
+      copyClaude.addEventListener('click', () => {
+        navigator.clipboard.writeText('claude').then(() => {
+          toast('Command copied!', 'success');
+        });
+      });
+    }
+
+    const skipBtn = $('#skip-welcome');
+    if (skipBtn) {
+      skipBtn.addEventListener('click', () => {
+        forceOperational = true;
+        mode = 'operational';
+        render();
+      });
     }
   }
 

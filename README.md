@@ -14,8 +14,6 @@
 
 [![AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://github.com/TechIntegrationLabs/bizbrain-os/blob/main/LICENSE)
 [![GitHub Stars](https://img.shields.io/github/stars/TechIntegrationLabs/bizbrain-os?style=social)](https://github.com/TechIntegrationLabs/bizbrain-os/stargazers)
-[![npm version](https://img.shields.io/npm/v/create-bizbrain?color=blue)](https://www.npmjs.com/package/create-bizbrain)
-[![Discord](https://img.shields.io/discord/1234567890?color=5865F2&label=Discord&logo=discord&logoColor=white)](https://discord.gg/bizbrain)
 [![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey)]()
 [![Powered by Claude](https://img.shields.io/badge/Powered%20by-Claude%20Code-orange)](https://claude.ai)
 [![Works with OpenClaw](https://img.shields.io/badge/Works%20with-OpenClaw-purple)](https://github.com/openclaw)
@@ -50,31 +48,18 @@ BizBrain OS solves this by building a structured context layer that captures and
 ## Quick Install
 
 ```bash
-npx create-bizbrain
-```
-
-<details>
-<summary><b>Alternative installation methods</b></summary>
-
-**Git clone (recommended for contributors):**
-```bash
 git clone https://github.com/TechIntegrationLabs/bizbrain-os.git
 cd bizbrain-os
+npm start
 ```
 
-**One-liner with curl:**
-```bash
-curl -fsSL https://raw.githubusercontent.com/TechIntegrationLabs/bizbrain-os/main/install.sh | bash
-```
+This opens the BizBrain OS dashboard in your browser. The dashboard detects that it's your first run and shows a guided getting-started page with:
 
-</details>
+- **Prerequisite checks** -- Node.js, Git, and Claude Code are verified automatically
+- **Install instructions** -- if anything is missing, you'll see exactly what to install
+- **One-click setup prompt** -- a button that copies a comprehensive setup prompt to your clipboard
 
-Then open Claude Code in the folder and run:
-```bash
-/setup
-```
-
-A voice-guided interview learns your business, activates the right modules, and launches your personal dashboard at `http://localhost:5555`. Your context layer starts compounding immediately.
+Paste the prompt into Claude Code and it walks you through a conversational interview to learn your business, configure modules, and launch your personalized Brain.
 
 ---
 
@@ -260,29 +245,28 @@ BizBrain OS ships with **27 modules** across 7 categories. Core modules activate
 ## How It Works
 
 ```
- Install              Teach It             Configure             Compound
- ───────              ────────             ─────────             ────────
+ Clone + Start         Copy & Paste          Teach It              Compound
+ ─────────────         ────────────          ────────              ────────
 
-  npx                  "Tell me              Pick your             Context
-  create-              about your     ->     modules       ->     grows
-  bizbrain     ->      business..."          from the              richer
-                                             dashboard              daily
-  30 seconds           5 minutes             2 minutes             Forever
+  git clone             Dashboard             Claude Code           Context
+  npm start     ->      gives you      ->     interviews     ->    grows
+                        a setup prompt        your business         richer
+                                                                    daily
 ```
 
 <table>
 <tr>
 <td align="center" width="25%">
-<h3>1. Install</h3>
-<p>One command. Clone the repo, or <code>npx create-bizbrain</code>. No build step, no Docker, no config files to create.</p>
+<h3>1. Clone & Start</h3>
+<p>Clone the repo and run <code>npm start</code>. The dashboard opens with a guided getting-started page. No build step, no Docker.</p>
 </td>
 <td align="center" width="25%">
-<h3>2. Teach It</h3>
-<p>Speak (or type) about your business. AI extracts your clients, tools, workflows, and preferences into structured context.</p>
+<h3>2. Copy Setup Prompt</h3>
+<p>Click one button on the dashboard to copy a setup prompt. Paste it into Claude Code.</p>
 </td>
 <td align="center" width="25%">
-<h3>3. Configure Modules</h3>
-<p>A local dashboard shows smart-recommended module cards. Enable what you need with one click. Each module feeds the context layer.</p>
+<h3>3. Teach It Your Business</h3>
+<p>Claude interviews you conversationally -- your name, clients, tools, workflows. It configures everything automatically.</p>
 </td>
 <td align="center" width="25%">
 <h3>4. Watch It Compound</h3>
@@ -311,18 +295,18 @@ BizBrain OS ships with **27 modules** across 7 categories. Core modules activate
 git clone https://github.com/TechIntegrationLabs/bizbrain-os.git
 cd bizbrain-os
 
-# 2. Open Claude Code in this directory and run:
-/setup
+# 2. Start the dashboard
+npm start
+#    Opens http://localhost:5555 with guided getting-started page
 
-# 3. Complete the voice (or text) interview
-#    The wizard asks about your business and recommends modules
+# 3. Click "Copy Setup Prompt" on the getting-started page
 
-# 4. Open the dashboard
-#    Auto-launches at http://localhost:5555
-#    Or manually: node .bizbrain/dashboard/server.js
+# 4. Open Claude Code in the bizbrain-os folder
+claude
 
-# 5. Activate modules from the dashboard
-#    Click any module card -> follow the guided setup
+# 5. Paste the setup prompt into Claude Code
+#    It walks you through a conversational interview about your business
+#    and configures everything automatically
 
 # 6. Start using your Brain
 /help          # See all available commands
