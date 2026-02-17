@@ -4,26 +4,93 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BizBrain OS - Start Here</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%233B82F6'/><text x='16' y='22' font-size='18' text-anchor='middle' fill='white' font-family='system-ui' font-weight='bold'>B</text></svg>">
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --color-primary: #3B82F6;
+      --color-accent: #10B981;
+      --color-green: #10B981;
+      --color-red: #EF4444;
+      --color-yellow: #F59E0B;
+      --bg-body: #F8FAFC;
+      --bg-card: #FFFFFF;
+      --bg-input: #F1F5F9;
+      --bg-code: #F1F5F9;
+      --text-primary: #0F172A;
+      --text-secondary: #475569;
+      --text-tertiary: #94A3B8;
+      --border-color: #E2E8F0;
+      --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', Roboto, sans-serif;
+      --font-mono: 'SF Mono', 'Cascadia Code', 'Fira Code', Consolas, monospace;
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.06);
+      --shadow-md: 0 4px 6px rgba(0,0,0,0.04), 0 2px 4px rgba(0,0,0,0.06);
+      --shadow-lg: 0 10px 25px rgba(0,0,0,0.06), 0 4px 10px rgba(0,0,0,0.04);
+      --transition: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg-body: #0B1120;
+        --bg-card: #151D2E;
+        --bg-input: #1A2438;
+        --bg-code: #1A2438;
+        --text-primary: #E2E8F0;
+        --text-secondary: #94A3B8;
+        --text-tertiary: #64748B;
+        --border-color: #1E293B;
+        --shadow-sm: 0 1px 2px rgba(0,0,0,0.2), 0 1px 3px rgba(0,0,0,0.3);
+        --shadow-md: 0 4px 6px rgba(0,0,0,0.2), 0 2px 4px rgba(0,0,0,0.3);
+        --shadow-lg: 0 10px 25px rgba(0,0,0,0.3), 0 4px 10px rgba(0,0,0,0.2);
+      }
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { font-size: 16px; -webkit-font-smoothing: antialiased; }
+
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: #0B1120;
-      color: #E2E8F0;
+      font-family: var(--font-sans);
+      background: var(--bg-body);
+      color: var(--text-primary);
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 24px;
+      line-height: 1.6;
     }
+
     .container {
-      max-width: 560px;
-      text-align: center;
+      max-width: 680px;
+      width: 100%;
     }
+
+    /* --- Hero --- */
+    .hero {
+      text-align: center;
+      margin-bottom: 40px;
+      padding: 24px 0;
+      position: relative;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+      border-radius: 2px;
+    }
+
     .logo {
       width: 80px;
       height: 80px;
-      background: linear-gradient(135deg, #3B82F6, #10B981);
+      background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
       border-radius: 22px;
       display: inline-flex;
       align-items: center;
@@ -31,105 +98,1141 @@
       color: white;
       font-weight: 800;
       font-size: 2.25rem;
-      margin-bottom: 24px;
-      box-shadow: 0 8px 32px rgba(59,130,246,0.3);
+      margin-bottom: 20px;
+      box-shadow: 0 8px 32px rgba(59,130,246,0.25);
+      animation: logo-glow 3s ease-in-out infinite alternate;
     }
-    h1 { font-size: 2rem; margin-bottom: 8px; letter-spacing: -0.03em; }
-    .tagline { color: #3B82F6; font-size: 1.125rem; font-weight: 600; margin-bottom: 32px; }
-    .status { margin-bottom: 32px; }
-    .spinner {
-      width: 32px;
-      height: 32px;
-      border: 3px solid #1E293B;
-      border-top-color: #3B82F6;
+
+    @keyframes logo-glow {
+      from { box-shadow: 0 8px 32px rgba(59,130,246,0.25); }
+      to { box-shadow: 0 8px 40px rgba(16,185,129,0.3); }
+    }
+
+    h1 {
+      font-size: 2.25rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      letter-spacing: -0.03em;
+    }
+
+    .tagline {
+      color: var(--color-primary);
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+
+    /* --- Phases --- */
+    #phase-content {
+      min-height: 200px;
+    }
+
+    /* --- Check Sequence --- */
+    .check-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      padding: 28px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow-sm);
+      animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .check-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .check-header-text {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+
+    .check-header-text.success { color: var(--color-green); }
+
+    .spinner-sm {
+      width: 24px;
+      height: 24px;
+      border: 3px solid var(--border-color);
+      border-top-color: var(--color-primary);
       border-radius: 50%;
       animation: spin 0.7s linear infinite;
-      display: inline-block;
-      margin-bottom: 12px;
+      flex-shrink: 0;
     }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    .status-text { font-size: 1rem; color: #94A3B8; }
-    .instructions {
-      display: none;
-      background: #151D2E;
-      border: 1px solid #1E293B;
-      border-radius: 12px;
-      padding: 28px;
-      text-align: left;
+
+    .check-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
     }
-    .instructions h2 { font-size: 1.25rem; margin-bottom: 16px; }
-    .instructions p { font-size: 1rem; color: #94A3B8; line-height: 1.7; margin-bottom: 14px; }
-    .cmd {
+
+    .check-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 18px;
+      border-radius: var(--radius-sm);
+      background: var(--bg-body);
+      animation: slideUp 0.4s ease forwards;
+      opacity: 0;
+    }
+
+    .check-row.checking { border-left: 3px solid var(--color-primary); }
+    .check-row.pass { border-left: 3px solid var(--color-green); opacity: 1; }
+    .check-row.fail { border-left: 3px solid var(--color-red); background: rgba(239,68,68,0.04); opacity: 1; }
+
+    .check-row-spinner {
+      width: 18px;
+      height: 18px;
+      border: 2px solid var(--border-color);
+      border-top-color: var(--color-primary);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      flex-shrink: 0;
+    }
+
+    .check-icon {
+      font-size: 1rem;
+      font-weight: 700;
+      width: 18px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .check-icon.pass { color: var(--color-green); }
+    .check-icon.fail { color: var(--color-red); }
+
+    .check-name {
+      font-weight: 600;
+      font-size: 1rem;
+      min-width: 100px;
+    }
+
+    .check-detail {
+      font-size: 0.875rem;
+      color: var(--text-tertiary);
+      font-family: var(--font-mono);
+    }
+
+    .check-detail.fail { color: var(--color-red); }
+
+    /* --- Server Check Result --- */
+    .server-result {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 18px;
+      border-radius: var(--radius-sm);
+      background: var(--bg-body);
+      margin-top: 10px;
+      border-left: 3px solid var(--color-green);
+      animation: slideUp 0.4s ease forwards;
+    }
+
+    .server-result.offline {
+      border-left-color: var(--text-tertiary);
+    }
+
+    /* --- Fix Guide --- */
+    .fix-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow-sm);
+      animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .fix-card.active {
+      border-color: rgba(59,130,246,0.4);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .fix-card-header {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      margin-bottom: 20px;
+    }
+
+    .fix-number {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--color-red);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.875rem;
+      flex-shrink: 0;
+    }
+
+    .fix-card-header h3 {
+      font-size: 1.125rem;
+      margin-bottom: 4px;
+    }
+
+    .fix-desc {
+      font-size: 0.9375rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    .fix-steps {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 16px 0;
+    }
+
+    .fix-steps li {
+      padding: 10px 0 10px 36px;
+      position: relative;
+      font-size: 0.9375rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      border-left: 2px solid var(--border-color);
+      margin-left: 10px;
+      counter-increment: fix-step;
+    }
+
+    .fix-steps li:last-child { border-left-color: transparent; }
+
+    .fix-steps li::before {
+      content: counter(fix-step);
+      position: absolute;
+      left: -11px;
+      top: 10px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--bg-input);
+      border: 2px solid var(--border-color);
+      color: var(--text-tertiary);
+      font-size: 0.625rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .fix-steps { counter-reset: fix-step; }
+
+    .fix-link {
+      color: var(--color-primary);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .fix-link:hover { text-decoration: underline; }
+
+    /* --- Ready Screen --- */
+    .ready-section {
+      animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .ready-checks {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 28px;
+    }
+
+    .ready-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 16px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-left: 3px solid var(--color-green);
+      border-radius: var(--radius-sm);
+    }
+
+    .ready-item-name {
+      font-weight: 600;
+      font-size: 0.9375rem;
+    }
+
+    .ready-item-detail {
+      font-size: 0.8125rem;
+      color: var(--text-tertiary);
+      font-family: var(--font-mono);
+      margin-left: auto;
+    }
+
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border-color), transparent);
+      margin: 28px 0;
+    }
+
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-tertiary);
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .step-card {
+      display: flex;
+      gap: 18px;
+      padding: 22px;
+      background: var(--bg-card);
+      border: 1px solid rgba(59,130,246,0.3);
+      border-radius: var(--radius);
+      margin-bottom: 14px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .step-num {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--color-primary), #6366F1);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.875rem;
+      flex-shrink: 0;
+      box-shadow: 0 2px 8px rgba(59,130,246,0.25);
+    }
+
+    .step-body { flex: 1; }
+    .step-body h3 { font-size: 1.125rem; margin-bottom: 8px; }
+    .step-body p { font-size: 0.9375rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 12px; }
+
+    .code-block {
       display: flex;
       align-items: center;
       gap: 8px;
-      padding: 12px 16px;
-      background: #0B1120;
-      border: 1px solid #1E293B;
-      border-radius: 8px;
-      margin-bottom: 14px;
-      font-family: 'SF Mono', 'Cascadia Code', Consolas, monospace;
+      padding: 10px 14px;
+      background: var(--bg-code);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-mono);
       font-size: 0.9375rem;
-      color: #E2E8F0;
+      margin-bottom: 10px;
     }
-    .cmd code { flex: 1; }
-    .copy-btn {
-      background: none;
-      border: none;
-      color: #64748B;
+
+    .code-block code { flex: 1; background: none; padding: 0; }
+
+    .cmd-builder {
+      margin-top: 6px;
+    }
+
+    .cmd-flags {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .cmd-flag {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      background: var(--bg-body);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
       cursor: pointer;
-      font-size: 1rem;
-      padding: 4px;
-      border-radius: 4px;
+      transition: border-color var(--transition);
+      user-select: none;
     }
-    .copy-btn:hover { color: #3B82F6; }
-    .note { font-size: 0.875rem; color: #64748B; font-style: italic; }
+
+    .cmd-flag:hover { border-color: var(--color-primary); }
+
+    .cmd-flag input { display: none; }
+
+    .cmd-toggle {
+      width: 36px;
+      height: 20px;
+      border-radius: 10px;
+      background: var(--border-color);
+      position: relative;
+      transition: background 200ms ease;
+      flex-shrink: 0;
+    }
+
+    .cmd-toggle::after {
+      content: '';
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: white;
+      transition: transform 200ms ease;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+    }
+
+    .cmd-flag input:checked + .cmd-toggle {
+      background: var(--color-primary);
+    }
+
+    .cmd-flag input:checked + .cmd-toggle::after {
+      transform: translateX(16px);
+    }
+
+    .cmd-flag-label {
+      font-weight: 600;
+      font-size: 0.9375rem;
+      white-space: nowrap;
+    }
+
+    .cmd-flag-desc {
+      font-size: 0.8125rem;
+      color: var(--text-tertiary);
+      line-height: 1.4;
+    }
+
+    .cmd-display {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 16px;
+      background: var(--bg-card);
+      border: 2px solid var(--color-primary);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-mono);
+      font-size: 0.9375rem;
+      box-shadow: 0 0 0 3px rgba(59,130,246,0.08);
+    }
+
+    .cmd-display code { flex: 1; background: none; padding: 0; word-break: break-all; }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 10px 20px;
+      border-radius: var(--radius-sm);
+      font-size: 0.9375rem;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: all 200ms ease;
+      font-family: var(--font-sans);
+    }
+
+    .btn-primary {
+      background: var(--color-primary);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #2563EB;
+      box-shadow: 0 4px 12px rgba(59,130,246,0.3);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: var(--bg-input);
+      color: var(--text-primary);
+      border: 1px solid var(--border-color);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--color-primary);
+    }
+
+    .btn-lg {
+      width: 100%;
+      padding: 16px 24px;
+      font-size: 1rem;
+      border-radius: var(--radius-sm);
+      box-shadow: 0 4px 14px rgba(59,130,246,0.25);
+    }
+
+    .btn-lg:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(59,130,246,0.35);
+    }
+
+    .btn-lg.copied {
+      background: var(--color-green);
+      box-shadow: 0 4px 14px rgba(16,185,129,0.25);
+    }
+
+    .btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      transform: none !important;
+      box-shadow: none !important;
+    }
+
+    .copy-btn {
+      width: 28px;
+      height: 28px;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      border-radius: 4px;
+      font-size: 0.875rem;
+      color: var(--text-tertiary);
+      flex-shrink: 0;
+      transition: color 150ms ease;
+    }
+
+    .copy-btn:hover { color: var(--color-primary); }
+
+    /* --- Actions Row --- */
+    .actions-row {
+      display: flex;
+      gap: 12px;
+      margin-top: 24px;
+      align-items: center;
+    }
+
+    .actions-row .btn-lg { flex: 1; }
+
+    /* --- What Happens Grid --- */
+    .what-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    @media (max-width: 640px) {
+      .what-grid { grid-template-columns: 1fr; }
+      .step-card { flex-direction: column; }
+      .actions-row { flex-direction: column; }
+      .cmd-flag { flex-wrap: wrap; }
+      .cmd-flag-desc { flex-basis: 100%; padding-left: 48px; }
+      h1 { font-size: 1.75rem; }
+    }
+
+    .what-item {
+      padding: 20px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      text-align: center;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .what-icon { font-size: 1.75rem; margin-bottom: 10px; }
+    .what-item h4 { font-size: 1rem; margin-bottom: 6px; }
+    .what-item p { font-size: 0.875rem; color: var(--text-secondary); line-height: 1.5; }
+
+    /* --- Skip/Alt --- */
+    .alt-section {
+      margin-top: 28px;
+      padding: 20px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      text-align: center;
+    }
+
+    .alt-section p {
+      font-size: 0.9375rem;
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+    }
+
+    .step-success {
+      color: var(--color-green);
+      font-weight: 600;
+      font-size: 0.9375rem;
+    }
+
+    /* --- Animations --- */
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .stagger-1 { animation-delay: 0ms; }
+    .stagger-2 { animation-delay: 120ms; }
+    .stagger-3 { animation-delay: 240ms; }
+    .stagger-4 { animation-delay: 360ms; }
+    .stagger-5 { animation-delay: 480ms; }
+    .stagger-6 { animation-delay: 600ms; }
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="logo">B</div>
-    <h1>BizBrain OS</h1>
-    <p class="tagline">The context layer that teaches AI your business.</p>
-
-    <div class="status" id="status">
-      <div class="spinner"></div>
-      <div class="status-text">Connecting to dashboard...</div>
+    <div class="hero">
+      <div class="logo">B</div>
+      <h1>BizBrain OS</h1>
+      <p class="tagline">The context layer that teaches AI your business.</p>
     </div>
 
-    <div class="instructions" id="instructions">
-      <h2>Start the Dashboard</h2>
-      <p>Open a terminal in this folder and run:</p>
-      <div class="cmd">
-        <code id="cmd-text">npm start</code>
-        <button class="copy-btn" onclick="copyCmd()" title="Copy">&#128203;</button>
-      </div>
-      <p>This starts the BizBrain OS dashboard at <strong>localhost:5555</strong> and opens it in your browser automatically.</p>
-      <p class="note">Requires Node.js 18+. If you don't have it, download from <a href="https://nodejs.org" target="_blank" style="color:#3B82F6">nodejs.org</a></p>
+    <div id="phase-content">
+      <!-- Populated by JS -->
     </div>
   </div>
 
   <script>
-    // Try to connect to the dashboard server
-    fetch('http://localhost:5555/api/health')
-      .then(r => r.ok ? r.json() : Promise.reject())
-      .then(() => {
-        // Server is running - redirect to the dashboard
-        window.location.href = 'http://localhost:5555';
-      })
-      .catch(() => {
-        // Server not running - show instructions
-        document.getElementById('status').style.display = 'none';
-        document.getElementById('instructions').style.display = 'block';
+  (function () {
+    'use strict';
+
+    const $ = (sel) => document.querySelector(sel);
+    const DASHBOARD_URL = 'http://localhost:5555';
+
+    let phase = 'checking'; // checking | fixing | ready
+    let checks = {};
+    let serverOnline = false;
+    let cmdFlags = { yolo: false, chrome: false };
+    let promptCopied = false;
+
+    // --- Prerequisite Definitions ---
+    const PREREQS = [
+      {
+        id: 'node',
+        name: 'Node.js',
+        checkLabel: 'Checking for Node.js...',
+        guide: {
+          title: 'Install Node.js',
+          desc: 'Node.js runs the BizBrain OS dashboard server. You need version 18 or higher.',
+          steps: [
+            { text: 'Download the installer from', link: 'https://nodejs.org', linkText: 'nodejs.org' },
+            { text: 'Run the installer and follow the prompts (defaults are fine).' },
+            { text: 'Restart your terminal after installation.' },
+          ],
+          verifyCmd: 'node --version',
+        },
+      },
+      {
+        id: 'git',
+        name: 'Git',
+        checkLabel: 'Checking for Git...',
+        guide: {
+          title: 'Install Git',
+          desc: 'Git keeps BizBrain OS up to date. A simple git pull brings new features without touching your data.',
+          steps: [
+            { text: 'Download Git from', link: 'https://git-scm.com', linkText: 'git-scm.com' },
+            { text: 'Run the installer (defaults work for most users).' },
+            { text: 'Restart your terminal after installation.' },
+          ],
+          verifyCmd: 'git --version',
+        },
+      },
+      {
+        id: 'claude',
+        name: 'Claude Code',
+        checkLabel: 'Checking for Claude Code...',
+        guide: {
+          title: 'Install Claude Code',
+          desc: 'Claude Code is the AI engine that powers BizBrain OS. It turns natural conversation into structured business context.',
+          steps: [
+            { text: 'Install globally with npm:', cmd: 'npm install -g @anthropic-ai/claude-code' },
+            { text: 'Launch it once to authenticate:', cmd: 'claude' },
+            { text: 'Follow the prompts to sign in with your Anthropic account.' },
+            { text: 'Once authenticated, come back here and click "Check Again".' },
+          ],
+          verifyCmd: 'claude --version',
+        },
+      },
+    ];
+
+    // --- Setup Prompt ---
+    function getSetupPrompt() {
+      return `I just cloned BizBrain OS and I'm ready to set up my Business Brain.
+
+You are my BizBrain OS setup wizard. Here's how to get started:
+
+## Find my BizBrain OS installation
+Look for the bizbrain-os folder -- check my current working directory, ~/bizbrain-os, ~/Repos/bizbrain-os, or ~/Desktop/bizbrain-os.
+
+## Read the master wizard prompt
+Read the file \`.bizbrain/wizard/master-prompt.md\` in the bizbrain-os folder. This contains your complete 10-phase setup wizard instructions. Follow it phase by phase.
+
+## Key files to know about
+- \`.bizbrain/wizard/master-prompt.md\` -- your full wizard instructions (10 phases)
+- \`.bizbrain/wizard/prompts/*.md\` -- per-module setup prompts (read when you reach Phase 7)
+- \`.bizbrain/modules/*.json\` -- module definitions with config schemas
+- \`config.template.json\` -- base config template
+- \`.bizbrain/wizard/state.json\` -- progress tracker (check for resume on startup)
+
+## Guidelines
+- Be conversational and friendly, not robotic
+- Use AskUserQuestion for multi-choice questions when available
+- If I say "quick setup" or "just defaults", switch to Quick Mode (smart defaults, minimal questions)
+- If I give short answers, use smart defaults -- don't over-ask
+- If I ramble, extract everything you can -- that's gold
+- Track progress in state.json so I can resume if interrupted
+
+Let's begin!`;
+    }
+
+    // --- Init ---
+    async function init() {
+      renderChecking();
+
+      // First try to reach the dashboard server (it has a health endpoint)
+      try {
+        const resp = await fetch(DASHBOARD_URL + '/api/health', { signal: AbortSignal.timeout(3000) });
+        if (resp.ok) {
+          const data = await resp.json();
+          serverOnline = true;
+          checks = {
+            node: { ok: !!data.node, detail: data.nodeVersion || 'Not found' },
+            git: { ok: !!data.git, detail: data.gitVersion || 'Not found' },
+            claude: { ok: !!data.claude, detail: data.claudeVersion || 'Not found' },
+          };
+        }
+      } catch (_) {
+        // Server not running -- that's fine, use fallback checks
+        serverOnline = false;
+      }
+
+      // If server wasn't reachable, show optimistic checks
+      // (we can't truly check CLI tools from a static HTML file opened via file:// protocol)
+      if (!serverOnline) {
+        checks = {
+          node: { ok: null, detail: 'Server offline -- start with npm start to verify' },
+          git: { ok: null, detail: 'Server offline -- start with npm start to verify' },
+          claude: { ok: null, detail: 'Server offline -- start with npm start to verify' },
+        };
+      }
+
+      await animateChecks();
+    }
+
+    // --- Animate Check Sequence ---
+    async function animateChecks() {
+      const list = $('#check-list');
+      if (!list) return;
+
+      for (let i = 0; i < PREREQS.length; i++) {
+        const prereq = PREREQS[i];
+        const result = checks[prereq.id];
+
+        // Add checking row
+        const row = document.createElement('div');
+        row.className = 'check-row checking';
+        row.id = 'check-' + prereq.id;
+        row.innerHTML = `
+          <div class="check-row-spinner"></div>
+          <span class="check-name">${esc(prereq.name)}</span>
+          <span class="check-detail">${esc(prereq.checkLabel)}</span>`;
+        row.style.animationDelay = (i * 80) + 'ms';
+        list.appendChild(row);
+
+        await sleep(500 + Math.random() * 300);
+
+        // Resolve
+        if (result.ok === null) {
+          // Unknown (server offline)
+          row.className = 'check-row pass';
+          row.innerHTML = `
+            <span class="check-icon" style="color:var(--color-yellow);">?</span>
+            <span class="check-name">${esc(prereq.name)}</span>
+            <span class="check-detail">${esc(result.detail)}</span>`;
+        } else if (result.ok) {
+          row.className = 'check-row pass';
+          row.innerHTML = `
+            <span class="check-icon pass">&#10003;</span>
+            <span class="check-name">${esc(prereq.name)}</span>
+            <span class="check-detail">${esc(result.detail)}</span>`;
+        } else {
+          row.className = 'check-row fail';
+          row.innerHTML = `
+            <span class="check-icon fail">&#10005;</span>
+            <span class="check-name">${esc(prereq.name)}</span>
+            <span class="check-detail fail">Not found</span>`;
+        }
+      }
+
+      // Add server status row
+      await sleep(300);
+      const serverRow = document.createElement('div');
+      serverRow.className = 'server-result' + (serverOnline ? '' : ' offline');
+      serverRow.innerHTML = serverOnline
+        ? `<span class="check-icon pass">&#10003;</span>
+           <span class="check-name">Dashboard</span>
+           <span class="check-detail">Running at localhost:5555</span>`
+        : `<span class="check-icon" style="color:var(--text-tertiary);">&#9679;</span>
+           <span class="check-name">Dashboard</span>
+           <span class="check-detail">Not running (optional)</span>`;
+      list.appendChild(serverRow);
+
+      await sleep(500);
+
+      // Determine phase
+      const allOk = serverOnline && Object.values(checks).every(c => c.ok === true);
+      const anyFailed = serverOnline && Object.values(checks).some(c => c.ok === false);
+
+      const header = $('#check-header');
+
+      if (allOk) {
+        header.innerHTML = `
+          <span class="check-icon pass" style="font-size:1.25rem;">&#10003;</span>
+          <span class="check-header-text success">All systems go!</span>`;
+        await sleep(600);
+        phase = 'ready';
+        renderReady();
+      } else if (anyFailed) {
+        const missing = Object.values(checks).filter(c => c.ok === false).length;
+        header.innerHTML = `
+          <span class="check-icon" style="font-size:1.25rem;color:var(--color-yellow);">&#9888;</span>
+          <span class="check-header-text">${missing} missing requirement${missing > 1 ? 's' : ''}</span>`;
+        await sleep(600);
+        phase = 'fixing';
+        renderFixGuide();
+      } else {
+        // Server was offline - show the "start server or proceed" screen
+        header.innerHTML = `
+          <span class="check-icon" style="font-size:1.25rem;color:var(--color-primary);">&#8505;</span>
+          <span class="check-header-text">Start the server to verify, or proceed directly</span>`;
+        await sleep(400);
+        phase = 'ready';
+        renderReadyOffline();
+      }
+    }
+
+    // --- Render: Checking Phase ---
+    function renderChecking() {
+      $('#phase-content').innerHTML = `
+        <div class="check-card">
+          <div class="check-header" id="check-header">
+            <div class="spinner-sm"></div>
+            <span class="check-header-text">Checking your system...</span>
+          </div>
+          <div class="check-list" id="check-list"></div>
+        </div>`;
+    }
+
+    // --- Render: Fix Guide ---
+    function renderFixGuide() {
+      const missing = PREREQS.filter(p => checks[p.id] && checks[p.id].ok === false);
+      const passed = PREREQS.filter(p => checks[p.id] && checks[p.id].ok === true);
+
+      let html = `
+        <div style="text-align:center;margin-bottom:24px;color:var(--text-secondary);font-size:1.0625rem;">
+          Almost there! Let's get the missing pieces installed.
+        </div>`;
+
+      // Passed items
+      if (passed.length > 0) {
+        html += `<div style="margin-bottom:20px;">`;
+        for (const p of passed) {
+          html += `
+            <div class="ready-item" style="margin-bottom:6px;">
+              <span class="check-icon pass">&#10003;</span>
+              <span class="ready-item-name">${esc(p.name)}</span>
+              <span class="ready-item-detail">${esc(checks[p.id].detail)}</span>
+            </div>`;
+        }
+        html += `</div>`;
+      }
+
+      // Fix cards for missing items
+      for (let i = 0; i < missing.length; i++) {
+        const prereq = missing[i];
+        const guide = prereq.guide;
+        html += `
+          <div class="fix-card ${i === 0 ? 'active' : ''}">
+            <div class="fix-card-header">
+              <div class="fix-number">${i + 1}</div>
+              <div>
+                <h3>${esc(guide.title)}</h3>
+                <p class="fix-desc">${esc(guide.desc)}</p>
+              </div>
+            </div>
+            <ol class="fix-steps">`;
+        for (const step of guide.steps) {
+          html += `<li>`;
+          html += `<span>${esc(step.text)}</span>`;
+          if (step.link) {
+            html += ` <a href="${escAttr(step.link)}" target="_blank" class="fix-link">${esc(step.linkText || step.link)} &#8599;</a>`;
+          }
+          if (step.cmd) {
+            html += `
+              <div class="code-block" style="margin-top:8px;">
+                <code>${esc(step.cmd)}</code>
+                <button class="copy-btn" onclick="copyText('${escAttr(step.cmd)}')" title="Copy">&#128203;</button>
+              </div>`;
+          }
+          html += `</li>`;
+        }
+        html += `
+            </ol>
+            <div style="display:flex;align-items:center;gap:8px;padding:10px 14px;background:var(--bg-body);border-radius:var(--radius-sm);font-size:0.875rem;">
+              <span style="color:var(--text-tertiary);font-weight:600;font-size:0.75rem;">Verify:</span>
+              <code style="font-size:0.875rem;">${esc(guide.verifyCmd)}</code>
+            </div>
+          </div>`;
+      }
+
+      html += `
+        <div class="actions-row">
+          <button class="btn btn-primary btn-lg" id="recheck-btn">&#8635; Check Again</button>
+          <button class="btn btn-secondary" id="skip-btn">Skip to Setup &#8594;</button>
+        </div>`;
+
+      $('#phase-content').innerHTML = html;
+
+      $('#recheck-btn')?.addEventListener('click', () => {
+        phase = 'checking';
+        init();
       });
 
-    function copyCmd() {
-      navigator.clipboard.writeText('npm start').then(() => {
-        const btn = document.querySelector('.copy-btn');
-        btn.textContent = '\u2713';
-        setTimeout(() => { btn.textContent = '\uD83D\uDCCB'; }, 2000);
+      $('#skip-btn')?.addEventListener('click', () => {
+        phase = 'ready';
+        renderReady();
       });
     }
+
+    // --- Render: Ready (server online, all checks pass) ---
+    function renderReady() {
+      let html = `<div class="ready-section">`;
+
+      // Show passed checks compactly
+      html += `<div class="ready-checks">`;
+      for (const prereq of PREREQS) {
+        const c = checks[prereq.id];
+        if (c && c.ok) {
+          html += `
+            <div class="ready-item">
+              <span class="check-icon pass">&#10003;</span>
+              <span class="ready-item-name">${esc(prereq.name)}</span>
+              <span class="ready-item-detail">${esc(c.detail)}</span>
+            </div>`;
+        }
+      }
+      if (serverOnline) {
+        html += `
+          <div class="ready-item">
+            <span class="check-icon pass">&#10003;</span>
+            <span class="ready-item-name">Dashboard</span>
+            <span class="ready-item-detail">localhost:5555</span>
+          </div>`;
+      }
+      html += `</div>`;
+
+      html += `<div class="divider"></div>`;
+      html += renderGetStartedSteps();
+      html += renderWhatHappens();
+      html += renderAltSection();
+      html += `</div>`;
+
+      $('#phase-content').innerHTML = html;
+      bindReadyEvents();
+    }
+
+    // --- Render: Ready (server offline) ---
+    function renderReadyOffline() {
+      let html = `<div class="ready-section">`;
+
+      // Server start instruction
+      html += `
+        <div class="step-card" style="margin-bottom:20px;">
+          <div class="step-num" style="background:var(--color-yellow);">!</div>
+          <div class="step-body">
+            <h3>Start the dashboard (optional)</h3>
+            <p>Open a terminal in this folder and run:</p>
+            <div class="code-block">
+              <code>npm start</code>
+              <button class="copy-btn" onclick="copyText('npm start')" title="Copy">&#128203;</button>
+            </div>
+            <p style="font-size:0.8125rem;color:var(--text-tertiary);margin-bottom:0;">The dashboard gives you a visual status page. But it's optional -- you can go straight to Claude Code.</p>
+          </div>
+        </div>`;
+
+      html += `<div class="divider"></div>`;
+      html += renderGetStartedSteps();
+      html += renderWhatHappens();
+      html += `</div>`;
+
+      $('#phase-content').innerHTML = html;
+      bindReadyEvents();
+    }
+
+    // --- Shared Ready Components ---
+    function renderGetStartedSteps() {
+      return `
+        <div class="section-label">Get Started</div>
+
+        <div class="step-card">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <h3>Open Claude Code in this folder</h3>
+            <p>Open a terminal, navigate to your bizbrain-os folder, and start Claude Code:</p>
+            <div class="code-block">
+              <code>cd bizbrain-os</code>
+              <button class="copy-btn" onclick="copyText('cd bizbrain-os')" title="Copy">&#128203;</button>
+            </div>
+            <div class="cmd-builder">
+              <div class="cmd-flags">
+                <label class="cmd-flag" id="flag-yolo">
+                  <input type="checkbox" ${cmdFlags.yolo ? 'checked' : ''} />
+                  <span class="cmd-toggle"></span>
+                  <span class="cmd-flag-label">YOLO Mode</span>
+                  <span class="cmd-flag-desc">Auto-approve all actions -- no permission prompts. Fast but trusting.</span>
+                </label>
+                <label class="cmd-flag" id="flag-chrome">
+                  <input type="checkbox" ${cmdFlags.chrome ? 'checked' : ''} />
+                  <span class="cmd-toggle"></span>
+                  <span class="cmd-flag-label">Chrome</span>
+                  <span class="cmd-flag-desc">Enable browser automation for scraping profiles and setting up credentials.</span>
+                </label>
+              </div>
+              <div class="cmd-display">
+                <code id="claude-cmd">${esc(buildCmd())}</code>
+                <button class="copy-btn" id="copy-cmd-btn" title="Copy command">&#128203;</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <h3>Paste the setup prompt</h3>
+            <p>Click the button below to copy a comprehensive setup prompt. Paste it into Claude Code and it will guide you through a conversational interview to learn your business.</p>
+            <button class="btn btn-primary btn-lg" id="copy-prompt-btn">
+              <span id="copy-prompt-text">${promptCopied ? '&#10003; Copied! Paste into Claude Code' : '&#128203; Copy Setup Prompt to Clipboard'}</span>
+            </button>
+            ${promptCopied ? '<p class="step-success" style="margin-top:10px;">Prompt copied! Open Claude Code and paste it in.</p>' : ''}
+          </div>
+        </div>`;
+    }
+
+    function renderWhatHappens() {
+      return `
+        <div style="margin-top:28px;">
+          <div class="section-label">What happens during setup</div>
+          <div class="what-grid">
+            <div class="what-item">
+              <div class="what-icon">&#128172;</div>
+              <h4>5-min interview</h4>
+              <p>Claude learns about your business through natural conversation.</p>
+            </div>
+            <div class="what-item">
+              <div class="what-icon">&#9881;</div>
+              <h4>Smart modules</h4>
+              <p>Based on your business type, the right modules are recommended.</p>
+            </div>
+            <div class="what-item">
+              <div class="what-icon">&#128640;</div>
+              <h4>Ready to use</h4>
+              <p>Your Brain folder, config, and dashboard are generated automatically.</p>
+            </div>
+          </div>
+        </div>`;
+    }
+
+    function renderAltSection() {
+      return `
+        <div class="alt-section">
+          <p>Already configured BizBrain OS elsewhere?</p>
+          <button class="btn btn-secondary" onclick="window.location.href='${DASHBOARD_URL}'">Open Dashboard &#8594;</button>
+        </div>`;
+    }
+
+    function bindReadyEvents() {
+      // Flag toggles
+      const yolo = document.querySelector('#flag-yolo input');
+      if (yolo) yolo.addEventListener('change', (e) => {
+        cmdFlags.yolo = e.target.checked;
+        updateCmd();
+      });
+
+      const chrome = document.querySelector('#flag-chrome input');
+      if (chrome) chrome.addEventListener('change', (e) => {
+        cmdFlags.chrome = e.target.checked;
+        updateCmd();
+      });
+
+      // Copy command
+      $('#copy-cmd-btn')?.addEventListener('click', () => {
+        copyText(buildCmd());
+        const btn = $('#copy-cmd-btn');
+        if (btn) { btn.innerHTML = '&#10003;'; setTimeout(() => { btn.innerHTML = '&#128203;'; }, 2000); }
+      });
+
+      // Copy setup prompt
+      $('#copy-prompt-btn')?.addEventListener('click', async () => {
+        try {
+          await navigator.clipboard.writeText(getSetupPrompt());
+          promptCopied = true;
+          const text = $('#copy-prompt-text');
+          if (text) text.innerHTML = '&#10003; Copied! Paste into Claude Code';
+          const btn = $('#copy-prompt-btn');
+          if (btn) btn.classList.add('copied');
+        } catch (err) {
+          // Fallback
+          const ta = document.createElement('textarea');
+          ta.value = getSetupPrompt();
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand('copy');
+          document.body.removeChild(ta);
+          promptCopied = true;
+          const text = $('#copy-prompt-text');
+          if (text) text.innerHTML = '&#10003; Copied! Paste into Claude Code';
+        }
+      });
+    }
+
+    function buildCmd() {
+      let cmd = 'claude';
+      if (cmdFlags.yolo) cmd += ' --dangerously-skip-permissions';
+      if (cmdFlags.chrome) cmd += ' --add-tool mcp__claude-in-chrome';
+      return cmd;
+    }
+
+    function updateCmd() {
+      const el = $('#claude-cmd');
+      if (el) el.textContent = buildCmd();
+    }
+
+    // --- Helpers ---
+    function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+    function esc(str) {
+      if (!str) return '';
+      const d = document.createElement('div');
+      d.textContent = String(str);
+      return d.innerHTML;
+    }
+
+    function escAttr(str) {
+      return String(str || '').replace(/"/g, '&quot;').replace(/'/g, '&#39;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    // Global copy helper
+    window.copyText = function(text) {
+      navigator.clipboard.writeText(text).catch(() => {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+      });
+    };
+
+    // --- Boot ---
+    init();
+  })();
   </script>
 </body>
 </html>
