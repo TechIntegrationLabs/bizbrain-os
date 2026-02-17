@@ -20,6 +20,7 @@
   let welcomePhase = 'checking'; // checking | fixing | ready
   let checkAnim = { step: 0, results: [] }; // tracks animated check sequence
   let welcomeAnimRunning = false;
+  let cmdFlags = { yolo: false, chrome: false }; // command flag toggles
 
   const $ = (sel, ctx = document) => ctx.querySelector(sel);
   const $$ = (sel, ctx = document) => [...ctx.querySelectorAll(sel)];
@@ -606,9 +607,25 @@ Let's begin! Start by verifying my installation, then jump into Step 3 - the int
               <div class="code-block">
                 <code>cd ${escapeHtml(health.platform === 'win32' ? 'bizbrain-os' : '~/bizbrain-os')}</code>
               </div>
-              <div class="code-block">
-                <code>claude</code>
-                <button class="copy-btn copy-cmd-btn" data-cmd="claude" title="Copy">&#128203;</button>
+              <div class="cmd-builder">
+                <div class="cmd-flags">
+                  <label class="cmd-flag" id="flag-yolo">
+                    <input type="checkbox" ${cmdFlags.yolo ? 'checked' : ''} />
+                    <span class="cmd-flag-toggle"></span>
+                    <span class="cmd-flag-label">YOLO Mode</span>
+                    <span class="cmd-flag-desc">Auto-approve all actions -- no permission prompts. Fast but trusting.</span>
+                  </label>
+                  <label class="cmd-flag" id="flag-chrome">
+                    <input type="checkbox" ${cmdFlags.chrome ? 'checked' : ''} />
+                    <span class="cmd-flag-toggle"></span>
+                    <span class="cmd-flag-label">Chrome</span>
+                    <span class="cmd-flag-desc">Enable browser automation for scraping profiles and setting up credentials.</span>
+                  </label>
+                </div>
+                <div class="code-block cmd-block">
+                  <code id="claude-cmd-text">${escapeHtml(buildClaudeCommand())}</code>
+                  <button class="copy-btn" id="copy-cmd-btn" title="Copy command">&#128203;</button>
+                </div>
               </div>
             </div>
           </div>
@@ -655,17 +672,33 @@ Let's begin! Start by verifying my installation, then jump into Step 3 - the int
 
     container.innerHTML = html;
 
-    // Event handlers
-    $$('.copy-cmd-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const cmd = btn.dataset.cmd;
-        navigator.clipboard.writeText(cmd).then(() => {
-          btn.innerHTML = '&#10003;';
-          toast('Copied!', 'success');
-          setTimeout(() => { btn.innerHTML = '&#128203;'; }, 2000);
+    // Flag toggle handlers
+    const flagYolo = $('#flag-yolo input');
+    if (flagYolo) {
+      flagYolo.addEventListener('change', (e) => {
+        cmdFlags.yolo = e.target.checked;
+        updateCommandDisplay();
+      });
+    }
+
+    const flagChrome = $('#flag-chrome input');
+    if (flagChrome) {
+      flagChrome.addEventListener('change', (e) => {
+        cmdFlags.chrome = e.target.checked;
+        updateCommandDisplay();
+      });
+    }
+
+    const copyCmdBtn = $('#copy-cmd-btn');
+    if (copyCmdBtn) {
+      copyCmdBtn.addEventListener('click', () => {
+        navigator.clipboard.writeText(buildClaudeCommand()).then(() => {
+          copyCmdBtn.innerHTML = '&#10003;';
+          toast('Command copied!', 'success');
+          setTimeout(() => { copyCmdBtn.innerHTML = '&#128203;'; }, 2000);
         });
       });
-    });
+    }
 
     const copyPromptBtn = $('#copy-prompt-btn');
     if (copyPromptBtn) {
@@ -691,6 +724,18 @@ Let's begin! Start by verifying my installation, then jump into Step 3 - the int
         render();
       });
     }
+  }
+
+  function buildClaudeCommand() {
+    let cmd = 'claude';
+    if (cmdFlags.yolo) cmd += ' --dangerously-skip-permissions';
+    if (cmdFlags.chrome) cmd += ' --add-tool mcp__claude-in-chrome';
+    return cmd;
+  }
+
+  function updateCommandDisplay() {
+    const cmdEl = $('#claude-cmd-text');
+    if (cmdEl) cmdEl.textContent = buildClaudeCommand();
   }
 
   function sleep(ms) {
