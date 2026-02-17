@@ -457,14 +457,14 @@ Let's begin! Start by verifying my installation, then jump into Step 3 - the int
     const passed = PREREQS.filter(p => p.getResult().ok);
 
     let html = `
-      <div class="fix-guide fade-in">
-        <div class="fix-summary">
+      <div class="fix-guide">
+        <div class="fix-summary stagger stagger-1">
           <p>Almost there! Let's get the missing pieces installed.</p>
         </div>`;
 
     // Show passed items compactly
     if (passed.length > 0) {
-      html += `<div class="fix-passed">`;
+      html += `<div class="fix-passed stagger stagger-2">`;
       for (const p of passed) {
         const r = p.getResult();
         html += `
@@ -482,9 +482,10 @@ Let's begin! Start by verifying my installation, then jump into Step 3 - the int
       const prereq = missing[i];
       const guide = prereq.guide;
       const isFirst = i === 0;
+      const staggerNum = passed.length > 0 ? i + 3 : i + 2;
 
       html += `
-        <div class="fix-card ${isFirst ? 'active' : ''}" id="fix-${prereq.id}">
+        <div class="fix-card ${isFirst ? 'active' : ''} stagger stagger-${staggerNum}" id="fix-${prereq.id}">
           <div class="fix-card-header">
             <div class="fix-card-number">${i + 1}</div>
             <div>
@@ -578,8 +579,8 @@ Let's begin! Start by verifying my installation, then jump into Step 3 - the int
     const allPrereqs = health.node && health.git && health.claude;
 
     let html = `
-      <div class="ready-screen fade-in">
-        <div class="ready-checks">`;
+      <div class="ready-screen">
+        <div class="ready-checks stagger stagger-1">`;
 
     for (const prereq of PREREQS) {
       const r = prereq.getResult();
@@ -594,9 +595,9 @@ Let's begin! Start by verifying my installation, then jump into Step 3 - the int
     html += `
         </div>
 
-        <div class="ready-divider"></div>
+        <div class="ready-divider stagger stagger-2"></div>
 
-        <div class="ready-steps">
+        <div class="ready-steps stagger stagger-3">
           <div class="welcome-section-title">Get Started</div>
 
           <div class="welcome-step-card highlight">
@@ -630,7 +631,7 @@ Let's begin! Start by verifying my installation, then jump into Step 3 - the int
             </div>
           </div>
 
-          <div class="welcome-step-card highlight">
+          <div class="welcome-step-card highlight stagger stagger-4">
             <div class="step-number">2</div>
             <div class="step-content">
               <h3>Paste the setup prompt</h3>
@@ -643,7 +644,7 @@ Let's begin! Start by verifying my installation, then jump into Step 3 - the int
           </div>
         </div>
 
-        <div class="ready-what">
+        <div class="ready-what stagger stagger-5">
           <div class="welcome-section-title">What happens during setup</div>
           <div class="what-grid">
             <div class="what-item">
@@ -664,7 +665,7 @@ Let's begin! Start by verifying my installation, then jump into Step 3 - the int
           </div>
         </div>
 
-        <div class="welcome-alt">
+        <div class="welcome-alt stagger stagger-6">
           <p>Already configured BizBrain OS elsewhere?</p>
           <button class="btn btn-secondary" id="skip-welcome-ready">Skip to Dashboard &#8594;</button>
         </div>

@@ -50,14 +50,20 @@ BizBrain OS solves this by building a structured context layer that captures and
 ```bash
 git clone https://github.com/TechIntegrationLabs/bizbrain-os.git
 cd bizbrain-os
-npm start
 ```
 
-This opens the BizBrain OS dashboard in your browser. The dashboard detects that it's your first run and shows a guided getting-started page with:
+**Then, do ONE of the following:**
 
-- **Prerequisite checks** -- Node.js, Git, and Claude Code are verified automatically
-- **Install instructions** -- if anything is missing, you'll see exactly what to install
-- **One-click setup prompt** -- a button that copies a comprehensive setup prompt to your clipboard
+| Option | How | Best For |
+|--------|-----|----------|
+| **Double-click `start.html`** | Open the file in your browser from your file explorer | Easiest -- no terminal needed |
+| **Run `npm start`** | Type it in your terminal inside the `bizbrain-os` folder | If you already have Node.js installed |
+
+Both options open the same guided setup page. It walks you through everything:
+
+1. **Prerequisite checks** -- Node.js, Git, and Claude Code are verified automatically
+2. **Install guides** -- if anything is missing, step-by-step instructions appear instantly
+3. **One-click setup prompt** -- a button that copies a comprehensive setup prompt to your clipboard
 
 Paste the prompt into Claude Code and it walks you through a conversational interview to learn your business, configure modules, and launch your personalized Brain.
 
@@ -257,8 +263,8 @@ BizBrain OS ships with **27 modules** across 7 categories. Core modules activate
 <table>
 <tr>
 <td align="center" width="25%">
-<h3>1. Clone & Start</h3>
-<p>Clone the repo and run <code>npm start</code>. The dashboard opens with a guided getting-started page. No build step, no Docker.</p>
+<h3>1. Clone & Open</h3>
+<p>Clone the repo and double-click <code>start.html</code> (or run <code>npm start</code>). A guided setup page walks you through everything. No build step, no Docker.</p>
 </td>
 <td align="center" width="25%">
 <h3>2. Copy Setup Prompt</h3>
@@ -295,20 +301,23 @@ BizBrain OS ships with **27 modules** across 7 categories. Core modules activate
 git clone https://github.com/TechIntegrationLabs/bizbrain-os.git
 cd bizbrain-os
 
-# 2. Start the dashboard
-npm start
-#    Opens http://localhost:5555 with guided getting-started page
+# 2. Open the setup page (pick one)
+#    OPTION A: Double-click start.html in your file explorer
+#    OPTION B: Run "npm start" in your terminal
 
-# 3. Click "Copy Setup Prompt" on the getting-started page
+# 3. The setup page checks your system automatically
+#    If anything is missing, it shows you exactly how to install it
 
-# 4. Open Claude Code in the bizbrain-os folder
+# 4. Click "Copy Setup Prompt" on the setup page
+
+# 5. Open Claude Code in the bizbrain-os folder
 claude
 
-# 5. Paste the setup prompt into Claude Code
+# 6. Paste the setup prompt into Claude Code
 #    It walks you through a conversational interview about your business
 #    and configures everything automatically
 
-# 6. Start using your Brain
+# 7. Start using your Brain
 /help          # See all available commands
 /status        # View your Brain's current state
 /dashboard     # Reopen the dashboard
