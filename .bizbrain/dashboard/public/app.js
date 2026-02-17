@@ -11,7 +11,7 @@
   let state = {};
   let modules = [];
   let health = {};
-  let mode = 'loading'; // loading | welcome | setup | operational
+  let mode = 'loading'; // loading | welcome | setup | operational | store
   let completedCollapsed = true;
   let forceOperational = false;
   let promptCopied = false;
@@ -21,6 +21,34 @@
   let checkAnim = { step: 0, results: [] }; // tracks animated check sequence
   let welcomeAnimRunning = false;
   let cmdFlags = { yolo: false, chrome: false }; // command flag toggles
+
+  // Module Store state
+  let storeFilter = 'all'; // all | category filter | business type
+  let storeSearch = '';
+  let expandedModule = null; // module id with settings panel open
+  let previousMode = 'operational'; // to return from store
+
+  // Category display names
+  const CATEGORY_NAMES = {
+    'core': 'Core',
+    'development': 'Development & Deployment',
+    'communication': 'Communication',
+    'content': 'Content & Media',
+    'entity-management': 'Business & CRM',
+    'project-management': 'Project Management',
+    'setup': 'Setup & Automation',
+  };
+
+  // Business type display names
+  const BUSINESS_TYPES = {
+    'solo-freelancer': 'Solo Freelancer',
+    'small-agency': 'Small Agency',
+    'startup': 'Startup',
+    'consultancy': 'Consultancy',
+    'content-creator': 'Content Creator',
+    'accountant': 'Accountant',
+    'executive': 'CEO / Executive',
+  };
 
   const $ = (sel, ctx = document) => ctx.querySelector(sel);
   const $$ = (sel, ctx = document) => [...ctx.querySelectorAll(sel)];
@@ -191,6 +219,7 @@
     main.innerHTML = '';
     if (mode === 'welcome') renderWelcome(main);
     else if (mode === 'setup') renderSetup(main);
+    else if (mode === 'store') renderModuleStore(main);
     else renderOperational(main);
     updateHeader();
   }
@@ -223,12 +252,42 @@
     if (titleEl) titleEl.textContent = name;
 
     const subtitleEl = $('#header-subtitle');
-    if (subtitleEl) subtitleEl.textContent = mode === 'welcome' ? 'Getting Started' : 'Dashboard';
+    if (subtitleEl) {
+      const subtitles = { welcome: 'Getting Started', store: 'Module Store', setup: 'Setup', operational: 'Dashboard', loading: 'Loading' };
+      subtitleEl.textContent = subtitles[mode] || 'Dashboard';
+    }
 
     const badgeEl = $('#connection-badge');
     if (badgeEl) {
       badgeEl.className = 'header-badge connected';
       badgeEl.innerHTML = '<span class="dot"></span> Live';
+    }
+
+    // Add Modules button to header if not already there
+    const headerRight = $('.header-right');
+    if (headerRight && !$('#btn-modules')) {
+      const modulesBtn = document.createElement('button');
+      modulesBtn.id = 'btn-modules';
+      modulesBtn.className = 'icon-btn' + (mode === 'store' ? ' active' : '');
+      modulesBtn.title = 'Module Store';
+      modulesBtn.setAttribute('aria-label', 'Module Store');
+      modulesBtn.innerHTML = '&#9881;&#65039;';
+      modulesBtn.addEventListener('click', () => {
+        if (mode === 'store') {
+          mode = previousMode;
+        } else {
+          previousMode = mode;
+          mode = 'store';
+        }
+        render();
+      });
+      headerRight.insertBefore(modulesBtn, headerRight.firstChild);
+    }
+
+    // Update active state
+    const modulesBtn = $('#btn-modules');
+    if (modulesBtn) {
+      modulesBtn.className = 'icon-btn' + (mode === 'store' ? ' active' : '');
     }
   }
 
@@ -891,6 +950,329 @@ Let's begin!`;
       </div>`;
   }
 
+  // --- Module Store ---
+  function renderModuleStore(container) {
+    const enabledModules = config?.modules || {};
+    const completedIds = state.completedModules || [];
+
+    // Categorize modules
+    const categories = {};
+    for (const mod of modules) {
+      const id = mod.id || mod.name || mod._file?.replace('.json', '');
+      const cat = mod.category || 'other';
+      if (!categories[cat]) categories[cat] = [];
+      categories[cat].push({ ...mod, _id: id });
+    }
+
+    // Determine active filter set
+    let filteredModules = modules.map(m => ({ ...m, _id: m.id || m.name || m._file?.replace('.json', '') }));
+
+    // Apply search filter
+    if (storeSearch) {
+      const q = storeSearch.toLowerCase();
+      filteredModules = filteredModules.filter(m =>
+        (m.name || '').toLowerCase().includes(q) ||
+        (m.displayName || '').toLowerCase().includes(q) ||
+        (m.description || '').toLowerCase().includes(q) ||
+        (m._id || '').toLowerCase().includes(q)
+      );
+    }
+
+    // Apply category/business type filter
+    if (storeFilter && storeFilter !== 'all') {
+      if (BUSINESS_TYPES[storeFilter]) {
+        // Business type filter
+        filteredModules = filteredModules.filter(m =>
+          (m.recommendedFor || []).includes(storeFilter) || m.core || m.autoIncluded
+        );
+      } else {
+        // Category filter
+        filteredModules = filteredModules.filter(m => (m.category || 'other') === storeFilter);
+      }
+    }
+
+    // Sort: core first, then by category, then by name
+    filteredModules.sort((a, b) => {
+      if (a.core && !b.core) return -1;
+      if (!a.core && b.core) return 1;
+      const catA = a.category || 'zzz';
+      const catB = b.category || 'zzz';
+      if (catA !== catB) return catA.localeCompare(catB);
+      return (a.name || '').localeCompare(b.name || '');
+    });
+
+    // Count enabled
+    const enabledCount = filteredModules.filter(m => isModuleEnabled(m._id)).length;
+
+    let html = `
+      <div class="store-container fade-in">
+        <div class="store-header">
+          <div>
+            <h1 class="store-title">Module Store</h1>
+            <p class="store-subtitle">${modules.length} modules available &middot; ${enabledCount} enabled</p>
+          </div>
+          <button class="btn btn-secondary" id="store-back-btn">&#8592; Back to Dashboard</button>
+        </div>
+
+        <div class="store-search-bar">
+          <input type="text" class="store-search" id="store-search" placeholder="Search modules..." value="${escapeAttr(storeSearch)}" />
+        </div>
+
+        <div class="store-filters">
+          <div class="store-filter-group">
+            <span class="store-filter-label">Filter:</span>
+            <button class="store-filter-btn ${storeFilter === 'all' ? 'active' : ''}" data-filter="all">All</button>
+            ${Object.entries(CATEGORY_NAMES).map(([key, label]) =>
+              `<button class="store-filter-btn ${storeFilter === key ? 'active' : ''}" data-filter="${escapeAttr(key)}">${escapeHtml(label)}</button>`
+            ).join('')}
+          </div>
+          <div class="store-filter-group">
+            <span class="store-filter-label">Presets:</span>
+            ${Object.entries(BUSINESS_TYPES).map(([key, label]) =>
+              `<button class="store-filter-btn preset ${storeFilter === key ? 'active' : ''}" data-filter="${escapeAttr(key)}">${escapeHtml(label)}</button>`
+            ).join('')}
+          </div>
+        </div>`;
+
+    if (filteredModules.length === 0) {
+      html += `
+        <div class="store-empty">
+          <div style="font-size:2rem;opacity:0.5;margin-bottom:12px;">&#128269;</div>
+          <p>No modules match your search.</p>
+          <button class="btn btn-secondary" id="store-clear-search">Clear Filters</button>
+        </div>`;
+    } else {
+      // Group by category for display
+      const grouped = {};
+      for (const mod of filteredModules) {
+        const cat = mod.category || 'other';
+        if (!grouped[cat]) grouped[cat] = [];
+        grouped[cat].push(mod);
+      }
+
+      // Render each category group
+      const catOrder = ['core', 'setup', 'development', 'entity-management', 'project-management', 'communication', 'content', 'other'];
+      for (const cat of catOrder) {
+        if (!grouped[cat]) continue;
+        const catLabel = CATEGORY_NAMES[cat] || cat;
+        html += `
+          <div class="store-category">
+            <div class="store-category-header">
+              <span class="store-category-name">${escapeHtml(catLabel)}</span>
+              <span class="store-category-count">${grouped[cat].length}</span>
+            </div>
+            <div class="store-grid">`;
+
+        for (const mod of grouped[cat]) {
+          const isEnabled = isModuleEnabled(mod._id);
+          const isCore = mod.core || mod.autoIncluded || mod._core;
+          const isCompleted = completedIds.includes(mod._id);
+          const isExpanded = expandedModule === mod._id;
+          const deps = mod.dependencies || mod.requires || [];
+          const missingDeps = deps.filter(d => !isModuleEnabled(d));
+          const hasSettings = mod.configSchema && Object.keys(mod.configSchema).length > 0;
+          const emoji = mod.icon || getDefaultEmoji(mod._id);
+          const estTime = mod.estimatedMinutes ? `${mod.estimatedMinutes} min setup` : '';
+          const recFor = (mod.recommendedFor || []).map(t => BUSINESS_TYPES[t] || t).join(', ');
+
+          html += `
+            <div class="store-card ${isEnabled ? 'enabled' : ''} ${isCore ? 'core' : ''} ${isExpanded ? 'expanded' : ''}" data-module-id="${escapeAttr(mod._id)}">
+              <div class="store-card-main">
+                <div class="store-card-left">
+                  <span class="store-card-icon">${emoji}</span>
+                  <div>
+                    <div class="store-card-name">${escapeHtml(mod.displayName || mod.name || mod._id)}</div>
+                    <div class="store-card-desc">${escapeHtml(mod.description || '')}</div>
+                    <div class="store-card-meta">
+                      ${estTime ? `<span class="store-meta-item">&#128338; ${escapeHtml(estTime)}</span>` : ''}
+                      ${isCore ? '<span class="store-meta-item core-badge">Core</span>' : ''}
+                      ${isCompleted ? '<span class="store-meta-item done-badge">&#10003; Configured</span>' : ''}
+                      ${missingDeps.length > 0 ? `<span class="store-meta-item dep-badge">&#128274; Needs: ${missingDeps.map(d => escapeHtml(d)).join(', ')}</span>` : ''}
+                    </div>
+                  </div>
+                </div>
+                <div class="store-card-right">
+                  ${isCore ? '<span class="store-always-on">Always On</span>' : `
+                    <label class="store-toggle">
+                      <input type="checkbox" ${isEnabled ? 'checked' : ''} data-toggle="${escapeAttr(mod._id)}" ${isCore ? 'disabled' : ''} />
+                      <span class="store-toggle-track"></span>
+                    </label>`}
+                </div>
+              </div>
+              ${recFor ? `<div class="store-card-rec">Recommended for: ${escapeHtml(recFor)}</div>` : ''}
+              <div class="store-card-actions">
+                ${hasSettings ? `<button class="btn btn-ghost store-settings-btn" data-settings="${escapeAttr(mod._id)}">&#9881; Settings</button>` : ''}
+                <button class="btn btn-ghost store-wizard-btn" data-wizard="${escapeAttr(mod._id)}">&#128203; Copy Setup Prompt</button>
+              </div>
+              ${isExpanded && hasSettings ? renderModuleSettings(mod) : ''}
+            </div>`;
+        }
+
+        html += `
+            </div>
+          </div>`;
+      }
+    }
+
+    html += `</div>`;
+    container.innerHTML = html;
+
+    // Bind events
+    bindStoreEvents();
+  }
+
+  function isModuleEnabled(id) {
+    const enabledModules = config?.modules || {};
+    const completedIds = state.completedModules || [];
+    const mod = modules.find(m => (m.id || m.name || m._file?.replace('.json', '')) === id);
+    if (mod && (mod.core || mod.autoIncluded || mod._core)) return true;
+    return enabledModules[id] === true || completedIds.includes(id);
+  }
+
+  function renderModuleSettings(mod) {
+    const schema = mod.configSchema || {};
+    const currentConfig = config?.integrations?.[mod._id] || {};
+    const entries = Object.entries(schema);
+    if (entries.length === 0) return '';
+
+    let html = `<div class="store-settings-panel">
+      <div class="store-settings-title">Settings</div>`;
+
+    for (const [key, field] of entries) {
+      const value = currentConfig[key] ?? field.default ?? '';
+      const isSecret = field.secret;
+
+      html += `<div class="store-setting">
+        <label class="store-setting-label">${escapeHtml(key)}</label>
+        <div class="store-setting-desc">${escapeHtml(field.description || '')}</div>`;
+
+      if (field.type === 'boolean') {
+        html += `
+          <label class="store-toggle small">
+            <input type="checkbox" ${value ? 'checked' : ''} data-config="${escapeAttr(mod._id)}" data-key="${escapeAttr(key)}" />
+            <span class="store-toggle-track"></span>
+          </label>`;
+      } else if (field.type === 'enum' && field.values) {
+        html += `<select class="store-select" data-config="${escapeAttr(mod._id)}" data-key="${escapeAttr(key)}">
+          ${field.values.map(v => `<option value="${escapeAttr(v)}" ${v === value ? 'selected' : ''}>${escapeHtml(v)}</option>`).join('')}
+        </select>`;
+      } else if (isSecret) {
+        html += `<input type="password" class="store-input" placeholder="Enter ${escapeAttr(key)}..." value="${escapeAttr(value)}" data-config="${escapeAttr(mod._id)}" data-key="${escapeAttr(key)}" />`;
+      } else if (field.type === 'number') {
+        html += `<input type="number" class="store-input" placeholder="${escapeAttr(field.description || '')}" value="${escapeAttr(value)}" data-config="${escapeAttr(mod._id)}" data-key="${escapeAttr(key)}" />`;
+      } else if (field.type === 'array') {
+        html += `<input type="text" class="store-input" placeholder="Comma-separated values..." value="${escapeAttr(Array.isArray(value) ? value.join(', ') : value)}" data-config="${escapeAttr(mod._id)}" data-key="${escapeAttr(key)}" />`;
+      } else {
+        html += `<input type="text" class="store-input" placeholder="${escapeAttr(field.description || '')}" value="${escapeAttr(value)}" data-config="${escapeAttr(mod._id)}" data-key="${escapeAttr(key)}" />`;
+      }
+
+      html += `</div>`;
+    }
+
+    html += `<div class="store-settings-note">Settings are applied when you run the module's setup wizard in Claude Code.</div>`;
+    html += `</div>`;
+    return html;
+  }
+
+  function getModuleSetupPrompt(modId) {
+    const mod = modules.find(m => (m.id || m.name || m._file?.replace('.json', '')) === modId);
+    const name = mod ? (mod.displayName || mod.name || modId) : modId;
+    return `I want to set up the "${name}" module in my BizBrain OS.
+
+Read the setup prompt at \`.bizbrain/wizard/prompts/${modId}.md\` and walk me through the configuration.
+
+Key files:
+- \`.bizbrain/modules/${modId}.json\` -- module definition with configSchema
+- \`.bizbrain/wizard/prompts/${modId}.md\` -- detailed setup instructions
+- \`config.json\` -- current configuration (update the modules and integrations sections)
+
+After setup, run: \`node .bizbrain/wizard/generators/module-activator.js activate ${modId}\`
+
+Let's begin!`;
+  }
+
+  function bindStoreEvents() {
+    // Back button
+    $('#store-back-btn')?.addEventListener('click', () => {
+      mode = previousMode;
+      render();
+    });
+
+    // Search
+    const searchInput = $('#store-search');
+    if (searchInput) {
+      searchInput.addEventListener('input', (e) => {
+        storeSearch = e.target.value;
+        render();
+      });
+      // Focus search on render
+      searchInput.focus();
+      searchInput.selectionStart = searchInput.value.length;
+    }
+
+    // Clear search
+    $('#store-clear-search')?.addEventListener('click', () => {
+      storeSearch = '';
+      storeFilter = 'all';
+      render();
+    });
+
+    // Filter buttons
+    $$('.store-filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        storeFilter = btn.dataset.filter;
+        render();
+      });
+    });
+
+    // Toggle switches
+    $$('[data-toggle]').forEach(input => {
+      input.addEventListener('change', (e) => {
+        const modId = e.target.dataset.toggle;
+        if (!config.modules) config.modules = {};
+        config.modules[modId] = e.target.checked;
+
+        // If enabling, auto-enable dependencies
+        if (e.target.checked) {
+          const mod = modules.find(m => (m.id || m.name || m._file?.replace('.json', '')) === modId);
+          const deps = mod?.dependencies || mod?.requires || [];
+          for (const dep of deps) {
+            config.modules[dep] = true;
+          }
+        }
+
+        toast(e.target.checked ? `${modId} enabled` : `${modId} disabled`, 'success');
+        render();
+      });
+    });
+
+    // Settings buttons
+    $$('.store-settings-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const modId = btn.dataset.settings;
+        expandedModule = expandedModule === modId ? null : modId;
+        render();
+      });
+    });
+
+    // Wizard / copy prompt buttons
+    $$('.store-wizard-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const modId = btn.dataset.wizard;
+        const prompt = getModuleSetupPrompt(modId);
+        navigator.clipboard.writeText(prompt).then(() => {
+          toast('Setup prompt copied to clipboard!', 'success');
+          btn.innerHTML = '&#10003; Copied!';
+          setTimeout(() => { btn.innerHTML = '&#128203; Copy Setup Prompt'; }, 2000);
+        }).catch(() => {
+          toast('Could not copy -- check browser permissions', 'error');
+        });
+      });
+    });
+  }
+
   // --- Operational Mode ---
   function renderOperational(container) {
     let html = '';
@@ -912,6 +1294,11 @@ Let's begin!`;
           <div class="action-icon">&#128193;</div>
           <div class="action-title">Open Brain Folder</div>
           <div class="action-subtitle">Browse files in your OS</div>
+        </div>
+        <div class="action-card fade-in" id="action-modules">
+          <div class="action-icon">&#9881;</div>
+          <div class="action-title">Module Store</div>
+          <div class="action-subtitle">Browse, toggle, and configure modules</div>
         </div>
       </div>`;
 
@@ -965,6 +1352,11 @@ Let's begin!`;
     $('#action-conversation')?.addEventListener('click', launchTerminal);
     $('#action-voice')?.addEventListener('click', launchVoice);
     $('#action-folder')?.addEventListener('click', openFolder);
+    $('#action-modules')?.addEventListener('click', () => {
+      previousMode = mode;
+      mode = 'store';
+      render();
+    });
     $('#refresh-activity')?.addEventListener('click', loadActivity);
 
     $$('.quick-btn').forEach(btn => {
