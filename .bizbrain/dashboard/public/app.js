@@ -16,6 +16,11 @@
   let forceOperational = false;
   let promptCopied = false;
 
+  // Welcome flow state
+  let welcomePhase = 'checking'; // checking | fixing | ready
+  let checkAnim = { step: 0, results: [] }; // tracks animated check sequence
+  let welcomeAnimRunning = false;
+
   const $ = (sel, ctx = document) => ctx.querySelector(sel);
   const $$ = (sel, ctx = document) => [...ctx.querySelectorAll(sel)];
 
@@ -268,92 +273,352 @@ After the interview:
 Let's begin! Start by verifying my installation, then jump into Step 3 - the interview.`;
   }
 
-  function renderWelcome(container) {
-    const claudeOk = health.claude;
-    const nodeOk = health.node;
-    const gitOk = health.git;
-    const allPrereqs = claudeOk && nodeOk && gitOk;
+  // Prerequisite definitions for animated checks
+  const PREREQS = [
+    {
+      id: 'node',
+      name: 'Node.js',
+      checkLabel: 'Checking for Node.js...',
+      getResult: () => ({
+        ok: health.node,
+        detail: health.node ? (health.nodeVersion || 'Installed') : 'Not found',
+      }),
+      guide: {
+        title: 'Install Node.js',
+        description: 'Node.js runs the BizBrain OS dashboard server. You need version 18 or higher.',
+        steps: [
+          { text: 'Download the installer from the official website:', link: 'https://nodejs.org', linkText: 'nodejs.org' },
+          { text: 'Run the installer and follow the prompts (defaults are fine).' },
+          { text: 'Restart your terminal after installation.' },
+        ],
+        verifyCmd: 'node --version',
+      },
+    },
+    {
+      id: 'git',
+      name: 'Git',
+      checkLabel: 'Checking for Git...',
+      getResult: () => ({
+        ok: health.git,
+        detail: health.git ? (health.gitVersion || 'Installed') : 'Not found',
+      }),
+      guide: {
+        title: 'Install Git',
+        description: 'Git keeps BizBrain OS up to date. A simple git pull brings new features without touching your data.',
+        steps: [
+          { text: 'Download Git from:', link: 'https://git-scm.com', linkText: 'git-scm.com' },
+          { text: 'Run the installer (defaults work for most users).' },
+          { text: 'Restart your terminal after installation.' },
+        ],
+        verifyCmd: 'git --version',
+      },
+    },
+    {
+      id: 'claude',
+      name: 'Claude Code',
+      checkLabel: 'Checking for Claude Code...',
+      getResult: () => ({
+        ok: health.claude,
+        detail: health.claude ? (health.claudeVersion || 'Installed') : 'Not found',
+      }),
+      guide: {
+        title: 'Install Claude Code',
+        description: 'Claude Code is the AI engine that powers BizBrain OS. It turns natural conversation into structured business context.',
+        steps: [
+          { text: 'Install globally with npm:', cmd: 'npm install -g @anthropic-ai/claude-code' },
+          { text: 'Launch it once to authenticate:', cmd: 'claude' },
+          { text: 'Follow the prompts to sign in with your Anthropic account.' },
+          { text: 'Once authenticated, come back here and click "Check Again".' },
+        ],
+        verifyCmd: 'claude --version',
+      },
+    },
+  ];
 
-    let html = `
-      <div class="welcome-container fade-in">
-        <div class="welcome-hero">
+  function renderWelcome(container) {
+    container.innerHTML = `
+      <div class="welcome-container">
+        <div class="welcome-hero fade-in">
           <div class="welcome-logo">
             <div class="welcome-logo-icon">B</div>
           </div>
           <h1 class="welcome-title">Welcome to BizBrain OS</h1>
           <p class="welcome-tagline">The context layer that teaches AI your business.</p>
-          <p class="welcome-desc">
-            BizBrain OS builds a structured knowledge layer about your business that makes every AI tool smarter.
-            Your clients, projects, workflows, and preferences -- captured once, compounding forever.
-          </p>
         </div>
+        <div id="welcome-body"></div>
+      </div>`;
 
-        <div class="welcome-prereqs">
-          <div class="welcome-section-title">System Check</div>
-          <div class="prereq-list">
-            <div class="prereq-item ${nodeOk ? 'ok' : 'missing'}">
-              <span class="prereq-icon">${nodeOk ? '&#10003;' : '&#10005;'}</span>
-              <div class="prereq-info">
-                <span class="prereq-name">Node.js</span>
-                <span class="prereq-detail">${nodeOk ? health.nodeVersion || 'Installed' : 'Required -- install from nodejs.org'}</span>
-              </div>
-            </div>
-            <div class="prereq-item ${gitOk ? 'ok' : 'missing'}">
-              <span class="prereq-icon">${gitOk ? '&#10003;' : '&#10005;'}</span>
-              <div class="prereq-info">
-                <span class="prereq-name">Git</span>
-                <span class="prereq-detail">${gitOk ? health.gitVersion || 'Installed' : 'Required -- install from git-scm.com'}</span>
-              </div>
-            </div>
-            <div class="prereq-item ${claudeOk ? 'ok' : 'missing'}">
-              <span class="prereq-icon">${claudeOk ? '&#10003;' : '&#10005;'}</span>
-              <div class="prereq-info">
-                <span class="prereq-name">Claude Code</span>
-                <span class="prereq-detail">${claudeOk ? health.claudeVersion || 'Installed' : 'Required -- see instructions below'}</span>
-              </div>
+    // Start the animated check sequence if not already done
+    if (!welcomeAnimRunning && welcomePhase === 'checking') {
+      welcomeAnimRunning = true;
+      runCheckSequence();
+    } else {
+      // Re-render current phase (e.g. after re-check)
+      renderWelcomePhase();
+    }
+  }
+
+  async function runCheckSequence() {
+    checkAnim = { step: 0, results: [] };
+    welcomePhase = 'checking';
+
+    const body = $('#welcome-body');
+    if (!body) return;
+
+    // Show the check container
+    body.innerHTML = `
+      <div class="check-sequence fade-in">
+        <div class="check-header">
+          <div class="check-spinner"></div>
+          <span class="check-status-text">Checking your system...</span>
+        </div>
+        <div class="check-list" id="check-list"></div>
+      </div>`;
+
+    const list = $('#check-list');
+    if (!list) return;
+
+    // Animate through each prerequisite
+    for (let i = 0; i < PREREQS.length; i++) {
+      const prereq = PREREQS[i];
+
+      // Add "checking..." row
+      const row = document.createElement('div');
+      row.className = 'check-row checking fade-in';
+      row.id = `check-row-${prereq.id}`;
+      row.innerHTML = `
+        <div class="check-row-spinner"></div>
+        <span class="check-row-name">${escapeHtml(prereq.name)}</span>
+        <span class="check-row-detail">${escapeHtml(prereq.checkLabel)}</span>`;
+      list.appendChild(row);
+
+      // Wait for animation beat
+      await sleep(600 + Math.random() * 400);
+
+      // Resolve the check
+      const result = prereq.getResult();
+      checkAnim.results.push({ ...result, id: prereq.id, name: prereq.name });
+
+      row.className = `check-row ${result.ok ? 'pass' : 'fail'} fade-in`;
+      row.innerHTML = `
+        <span class="check-row-icon ${result.ok ? 'pass' : 'fail'}">${result.ok ? '&#10003;' : '&#10005;'}</span>
+        <span class="check-row-name">${escapeHtml(prereq.name)}</span>
+        <span class="check-row-detail ${result.ok ? '' : 'fail'}">${escapeHtml(result.detail)}</span>`;
+
+      checkAnim.step = i + 1;
+    }
+
+    // Brief pause after all checks
+    await sleep(500);
+
+    // Determine outcome
+    const allOk = checkAnim.results.every(r => r.ok);
+    const headerEl = body.querySelector('.check-header');
+
+    if (allOk) {
+      // All good — show success then transition to ready
+      if (headerEl) {
+        headerEl.innerHTML = `
+          <span class="check-done-icon pass">&#10003;</span>
+          <span class="check-status-text success">All systems go!</span>`;
+      }
+      await sleep(800);
+      welcomePhase = 'ready';
+    } else {
+      // Something missing — show failure then transition to fix guide
+      const missingCount = checkAnim.results.filter(r => !r.ok).length;
+      if (headerEl) {
+        headerEl.innerHTML = `
+          <span class="check-done-icon fail">&#9888;</span>
+          <span class="check-status-text">${missingCount} missing requirement${missingCount > 1 ? 's' : ''}</span>`;
+      }
+      await sleep(800);
+      welcomePhase = 'fixing';
+    }
+
+    welcomeAnimRunning = false;
+    renderWelcomePhase();
+  }
+
+  function renderWelcomePhase() {
+    const body = $('#welcome-body');
+    if (!body) return;
+
+    if (welcomePhase === 'fixing') {
+      renderFixGuide(body);
+    } else if (welcomePhase === 'ready') {
+      renderReadyScreen(body);
+    }
+  }
+
+  function renderFixGuide(container) {
+    const missing = PREREQS.filter(p => !p.getResult().ok);
+    const passed = PREREQS.filter(p => p.getResult().ok);
+
+    let html = `
+      <div class="fix-guide fade-in">
+        <div class="fix-summary">
+          <p>Almost there! Let's get the missing pieces installed.</p>
+        </div>`;
+
+    // Show passed items compactly
+    if (passed.length > 0) {
+      html += `<div class="fix-passed">`;
+      for (const p of passed) {
+        const r = p.getResult();
+        html += `
+          <div class="fix-passed-item">
+            <span class="check-row-icon pass">&#10003;</span>
+            <span>${escapeHtml(p.name)}</span>
+            <span class="fix-passed-detail">${escapeHtml(r.detail)}</span>
+          </div>`;
+      }
+      html += `</div>`;
+    }
+
+    // Show interactive guide for each missing item
+    for (let i = 0; i < missing.length; i++) {
+      const prereq = missing[i];
+      const guide = prereq.guide;
+      const isFirst = i === 0;
+
+      html += `
+        <div class="fix-card ${isFirst ? 'active' : ''}" id="fix-${prereq.id}">
+          <div class="fix-card-header">
+            <div class="fix-card-number">${i + 1}</div>
+            <div>
+              <h3>${escapeHtml(guide.title)}</h3>
+              <p class="fix-card-desc">${escapeHtml(guide.description)}</p>
             </div>
           </div>
+          <ol class="fix-steps">`;
+
+      for (const step of guide.steps) {
+        html += `<li class="fix-step">`;
+        html += `<span>${escapeHtml(step.text)}</span>`;
+        if (step.link) {
+          html += ` <a href="${escapeAttr(step.link)}" target="_blank" class="fix-link">${escapeHtml(step.linkText || step.link)} &#8599;</a>`;
+        }
+        if (step.cmd) {
+          html += `
+            <div class="code-block">
+              <code>${escapeHtml(step.cmd)}</code>
+              <button class="copy-btn copy-cmd-btn" data-cmd="${escapeAttr(step.cmd)}" title="Copy">&#128203;</button>
+            </div>`;
+        }
+        html += `</li>`;
+      }
+
+      html += `
+          </ol>
+          <div class="fix-verify">
+            <span class="fix-verify-label">Verify with:</span>
+            <code>${escapeHtml(guide.verifyCmd)}</code>
+          </div>
+        </div>`;
+    }
+
+    html += `
+        <div class="fix-actions">
+          <button class="btn btn-primary btn-lg" id="recheck-btn">
+            <span id="recheck-text">&#8635; Check Again</span>
+          </button>
+          <button class="btn btn-secondary" id="skip-welcome-fix">Skip to Dashboard &#8594;</button>
+        </div>
+      </div>`;
+
+    container.innerHTML = html;
+
+    // Event handlers
+    $$('.copy-cmd-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const cmd = btn.dataset.cmd;
+        navigator.clipboard.writeText(cmd).then(() => {
+          btn.innerHTML = '&#10003;';
+          toast('Copied!', 'success');
+          setTimeout(() => { btn.innerHTML = '&#128203;'; }, 2000);
+        });
+      });
+    });
+
+    const recheckBtn = $('#recheck-btn');
+    if (recheckBtn) {
+      recheckBtn.addEventListener('click', async () => {
+        recheckBtn.disabled = true;
+        const textEl = $('#recheck-text');
+        if (textEl) textEl.innerHTML = '<span class="check-row-spinner" style="display:inline-block;width:16px;height:16px;margin-right:8px"></span> Checking...';
+
+        // Re-fetch health data
+        try {
+          health = await fetchAPI('/api/health');
+        } catch (_) {}
+
+        recheckBtn.disabled = false;
+
+        // Re-run the animated sequence
+        welcomePhase = 'checking';
+        welcomeAnimRunning = true;
+        const body = $('#welcome-body');
+        if (body) runCheckSequence();
+      });
+    }
+
+    const skipBtn = $('#skip-welcome-fix');
+    if (skipBtn) {
+      skipBtn.addEventListener('click', () => {
+        forceOperational = true;
+        mode = 'operational';
+        render();
+      });
+    }
+  }
+
+  function renderReadyScreen(container) {
+    const allPrereqs = health.node && health.git && health.claude;
+
+    let html = `
+      <div class="ready-screen fade-in">
+        <div class="ready-checks">`;
+
+    for (const prereq of PREREQS) {
+      const r = prereq.getResult();
+      html += `
+          <div class="ready-check-item">
+            <span class="check-row-icon pass">&#10003;</span>
+            <span class="ready-check-name">${escapeHtml(prereq.name)}</span>
+            <span class="ready-check-detail">${escapeHtml(r.detail)}</span>
+          </div>`;
+    }
+
+    html += `
         </div>
 
-        <div class="welcome-steps">
+        <div class="ready-divider"></div>
+
+        <div class="ready-steps">
           <div class="welcome-section-title">Get Started</div>
 
-          ${!claudeOk ? `
           <div class="welcome-step-card highlight">
             <div class="step-number">1</div>
-            <div class="step-content">
-              <h3>Install Claude Code</h3>
-              <p>Claude Code is the AI engine that powers BizBrain OS. Install it globally:</p>
-              <div class="code-block" id="install-cmd">
-                <code>npm install -g @anthropic-ai/claude-code</code>
-                <button class="copy-btn" id="copy-install" title="Copy to clipboard">&#128203;</button>
-              </div>
-              <p class="step-note">After installing, run <code>claude</code> in your terminal to authenticate with your Anthropic account. Then refresh this page.</p>
-            </div>
-          </div>
-          ` : ''}
-
-          <div class="welcome-step-card ${!claudeOk ? 'dimmed' : 'highlight'}">
-            <div class="step-number">${!claudeOk ? '2' : '1'}</div>
             <div class="step-content">
               <h3>Open Claude Code in this folder</h3>
               <p>Open a terminal, navigate to your bizbrain-os folder, and start Claude Code:</p>
               <div class="code-block">
                 <code>cd ${escapeHtml(health.platform === 'win32' ? 'bizbrain-os' : '~/bizbrain-os')}</code>
               </div>
-              <div class="code-block" id="claude-cmd">
+              <div class="code-block">
                 <code>claude</code>
-                <button class="copy-btn" id="copy-claude" title="Copy to clipboard">&#128203;</button>
+                <button class="copy-btn copy-cmd-btn" data-cmd="claude" title="Copy">&#128203;</button>
               </div>
             </div>
           </div>
 
-          <div class="welcome-step-card ${!claudeOk ? 'dimmed' : 'highlight'}">
-            <div class="step-number">${!claudeOk ? '3' : '2'}</div>
+          <div class="welcome-step-card highlight">
+            <div class="step-number">2</div>
             <div class="step-content">
               <h3>Paste the setup prompt</h3>
-              <p>Click the button below to copy a setup prompt to your clipboard. Paste it into Claude Code and it will walk you through a guided interview to learn about your business and configure everything.</p>
-              <button class="btn btn-primary btn-lg welcome-copy-btn" id="copy-prompt-btn" ${!allPrereqs ? 'disabled' : ''}>
+              <p>Click the button below to copy a setup prompt. Paste it into Claude Code and it will walk you through a guided interview to learn about your business and configure everything.</p>
+              <button class="btn btn-primary btn-lg welcome-copy-btn" id="copy-prompt-btn">
                 <span id="copy-prompt-text">${promptCopied ? '&#10003; Copied! Paste into Claude Code' : '&#128203; Copy Setup Prompt to Clipboard'}</span>
               </button>
               ${promptCopied ? '<p class="step-success">Prompt copied! Open Claude Code and paste it in to begin your guided setup.</p>' : ''}
@@ -361,13 +626,7 @@ Let's begin! Start by verifying my installation, then jump into Step 3 - the int
           </div>
         </div>
 
-        <div class="welcome-alt">
-          <div class="welcome-section-title">Already set up?</div>
-          <p>If you've already configured BizBrain OS in another location, or want to explore the dashboard first:</p>
-          <button class="btn btn-secondary" id="skip-welcome">Skip to Dashboard &#8594;</button>
-        </div>
-
-        <div class="welcome-what">
+        <div class="ready-what">
           <div class="welcome-section-title">What happens during setup</div>
           <div class="what-grid">
             <div class="what-item">
@@ -383,15 +642,31 @@ Let's begin! Start by verifying my installation, then jump into Step 3 - the int
             <div class="what-item">
               <div class="what-icon">&#128640;</div>
               <h4>Ready to use</h4>
-              <p>Your Brain folder structure, personalized config, and dashboard are generated automatically. Start using it immediately.</p>
+              <p>Your Brain folder structure, personalized config, and dashboard are generated automatically.</p>
             </div>
           </div>
+        </div>
+
+        <div class="welcome-alt">
+          <p>Already configured BizBrain OS elsewhere?</p>
+          <button class="btn btn-secondary" id="skip-welcome-ready">Skip to Dashboard &#8594;</button>
         </div>
       </div>`;
 
     container.innerHTML = html;
 
     // Event handlers
+    $$('.copy-cmd-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const cmd = btn.dataset.cmd;
+        navigator.clipboard.writeText(cmd).then(() => {
+          btn.innerHTML = '&#10003;';
+          toast('Copied!', 'success');
+          setTimeout(() => { btn.innerHTML = '&#128203;'; }, 2000);
+        });
+      });
+    });
+
     const copyPromptBtn = $('#copy-prompt-btn');
     if (copyPromptBtn) {
       copyPromptBtn.addEventListener('click', async () => {
@@ -402,34 +677,13 @@ Let's begin! Start by verifying my installation, then jump into Step 3 - the int
           if (textEl) textEl.innerHTML = '&#10003; Copied! Paste into Claude Code';
           copyPromptBtn.classList.add('copied');
           toast('Setup prompt copied to clipboard!', 'success');
-          // Re-render to show success message
-          render();
         } catch (err) {
-          // Fallback for browsers that block clipboard
           toast('Could not copy -- try selecting and copying manually', 'error');
         }
       });
     }
 
-    const copyInstall = $('#copy-install');
-    if (copyInstall) {
-      copyInstall.addEventListener('click', () => {
-        navigator.clipboard.writeText('npm install -g @anthropic-ai/claude-code').then(() => {
-          toast('Install command copied!', 'success');
-        });
-      });
-    }
-
-    const copyClaude = $('#copy-claude');
-    if (copyClaude) {
-      copyClaude.addEventListener('click', () => {
-        navigator.clipboard.writeText('claude').then(() => {
-          toast('Command copied!', 'success');
-        });
-      });
-    }
-
-    const skipBtn = $('#skip-welcome');
+    const skipBtn = $('#skip-welcome-ready');
     if (skipBtn) {
       skipBtn.addEventListener('click', () => {
         forceOperational = true;
@@ -437,6 +691,10 @@ Let's begin! Start by verifying my installation, then jump into Step 3 - the int
         render();
       });
     }
+  }
+
+  function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
   }
 
   // --- Setup Mode ---
