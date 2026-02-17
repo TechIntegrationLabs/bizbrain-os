@@ -13,7 +13,6 @@ const STATE_FILE = path.join(BIZBRAIN, 'wizard', 'state.json');
 const CONFIG_FILE = path.join(BRAIN, 'config.json');
 const CONFIG_TEMPLATE = path.join(BRAIN, 'config.template.json');
 const VOICE_BUFFER = path.join(BIZBRAIN, 'wizard', 'voice-buffer.txt');
-const LAUNCH_STATE = path.join(BIZBRAIN, 'launch-state.json');
 
 const MIME = {
   '.html': 'text/html', '.css': 'text/css', '.js': 'application/javascript',
@@ -188,19 +187,6 @@ async function handleAPI(req, res) {
     const cmd = platform === 'win32' ? `explorer "${BRAIN.replace(/\//g, '\\')}"` :
       platform === 'darwin' ? `open "${BRAIN}"` : `xdg-open "${BRAIN}"`;
     exec(cmd);
-    return json(res, { ok: true });
-  }
-
-  if (route === '/api/launch' && req.method === 'GET') {
-    const data = readJSON(LAUNCH_STATE) || { checklist: {}, launchDate: null, posts: {} };
-    return json(res, data);
-  }
-
-  if (route === '/api/launch' && req.method === 'POST') {
-    const body = await readBody(req);
-    const dir = path.dirname(LAUNCH_STATE);
-    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-    fs.writeFileSync(LAUNCH_STATE, JSON.stringify(body, null, 2));
     return json(res, { ok: true });
   }
 

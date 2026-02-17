@@ -69,7 +69,6 @@
     '/api/modules': { cmd: 'get_modules' },
     '/api/health': { cmd: 'get_health' },
     '/api/recent-activity': { cmd: 'get_recent_activity' },
-    '/api/launch': { cmd: 'get_launch_state' },
     '/api/launch-terminal': { cmd: 'launch_terminal' },
     '/api/launch-voice': { cmd: 'launch_terminal' }, // voice opens in Tauri webview
     '/api/open-folder': { cmd: 'open_brain_folder' },
@@ -94,7 +93,6 @@
       if (path === '/api/launch-module') return invoke('launch_module', { module: body.module });
       if (path === '/api/open-folder') return invoke('open_brain_folder');
       if (path === '/api/voice-buffer') return invoke('write_voice_buffer', { text: body.text });
-      if (path === '/api/launch' && body) return invoke('save_launch_state', { data: body });
       if (path === '/api/launch-voice') {
         // In Tauri, open voice.html as a new Tauri window
         if (window.__TAURI__?.webviewWindow?.WebviewWindow) {

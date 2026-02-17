@@ -64,8 +64,6 @@ pub fn run() {
             commands::subprocess::open_brain_folder,
             commands::voice::write_voice_buffer,
             commands::activity::get_recent_activity,
-            commands::launch::get_launch_state,
-            commands::launch::save_launch_state,
         ])
         .run(tauri::generate_context!())
         .expect("error while running BizBrain OS");
