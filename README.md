@@ -1,6 +1,8 @@
 <div align="center">
 
-<img src="app-icon.png" alt="BizBrain OS" width="120">
+<img src="images/readme-hero.jpg" alt="BizBrain OS - The Context Layer That Teaches AI Your Business" width="800">
+
+<br />
 
 # BizBrain OS
 
@@ -87,19 +89,7 @@ OpenClaw has taken the AI world by storm -- an autonomous agent that can send me
 
 BizBrain OS is the missing piece.
 
-```
-┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
-│   BizBrain OS   │     │    OpenClaw      │     │   AI Employee   │
-│   ─────────     │  +  │    ────────      │  =  │   ───────────   │
-│   The Brain     │     │    The Hands     │     │   The Result    │
-│                 │     │                  │     │                 │
-│ Knows your      │     │ Sends messages   │     │ Autonomous      │
-│ clients,        │     │ Executes code    │     │ agent that      │
-│ projects,       │     │ Automates        │     │ knows your      │
-│ history, and    │     │ browsers         │     │ business and    │
-│ workflows       │     │                  │     │ gets things done│
-└─────────────────┘     └─────────────────┘     └─────────────────┘
-```
+<img src="images/ecosystem-diagram.jpg" alt="BizBrain OS + OpenClaw ecosystem: Brain (context) + Hands (action) = AI Employee" width="700">
 
 ### Use Cases
 
