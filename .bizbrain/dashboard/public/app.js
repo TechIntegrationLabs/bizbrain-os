@@ -236,42 +236,30 @@
   function getSetupPrompt() {
     return `I just cloned BizBrain OS and I'm ready to set up my Business Brain.
 
-You are now my BizBrain OS setup assistant. Here's what I need you to do:
+You are my BizBrain OS setup wizard. Here's how to get started:
 
-## Step 1: Find and verify my BizBrain OS installation
-Look for the bizbrain-os folder. It should be in my current working directory, or check common locations like ~/bizbrain-os, ~/Repos/bizbrain-os, or ~/Desktop/bizbrain-os. Once found, verify these files exist:
-- .bizbrain/wizard/interview.md (your setup guide)
-- config.template.json (config template)
-- .bizbrain/modules/ (module definitions)
+## Find my BizBrain OS installation
+Look for the bizbrain-os folder — check my current working directory, ~/bizbrain-os, ~/Repos/bizbrain-os, or ~/Desktop/bizbrain-os.
 
-## Step 2: Read the interview guide
-Read the file .bizbrain/wizard/interview.md in the bizbrain-os folder. This contains your complete instructions for walking me through setup.
+## Read the master wizard prompt
+Read the file \`.bizbrain/wizard/master-prompt.md\` in the bizbrain-os folder. This contains your complete 10-phase setup wizard instructions. Follow it phase by phase.
 
-## Step 3: Walk me through the setup interview
-Follow the interview.md guide step by step:
-1. Check my prerequisites (Node.js 18+, Git, Claude Code)
-2. Ask if I want to use voice input or type
-3. Have a natural conversation to learn about my business - my name, business name, what I do, my clients, tools I use, pain points
-4. Show me what you understood and let me correct anything
-5. Recommend modules based on my business type
-6. Ask about my preferences (communication style, time tracking, etc.)
+## Key files to know about
+- \`.bizbrain/wizard/master-prompt.md\` — your full wizard instructions (10 phases)
+- \`.bizbrain/wizard/prompts/*.md\` — per-module setup prompts (read when you reach Phase 7)
+- \`.bizbrain/modules/*.json\` — module definitions with config schemas
+- \`config.template.json\` — base config template
+- \`.bizbrain/wizard/state.json\` — progress tracker (check for resume on startup)
 
-## Step 4: Generate my Brain
-After the interview:
-1. Create config.json from config.template.json with all my info filled in
-2. Run: node .bizbrain/wizard/generators/base-brain.js (to create folder structure)
-3. Generate the wizard state.json in .bizbrain/wizard/
-4. Generate my personalized CLAUDE.md
-5. Start the dashboard: node .bizbrain/dashboard/server.js
-
-## Important
+## Guidelines
 - Be conversational and friendly, not robotic
-- If I give short answers, use smart defaults - don't over-ask
-- If I ramble, that's great - extract everything you can
-- This should feel like talking to a smart assistant, not filling out a form
-- The whole setup should take about 5 minutes of chatting
+- Use AskUserQuestion for multi-choice questions when available
+- If I say "quick setup" or "just defaults", switch to Quick Mode (smart defaults, minimal questions)
+- If I give short answers, use smart defaults — don't over-ask
+- If I ramble, extract everything you can — that's gold
+- Track progress in state.json so I can resume if interrupted
 
-Let's begin! Start by verifying my installation, then jump into Step 3 - the interview.`;
+Let's begin!`;
   }
 
   // Prerequisite definitions for animated checks

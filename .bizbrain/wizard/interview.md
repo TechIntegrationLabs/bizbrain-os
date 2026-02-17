@@ -1,5 +1,7 @@
 # BizBrain OS - Initial Setup Interview
 
+> **Note:** This file is now a supplementary reference document. The primary setup flow lives in `master-prompt.md` which orchestrates a comprehensive 10-phase wizard. This interview guide remains useful as reference for the business discovery phase (Phase 2) and can still be used standalone for simpler setups.
+
 > This prompt guides the initial onboarding conversation. Read this file, then follow the steps below.
 
 ## Your Role
