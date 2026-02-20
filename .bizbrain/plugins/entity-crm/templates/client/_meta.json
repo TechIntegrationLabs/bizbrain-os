@@ -1,0 +1,17 @@
+{
+  "name": "",
+  "slug": "",
+  "type": "client",
+  "status": "active",
+  "sensitivity": "normal",
+  "created": "",
+  "updated": "",
+  "primaryContact": "",
+  "billing": {
+    "type": "hourly",
+    "terms": "net-30",
+    "currency": "USD"
+  },
+  "tags": [],
+  "aliases": []
+}

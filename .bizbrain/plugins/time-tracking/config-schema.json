@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "billingModel": {
+      "type": "string",
+      "enum": ["hourly", "daily", "fixed", "tracking-only"],
+      "default": "tracking-only",
+      "description": "How you bill for your work"
+    },
+    "defaultRate": {
+      "type": "number",
+      "description": "Default hourly or daily rate"
+    },
+    "currency": {
+      "type": "string",
+      "default": "USD",
+      "description": "Currency for billing"
+    },
+    "autoTrack": {
+      "type": "boolean",
+      "default": false,
+      "description": "Automatically track time in Claude Code sessions"
+    },
+    "exportFormat": {
+      "type": "string",
+      "enum": ["pdf", "csv", "notion", "all"],
+      "default": "csv",
+      "description": "Preferred export format"
+    },
+    "period": {
+      "type": "string",
+      "enum": ["weekly", "biweekly", "monthly"],
+      "default": "weekly",
+      "description": "Timesheet reporting period"
+    }
+  }
+}

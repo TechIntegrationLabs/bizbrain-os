@@ -1,0 +1,29 @@
+{
+  "id": "outreach",
+  "name": "Outreach Engine",
+  "version": "3.0.0",
+  "description": "Lead pipeline management, web-based lead research, email sequences, social campaigns, and outreach automation.",
+  "icon": "send",
+  "category": "sales",
+  "dependencies": [],
+  "softDependencies": ["comms-hub", "entity-crm"],
+  "provides": {
+    "agents": ["outreach-engine", "lead-researcher", "sequence-runner"],
+    "commands": ["outreach", "leads"],
+    "hooks": [],
+    "guiRoutes": ["/outreach"],
+    "folders": [
+      "Communications/outreach/",
+      "Communications/outreach/leads/",
+      "Communications/outreach/sequences/",
+      "Communications/outreach/history/",
+      "Communications/campaigns/"
+    ]
+  },
+  "requires": {
+    "credentials": [],
+    "integrations": []
+  },
+  "recommendedFor": ["small-agency", "startup", "consultancy"],
+  "tags": ["sales", "leads", "outreach", "campaigns", "sequences", "email"]
+}

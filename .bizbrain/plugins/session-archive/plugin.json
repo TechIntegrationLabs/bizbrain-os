@@ -1,0 +1,23 @@
+{
+  "id": "session-archive",
+  "name": "Session Archive",
+  "version": "3.0.0",
+  "description": "Archive Claude Code conversations to Obsidian vault for searchability, reference, and conversation intake processing.",
+  "icon": "archive",
+  "category": "knowledge",
+  "dependencies": [],
+  "softDependencies": [],
+  "provides": {
+    "agents": ["session-archiver", "conversation-intake"],
+    "commands": ["archive-sessions", "conversation-intake"],
+    "hooks": [],
+    "guiRoutes": [],
+    "folders": []
+  },
+  "requires": {
+    "credentials": [],
+    "integrations": ["obsidian"]
+  },
+  "recommendedFor": ["solo-freelancer", "small-agency", "startup", "consultancy"],
+  "tags": ["archive", "obsidian", "conversations", "knowledge", "search"]
+}

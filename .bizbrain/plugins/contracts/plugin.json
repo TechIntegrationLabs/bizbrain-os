@@ -1,0 +1,27 @@
+{
+  "id": "contracts",
+  "name": "Contracts & E-Signatures",
+  "version": "3.0.0",
+  "description": "Contract generator, clause library, e-signature integration, and pricing calculator.",
+  "icon": "file-signature",
+  "category": "legal",
+  "dependencies": [],
+  "softDependencies": ["entity-crm"],
+  "provides": {
+    "agents": ["contract-generator"],
+    "commands": ["sign", "sign-status", "contract"],
+    "hooks": [],
+    "guiRoutes": ["/contracts"],
+    "folders": [
+      "Contracts-and-Terms/",
+      "Contracts-and-Terms/templates/",
+      "Contracts-and-Terms/clauses/"
+    ]
+  },
+  "requires": {
+    "credentials": [],
+    "integrations": []
+  },
+  "recommendedFor": ["solo-freelancer", "small-agency", "consultancy"],
+  "tags": ["contracts", "legal", "e-signatures", "pricing", "clauses"]
+}

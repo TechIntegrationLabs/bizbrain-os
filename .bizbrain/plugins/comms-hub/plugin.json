@@ -1,0 +1,28 @@
+{
+  "id": "comms-hub",
+  "name": "Communications Hub",
+  "version": "3.0.0",
+  "description": "Unified inbox — email, Slack, auto-reactions, approval queue, voice profiles, and entity-aware routing.",
+  "icon": "inbox",
+  "category": "communication",
+  "dependencies": [],
+  "softDependencies": ["gmail", "slack"],
+  "provides": {
+    "agents": ["communication-hub", "auto-reactions-agent"],
+    "commands": ["comms", "inbox"],
+    "hooks": [],
+    "guiRoutes": ["/comms"],
+    "folders": [
+      "Communications/",
+      "Communications/_hub/",
+      "Communications/auto-reactions/",
+      "Communications/channels/"
+    ]
+  },
+  "requires": {
+    "credentials": [],
+    "integrations": ["gmail"]
+  },
+  "recommendedFor": ["small-agency", "startup", "consultancy"],
+  "tags": ["communication", "inbox", "automation", "email", "slack"]
+}

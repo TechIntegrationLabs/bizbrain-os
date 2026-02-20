@@ -1,0 +1,19 @@
+{
+  "name": "",
+  "slug": "",
+  "type": "partner",
+  "status": "active",
+  "sensitivity": "normal",
+  "created": "",
+  "updated": "",
+  "primaryContact": "",
+  "partnership": {
+    "type": "strategic",
+    "model": "revenue-share",
+    "agreement": "",
+    "startDate": "",
+    "renewalDate": ""
+  },
+  "tags": [],
+  "aliases": []
+}

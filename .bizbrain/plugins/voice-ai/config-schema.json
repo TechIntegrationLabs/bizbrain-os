@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "mode": {
+      "type": "string",
+      "enum": ["push-to-talk", "continuous"],
+      "default": "push-to-talk",
+      "description": "How voice input is activated"
+    },
+    "language": {
+      "type": "string",
+      "default": "en-US",
+      "description": "Speech recognition language"
+    },
+    "defaultVoice": {
+      "type": "string",
+      "description": "Default ElevenLabs voice ID"
+    }
+  }
+}

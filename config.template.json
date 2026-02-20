@@ -1,9 +1,8 @@
 {
-  "version": "1.0.0",
+  "version": "3.0.0",
   "profile": {
     "businessName": "",
     "userName": "",
-    "userRole": "",
     "businessType": "",
     "industry": "",
     "description": "",
@@ -18,13 +17,11 @@
   },
   "preferences": {
     "commStyle": "professional",
-    "timeTracking": "none",
     "conversationCapture": "always",
-    "setupDepth": "thorough",
-    "autoStartDashboard": false,
-    "voiceInput": false
+    "privacyTier": "observer",
+    "autoStartDashboard": false
   },
-  "modules": {},
+  "plugins": {},
   "integrations": {},
   "paths": {
     "brain": "",

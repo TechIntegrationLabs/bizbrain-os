@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "maxConcurrentWorkflows": {
+      "type": "integer",
+      "default": 3,
+      "description": "Maximum concurrent workflow executions"
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "id": "voice-ai",
+  "name": "Voice AI",
+  "version": "3.0.0",
+  "description": "ElevenLabs TTS, voice clarification queue, speech-to-text input, and voice profile management.",
+  "icon": "mic",
+  "category": "ai",
+  "dependencies": [],
+  "softDependencies": [],
+  "provides": {
+    "agents": ["voice-ai"],
+    "commands": ["speak", "voice", "clarify"],
+    "hooks": [],
+    "guiRoutes": ["/voice"],
+    "folders": []
+  },
+  "requires": {
+    "credentials": ["elevenlabs_api_key"],
+    "integrations": ["elevenlabs"]
+  },
+  "recommendedFor": ["solo-freelancer", "small-agency"],
+  "tags": ["voice", "tts", "elevenlabs", "speech", "audio"]
+}

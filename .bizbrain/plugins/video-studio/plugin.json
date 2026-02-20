@@ -1,0 +1,23 @@
+{
+  "id": "video-studio",
+  "name": "Video Studio",
+  "version": "3.0.0",
+  "description": "Create programmatic videos using Remotion — motion graphics, promos, data visualizations, and YouTube upload.",
+  "icon": "film",
+  "category": "content",
+  "dependencies": [],
+  "softDependencies": [],
+  "provides": {
+    "agents": ["remotion-studio", "video-upload"],
+    "commands": ["video", "youtube"],
+    "hooks": [],
+    "guiRoutes": ["/video-studio"],
+    "folders": []
+  },
+  "requires": {
+    "credentials": [],
+    "integrations": []
+  },
+  "recommendedFor": ["small-agency", "startup"],
+  "tags": ["video", "remotion", "motion-graphics", "youtube", "media"]
+}

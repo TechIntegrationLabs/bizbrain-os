@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "voiceProfiles": {
+      "type": "array",
+      "items": { "type": "string" },
+      "default": [],
+      "description": "Voice/tone profiles for different contexts"
+    },
+    "followUpReminders": {
+      "type": "boolean",
+      "default": false,
+      "description": "Enable automatic follow-up reminders"
+    }
+  }
+}

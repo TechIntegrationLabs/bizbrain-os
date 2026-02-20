@@ -1,0 +1,25 @@
+{
+  "id": "image-gen",
+  "name": "Image Generation",
+  "version": "3.0.0",
+  "description": "AI image generation with budget caps, brand-consistent mode, history tracking, and multi-provider support.",
+  "icon": "image",
+  "category": "ai",
+  "dependencies": [],
+  "softDependencies": [],
+  "provides": {
+    "agents": ["image-generator"],
+    "commands": ["generate-image", "image-budget", "image-history"],
+    "hooks": [],
+    "guiRoutes": [],
+    "folders": [
+      "Brand/assets/generated/"
+    ]
+  },
+  "requires": {
+    "credentials": ["openai_api_key"],
+    "integrations": ["openai"]
+  },
+  "recommendedFor": ["small-agency", "startup"],
+  "tags": ["images", "ai", "generation", "brand", "design"]
+}

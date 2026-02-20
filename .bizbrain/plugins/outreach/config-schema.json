@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "dailySendLimit": {
+      "type": "integer",
+      "default": 50,
+      "description": "Maximum outreach emails per day"
+    },
+    "autoResearch": {
+      "type": "boolean",
+      "default": true,
+      "description": "Auto-research leads before outreach"
+    }
+  }
+}

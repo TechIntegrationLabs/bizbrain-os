@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "conversationCapture": {
+      "type": "string",
+      "enum": ["always", "on-demand", "never"],
+      "default": "always",
+      "description": "When to capture Claude Code conversations"
+    },
+    "autoStartDashboard": {
+      "type": "boolean",
+      "default": false,
+      "description": "Auto-start dashboard on session start"
+    }
+  }
+}

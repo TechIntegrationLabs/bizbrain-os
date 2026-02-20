@@ -1,0 +1,23 @@
+{
+  "id": "presentations",
+  "name": "Presentations",
+  "version": "3.0.0",
+  "description": "Slidev presentations, slideshow generator, NotebookLM research docs, and PDF export.",
+  "icon": "presentation",
+  "category": "content",
+  "dependencies": [],
+  "softDependencies": [],
+  "provides": {
+    "agents": ["slideshow-generator", "notebooklm-generator"],
+    "commands": ["slideshow", "slideshow-embed", "notebooklm", "notebooklm-slides", "pdf-export"],
+    "hooks": [],
+    "guiRoutes": ["/presentations"],
+    "folders": []
+  },
+  "requires": {
+    "credentials": [],
+    "integrations": []
+  },
+  "recommendedFor": ["solo-freelancer", "small-agency", "startup", "consultancy"],
+  "tags": ["presentations", "slidev", "slideshow", "notebooklm", "pdf"]
+}

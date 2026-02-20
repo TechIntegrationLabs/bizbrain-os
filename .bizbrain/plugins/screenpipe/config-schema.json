@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "tier": {
+      "type": "string",
+      "enum": ["observer", "explorer", "full-context"],
+      "default": "observer",
+      "description": "Privacy/learning tier"
+    },
+    "clipboardPollingInterval": {
+      "type": "integer",
+      "default": 30,
+      "description": "Clipboard polling interval in seconds (Explorer tier)"
+    },
+    "screenpipeInterval": {
+      "type": "integer",
+      "default": 1800,
+      "description": "Screenpipe query interval in seconds (Full Context tier)"
+    }
+  }
+}

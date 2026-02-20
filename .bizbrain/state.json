@@ -1,0 +1,20 @@
+{
+  "version": "3.0.0",
+  "setupComplete": false,
+  "privacyTier": "observer",
+  "profile": {
+    "userName": "",
+    "businessName": "",
+    "businessType": "",
+    "industry": "",
+    "inferredFrom": []
+  },
+  "plugins": {},
+  "integrations": {},
+  "learning": {
+    "tier": "observer",
+    "lastRunAt": null,
+    "pendingInsights": 0,
+    "totalObservations": 0
+  }
+}

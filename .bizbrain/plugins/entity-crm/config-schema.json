@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "sensitivity": {
+      "type": "string",
+      "enum": ["high", "medium", "low"],
+      "default": "medium",
+      "description": "How aggressively to detect entity mentions"
+    },
+    "autoUpdate": {
+      "type": "boolean",
+      "default": true,
+      "description": "Automatically update entity records when new info is detected"
+    },
+    "askBeforeCreate": {
+      "type": "boolean",
+      "default": true,
+      "description": "Ask before creating new entity records"
+    }
+  }
+}

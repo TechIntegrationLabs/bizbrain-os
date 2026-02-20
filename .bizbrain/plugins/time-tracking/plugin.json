@@ -1,0 +1,23 @@
+{
+  "id": "time-tracking",
+  "name": "Time Tracking",
+  "version": "3.0.0",
+  "description": "Automatic session logging, timesheet generation, Notion sync, billing management, and usage sentinel.",
+  "icon": "clock",
+  "category": "project-management",
+  "dependencies": [],
+  "softDependencies": [],
+  "provides": {
+    "agents": ["timesheet-reporter", "sentinel"],
+    "commands": ["hours", "timesheet", "sentinel"],
+    "hooks": ["session-start-timer", "session-end-timer"],
+    "guiRoutes": ["/time-tracking"],
+    "folders": []
+  },
+  "requires": {
+    "credentials": [],
+    "integrations": []
+  },
+  "recommendedFor": ["solo-freelancer", "consultancy"],
+  "tags": ["time-tracking", "timesheet", "billing", "sentinel", "productivity"]
+}

@@ -1,0 +1,24 @@
+{
+  "id": "gsd",
+  "name": "GSD (Get Shit Done)",
+  "version": "3.0.0",
+  "description": "Full structured project execution: requirements, roadmaps, phases, wave-based parallel execution, specs, bug-crusher, diagnose, and autonomous loops.",
+  "icon": "target",
+  "category": "project-management",
+  "dependencies": [],
+  "softDependencies": ["entity-crm"],
+  "provides": {
+    "agents": ["gsd-orchestrator", "gsd-executor", "spec-writer", "implement-agent", "bug-crusher", "diagnose"],
+    "commands": ["gsd", "gsd-plan", "gsd-execute", "gsd-status", "gsd-roadmap", "gsd-requirements", "spec", "implement", "crush", "diagnose", "loop"],
+    "hooks": [],
+    "guiRoutes": ["/gsd"],
+    "folders": [".planning/"],
+    "templates": ["gsd"]
+  },
+  "requires": {
+    "credentials": [],
+    "integrations": []
+  },
+  "recommendedFor": ["small-agency", "startup"],
+  "tags": ["project-management", "execution", "specs", "debugging", "automation"]
+}

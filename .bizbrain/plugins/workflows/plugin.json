@@ -1,0 +1,26 @@
+{
+  "id": "workflows",
+  "name": "Workflow Builder",
+  "version": "3.0.0",
+  "description": "Visual node-based automation builder with AI nodes, trigger chains, and custom workflow templates.",
+  "icon": "git-branch",
+  "category": "automation",
+  "dependencies": [],
+  "softDependencies": ["gsd"],
+  "provides": {
+    "agents": ["workflow-builder"],
+    "commands": ["workflow"],
+    "hooks": [],
+    "guiRoutes": ["/workflows"],
+    "folders": [
+      "Operations/workflows/",
+      "Operations/workflows/templates/"
+    ]
+  },
+  "requires": {
+    "credentials": [],
+    "integrations": []
+  },
+  "recommendedFor": ["small-agency", "startup"],
+  "tags": ["automation", "workflows", "nodes", "triggers", "visual-builder"]
+}

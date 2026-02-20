@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "outputDir": {
+      "type": "string",
+      "description": "Default output directory for rendered videos"
+    },
+    "defaultResolution": {
+      "type": "string",
+      "enum": ["1080p", "4k"],
+      "default": "1080p",
+      "description": "Default video resolution"
+    }
+  }
+}

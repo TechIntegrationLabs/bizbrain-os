@@ -751,34 +751,32 @@
       },
     ];
 
+    // --- Privacy Tier State ---
+    let selectedTier = 'observer';
+
     // --- Setup Prompt ---
     function getSetupPrompt() {
-      return `I just cloned BizBrain OS and I'm ready to set up my Business Brain.
+      const tierLabels = { observer: 'Observer', explorer: 'Explorer', 'full-context': 'Full Context' };
+      const onboarding = window.__BIZBRAIN_ONBOARDING__ || {};
+      const parts = [];
 
-You are my BizBrain OS setup wizard. Here's how to get started:
+      if (onboarding.userName || onboarding.businessName) {
+        parts.push('I just set up BizBrain OS. Here\'s what the installer gathered:');
+        if (onboarding.userName) parts.push('Name: ' + onboarding.userName);
+        if (onboarding.businessName) parts.push('Business: ' + onboarding.businessName);
+        parts.push('');
+      } else {
+        parts.push('I just set up BizBrain OS.');
+      }
 
-## Find my BizBrain OS installation
-Look for the bizbrain-os folder -- check my current working directory, ~/bizbrain-os, ~/Repos/bizbrain-os, or ~/Desktop/bizbrain-os.
+      parts.push('Privacy tier: ' + tierLabels[selectedTier] + ' (' + selectedTier + ')');
+      parts.push('');
+      parts.push('Read onboarding-context.json for my complete profile.');
+      parts.push('Run .bizbrain/scripts/plugin-manager.js init to activate starter plugins.');
+      parts.push('');
+      parts.push('Show me what plugins are available and ask what\'s most important to me right now.');
 
-## Read the master wizard prompt
-Read the file \`.bizbrain/wizard/master-prompt.md\` in the bizbrain-os folder. This contains your complete 10-phase setup wizard instructions. Follow it phase by phase.
-
-## Key files to know about
-- \`.bizbrain/wizard/master-prompt.md\` -- your full wizard instructions (10 phases)
-- \`.bizbrain/wizard/prompts/*.md\` -- per-module setup prompts (read when you reach Phase 7)
-- \`.bizbrain/modules/*.json\` -- module definitions with config schemas
-- \`config.template.json\` -- base config template
-- \`.bizbrain/wizard/state.json\` -- progress tracker (check for resume on startup)
-
-## Guidelines
-- Be conversational and friendly, not robotic
-- Use AskUserQuestion for multi-choice questions when available
-- If I say "quick setup" or "just defaults", switch to Quick Mode (smart defaults, minimal questions)
-- If I give short answers, use smart defaults -- don't over-ask
-- If I ramble, extract everything you can -- that's gold
-- Track progress in state.json so I can resume if interrupted
-
-Let's begin!`;
+      return parts.join('\n');
     }
 
     // --- Init ---
@@ -1118,26 +1116,37 @@ Let's begin!`;
     function renderWhatHappens() {
       return `
         <div style="margin-top:28px;">
-          <div class="section-label">What happens during setup</div>
-          <div class="what-grid">
-            <div class="what-item">
-              <div class="what-icon">&#128172;</div>
-              <h4>5-min interview</h4>
-              <p>Claude learns about your business through natural conversation.</p>
+          <div class="section-label">Choose your privacy tier</div>
+          <p style="color:var(--text-secondary);margin-bottom:16px;font-size:0.9rem;">How much should your Brain learn passively? You can change this anytime.</p>
+          <div class="what-grid" id="privacy-tiers">
+            <div class="what-item tier-card ${selectedTier === 'observer' ? 'tier-selected' : ''}" onclick="selectTier('observer')" style="cursor:pointer;border:2px solid ${selectedTier === 'observer' ? 'var(--color-primary)' : 'var(--border-color)'};border-radius:var(--radius);padding:20px;transition:all 0.2s;">
+              <div class="what-icon">&#128065;</div>
+              <h4>Observer <span style="font-size:0.75rem;color:var(--color-primary);font-weight:600;">(Default)</span></h4>
+              <p style="font-size:0.85rem;color:var(--text-secondary);">Claude Code sessions only. Zero extra install.</p>
             </div>
-            <div class="what-item">
-              <div class="what-icon">&#9881;</div>
-              <h4>Smart modules</h4>
-              <p>Based on your business type, the right modules are recommended.</p>
+            <div class="what-item tier-card ${selectedTier === 'explorer' ? 'tier-selected' : ''}" onclick="selectTier('explorer')" style="cursor:pointer;border:2px solid ${selectedTier === 'explorer' ? 'var(--color-primary)' : 'var(--border-color)'};border-radius:var(--radius);padding:20px;transition:all 0.2s;">
+              <div class="what-icon">&#128270;</div>
+              <h4>Explorer</h4>
+              <p style="font-size:0.85rem;color:var(--text-secondary);">+ clipboard, file changes in Brain folder. No extra app.</p>
             </div>
-            <div class="what-item">
-              <div class="what-icon">&#128640;</div>
-              <h4>Ready to use</h4>
-              <p>Your Brain folder, config, and dashboard are generated automatically.</p>
+            <div class="what-item tier-card ${selectedTier === 'full-context' ? 'tier-selected' : ''}" onclick="selectTier('full-context')" style="cursor:pointer;border:2px solid ${selectedTier === 'full-context' ? 'var(--color-primary)' : 'var(--border-color)'};border-radius:var(--radius);padding:20px;transition:all 0.2s;">
+              <div class="what-icon">&#127760;</div>
+              <h4>Full Context</h4>
+              <p style="font-size:0.85rem;color:var(--text-secondary);">+ entire screen via Screenpipe OCR. One-click install.</p>
             </div>
           </div>
+          <p style="color:var(--text-tertiary);font-size:0.8rem;margin-top:10px;">All data stays local on your machine. Nothing is sent externally.</p>
         </div>`;
     }
+
+    window.selectTier = function(tier) {
+      selectedTier = tier;
+      // Re-render the tiers with updated selection
+      document.querySelectorAll('.tier-card').forEach(el => {
+        el.style.borderColor = 'var(--border-color)';
+      });
+      event.currentTarget.style.borderColor = 'var(--color-primary)';
+    };
 
     function renderAltSection() {
       return `

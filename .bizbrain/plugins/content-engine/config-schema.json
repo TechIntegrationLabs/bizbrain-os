@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "platforms": {
+      "type": "array",
+      "items": { "type": "string" },
+      "default": [],
+      "description": "Target platforms (e.g., LinkedIn, Twitter, Medium)"
+    },
+    "autoGenerate": {
+      "type": "boolean",
+      "default": false,
+      "description": "Automatically generate content from completed work"
+    },
+    "tone": {
+      "type": "string",
+      "enum": ["professional", "casual", "technical"],
+      "default": "professional",
+      "description": "Default content tone"
+    }
+  }
+}

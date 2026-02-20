@@ -1,0 +1,29 @@
+{
+  "id": "entity-crm",
+  "name": "Entity CRM",
+  "version": "3.0.0",
+  "description": "Client, partner, and vendor tracking with auto-detect entity watchdog, entity matcher, and relationship management.",
+  "icon": "users",
+  "category": "crm",
+  "dependencies": [],
+  "softDependencies": [],
+  "provides": {
+    "agents": ["entity-manager", "entity-watchdog", "entity-matcher"],
+    "commands": ["add-client", "add-partner", "add-vendor", "list-entities"],
+    "hooks": [],
+    "guiRoutes": ["/entities"],
+    "folders": [
+      "Clients/",
+      "Partners/",
+      "Vendors/",
+      "Operations/entity-watchdog/"
+    ],
+    "templates": ["client", "partner", "vendor"]
+  },
+  "requires": {
+    "credentials": [],
+    "integrations": []
+  },
+  "recommendedFor": ["solo-freelancer", "small-agency", "startup", "consultancy"],
+  "tags": ["crm", "clients", "partners", "vendors", "entities", "tracking"]
+}

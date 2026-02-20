@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "vaultPath": {
+      "type": "string",
+      "description": "Path to Obsidian vault for archival"
+    },
+    "autoArchive": {
+      "type": "boolean",
+      "default": false,
+      "description": "Automatically archive sessions on end"
+    }
+  }
+}

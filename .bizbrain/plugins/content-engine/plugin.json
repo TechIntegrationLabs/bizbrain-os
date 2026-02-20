@@ -1,0 +1,29 @@
+{
+  "id": "content-engine",
+  "name": "Content Engine",
+  "version": "3.0.0",
+  "description": "RSS monitoring, content autopilot, publishing pipeline, brand voice management, analytics, and AI strategy advisor.",
+  "icon": "pen-tool",
+  "category": "content",
+  "dependencies": [],
+  "softDependencies": ["comms-hub"],
+  "provides": {
+    "agents": ["content-factory", "content-autopilot", "strategy-advisor"],
+    "commands": ["content", "autopilot", "blog-post", "social-post"],
+    "hooks": [],
+    "guiRoutes": ["/content-pipeline", "/autopilot"],
+    "folders": [
+      "Content/",
+      "Content/auto-queue/",
+      "Communications/content-pipeline/",
+      "Communications/content-pipeline/brand-voice/",
+      "Communications/content-pipeline/queue/"
+    ]
+  },
+  "requires": {
+    "credentials": [],
+    "integrations": []
+  },
+  "recommendedFor": ["solo-freelancer", "small-agency", "startup", "consultancy"],
+  "tags": ["content", "rss", "autopilot", "brand-voice", "analytics", "publishing"]
+}

@@ -1,0 +1,33 @@
+{
+  "id": "core",
+  "name": "Brain Core",
+  "version": "3.0.0",
+  "description": "Core folder structure, CLAUDE.md, intake processing, dev-config, knowledge base, dashboard, and integrations page.",
+  "icon": "brain",
+  "category": "core",
+  "core": true,
+  "autoIncluded": true,
+  "dependencies": [],
+  "softDependencies": [],
+  "provides": {
+    "agents": ["brain-gateway", "intake-processor"],
+    "commands": ["status", "help", "knowledge", "find", "setup", "dashboard"],
+    "hooks": [],
+    "guiRoutes": ["/", "/integrations"],
+    "folders": [
+      "Brand/",
+      "Knowledge/",
+      "_intake-dump/",
+      "_intake-dump/uploads/",
+      "Operations/",
+      "Operations/dev-config-system/"
+    ],
+    "files": ["CLAUDE.md", "config.json"]
+  },
+  "requires": {
+    "credentials": [],
+    "integrations": []
+  },
+  "recommendedFor": ["solo-freelancer", "small-agency", "startup", "consultancy"],
+  "tags": ["core", "essential", "folder-structure", "intake", "dashboard"]
+}

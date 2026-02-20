@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "projectScale": {
+      "type": "string",
+      "enum": ["small", "medium", "large"],
+      "default": "medium",
+      "description": "Typical project scale"
+    },
+    "sprintLength": {
+      "type": "string",
+      "enum": ["1-week", "2-weeks", "continuous"],
+      "default": "2-weeks",
+      "description": "Sprint/iteration length"
+    },
+    "waveExecution": {
+      "type": "boolean",
+      "default": true,
+      "description": "Enable wave-based parallel task execution"
+    },
+    "planningDepth": {
+      "type": "string",
+      "enum": ["detailed", "high-level"],
+      "default": "detailed",
+      "description": "Level of planning detail"
+    },
+    "specDepth": {
+      "type": "string",
+      "enum": ["detailed", "quick"],
+      "default": "detailed",
+      "description": "Level of detail in specifications"
+    },
+    "autoTests": {
+      "type": "boolean",
+      "default": false,
+      "description": "Automatically generate tests from specs"
+    }
+  }
+}

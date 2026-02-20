@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "monthlyBudget": {
+      "type": "number",
+      "default": 10,
+      "description": "Monthly budget cap in USD for image generation"
+    },
+    "brandMode": {
+      "type": "boolean",
+      "default": false,
+      "description": "Use brand colors and style by default"
+    },
+    "defaultProvider": {
+      "type": "string",
+      "enum": ["openai", "stability"],
+      "default": "openai",
+      "description": "Default image generation provider"
+    }
+  }
+}

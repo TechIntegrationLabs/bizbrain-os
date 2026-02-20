@@ -1,0 +1,48 @@
+{
+  "id": "screenpipe",
+  "name": "Background Learning",
+  "version": "3.0.0",
+  "description": "Three-tier passive context capture: Observer (sessions only), Explorer (clipboard + file changes), Full Context (Screenpipe OCR).",
+  "icon": "eye",
+  "category": "ai",
+  "dependencies": [],
+  "softDependencies": [],
+  "provides": {
+    "agents": ["brain-learner"],
+    "commands": [],
+    "hooks": ["session-end-learn"],
+    "guiRoutes": ["/brain-learning"],
+    "folders": [
+      ".bizbrain/learning/",
+      ".bizbrain/learning/observations/",
+      ".bizbrain/learning/screenpipe/"
+    ]
+  },
+  "requires": {
+    "credentials": [],
+    "integrations": []
+  },
+  "privacyTiers": {
+    "observer": {
+      "description": "Claude Code sessions only",
+      "extraInstall": false,
+      "hooks": ["session-end-learn"]
+    },
+    "explorer": {
+      "description": "Sessions + clipboard + file changes in Brain",
+      "extraInstall": false,
+      "hooks": ["session-end-learn", "explorer-watcher-start"]
+    },
+    "full-context": {
+      "description": "Everything + entire screen via Screenpipe OCR",
+      "extraInstall": true,
+      "installCommand": {
+        "darwin": "brew install screenpipe",
+        "win32": "winget install screenpipe",
+        "linux": "curl -fsSL https://screenpi.pe/install.sh | sh"
+      }
+    }
+  },
+  "recommendedFor": ["solo-freelancer", "small-agency", "startup", "consultancy"],
+  "tags": ["learning", "screenpipe", "ocr", "clipboard", "context", "passive"]
+}
