@@ -18,7 +18,7 @@
 
 **AI is only as useful as what it knows about your business.** Every AI tool has the same limitation: it doesn't know your clients' preferences, your project history, or your workflows. BizBrain OS fixes that permanently.
 
-[Get Started](#quick-install) &bull; [Why Context Matters](#why-context-matters) &bull; [Works with OpenClaw](#works-with-openclaw) &bull; [Modules](#module-catalog) &bull; [Docs](https://github.com/TechIntegrationLabs/bizbrain-os/wiki) &bull; [Discord](https://discord.gg/bizbrain)
+[Get Started](#quick-install) &bull; [Why Context Matters](#why-context-matters) &bull; [Works with OpenClaw](#works-with-openclaw) &bull; [Plugins](#plugin-catalog) &bull; [Docs](https://github.com/TechIntegrationLabs/bizbrain-os/wiki) &bull; [Discord](https://discord.gg/XZCDttmw)
 
 </div>
 
@@ -43,25 +43,30 @@ BizBrain OS solves this by building a structured context layer that captures and
 
 ## Quick Install
 
+**Option A: One command (recommended)**
+
+```bash
+npx create-bizbrain
+```
+
+**Option B: Clone directly**
+
 ```bash
 git clone https://github.com/TechIntegrationLabs/bizbrain-os.git
 cd bizbrain-os
 ```
 
-**Then, do ONE of the following:**
+Then open `start.html` in your browser or run `npm start`.
 
-| Option | How | Best For |
-|--------|-----|----------|
-| **Double-click `start.html`** | Open the file in your browser from your file explorer | Easiest -- no terminal needed |
-| **Run `npm start`** | Type it in your terminal inside the `bizbrain-os` folder | If you already have Node.js installed |
+### What Happens
 
-Both options open the same guided setup page. It walks you through everything:
+1. **Two questions** -- Your name and your business name. That's it.
+2. **Drop your URLs** -- Website, LinkedIn, socials. BizBrain scrapes them to learn about you.
+3. **Drop your docs** -- Drag and drop any files (proposals, pitch decks, etc.)
+4. **Choose your privacy tier** -- Observer (sessions only), Explorer (+clipboard/files), or Full Context (+screen OCR via Screenpipe)
+5. **Paste into Claude Code** -- One setup prompt activates your starter plugins automatically
 
-1. **Prerequisite checks** -- Node.js, Git, and Claude Code are verified automatically
-2. **Install guides** -- if anything is missing, step-by-step instructions appear instantly
-3. **One-click setup prompt** -- a button that copies a comprehensive setup prompt to your clipboard
-
-Paste the prompt into Claude Code and it walks you through a conversational interview to learn your business, configure modules, and launch your personalized Brain.
+Under 3 minutes. No 20-question wizard.
 
 ---
 
@@ -78,7 +83,7 @@ It captures every client interaction, project decision, and business preference 
 1. **Context, not features.** Other tools give you a CRM, a project manager, a content generator. BizBrain OS gives you all of those *and* uses them to build a unified understanding of your business that makes every tool smarter.
 2. **It compounds.** Every day you use it, the context layer grows richer. Month 6 is exponentially more valuable than Month 1.
 3. **Local-first.** Your business context is your competitive moat. It lives on your machine, not in someone else's cloud.
-4. **AI-native.** Not a traditional app with "AI features" bolted on. Every module is built to feed and consume the AI context layer.
+4. **AI-native.** Not a traditional app with "AI features" bolted on. Every plugin is built to feed and consume the AI context layer.
 5. **Works with OpenClaw.** BizBrain provides the knowledge. OpenClaw provides the hands. Together: an AI employee.
 
 ---
@@ -110,13 +115,13 @@ BizBrain OS is the missing piece.
 
 <img src=".github/assets/dashboard-setup.png" alt="BizBrain OS Dashboard - Setup Mode showing module cards, voice onboarding, and system health" width="720" />
 
-<p><i>Dashboard in setup mode -- module cards with one-click activation, system health panel, and voice onboarding.</i></p>
+<p><i>Dashboard in setup mode -- plugin cards with one-click activation, system health panel, and integrations grid.</i></p>
 
 <br />
 
 <img src=".github/assets/dashboard-operational.png" alt="BizBrain OS Dashboard - Operational mode showing active modules, recent activity, and quick actions" width="720" />
 
-<p><i>Dashboard in operational mode -- active modules, recent activity feed, and quick-launch actions.</i></p>
+<p><i>Dashboard in operational mode -- active plugins, recent activity feed, and quick-launch actions.</i></p>
 
 </div>
 
@@ -135,10 +140,11 @@ BizBrain OS is the missing piece.
 - **Compounding Knowledge** -- Context grows richer every day, automatically
 - **Universal AI Context** -- Feeds context to Claude, OpenClaw, or any LLM
 - **Entity Watchdog** -- Mentions in conversation auto-update your records
+- **Background Learning** -- 3-tier passive context capture (Observer / Explorer / Full Context)
 
 ### Your Data, Your Machine
 - **Local-First Architecture** -- All data stays on disk. No cloud lock-in, ever
-- **Git-Based Updates** -- `git pull` brings new modules without touching your config
+- **Git-Based Updates** -- `git pull` brings new plugins without touching your config
 - **Zero-Dependency Dashboard** -- Pure Node.js server, no frameworks, no build step
 - **Cross-Platform** -- Windows, macOS, and Linux
 
@@ -146,14 +152,15 @@ BizBrain OS is the missing piece.
 <td width="50%" valign="top">
 
 ### Business Operations
-- **27+ Configurable Modules** -- From CRM to content generation to time tracking
+- **15 Self-Contained Plugins** -- From CRM to content generation to time tracking
+- **35+ Integrations** -- Toggle-on with guided credential setup
 - **Entity Management** -- Clients, partners, and vendors with auto-detection
 - **GSD Project Management** -- Phases, waves, parallel execution, specs
 - **Time Tracking & Billing** -- Automatic session logging, timesheet export
 - **Communications Hub** -- Unified inbox across email, Slack, WhatsApp
 
 ### AI-Native
-- **Voice-First Setup** -- Speak naturally; AI builds your context layer from conversation
+- **2-Question Setup** -- Name and business. Everything else inferred from your URLs and docs
 - **Auto-Generated Wiki** -- Personalized knowledge base tailored to your business
 - **Conversation Capture** -- Every Claude Code session archived and searchable
 - **Content Factory** -- Turn your work into blog posts, social content, presentations
@@ -164,103 +171,110 @@ BizBrain OS is the missing piece.
 
 ---
 
-## Module Catalog
+## Plugin Catalog
 
-BizBrain OS ships with **27 modules** across 7 categories. Core modules activate automatically. Everything else is opt-in. Every module feeds the context layer.
+BizBrain OS v3.0 ships with **15 self-contained plugins**. Core activates automatically. Everything else is opt-in based on your business type. Every plugin feeds the context layer.
 
-### Core (Always Active)
-
-| Module | Description |
+| Plugin | Description |
 |--------|-------------|
-| **Brain Core** | Central configuration, folder structure, CLAUDE.md generation |
-| **Knowledge Base** | Organized, searchable documentation and wiki |
-| **Conversation Capture** | Auto-archive every Claude Code session |
+| **Core** | Folder structure, CLAUDE.md, intake processing, dashboard, integrations page |
+| **GSD** | Structured execution: requirements, roadmaps, phases, wave parallelism, specs, bug-crusher |
+| **Communications Hub** | Unified inbox -- email, Slack, auto-reactions, approval queue, voice profiles |
+| **Content Engine** | RSS monitoring, autopilot publishing, brand voice, analytics, AI strategy |
+| **Outreach** | Lead pipeline, web research, email sequences, social campaigns |
+| **Entity CRM** | Client/partner/vendor tracking, entity watchdog, relationship management |
+| **Workflows** | Visual node-based automation builder with AI nodes |
+| **Presentations** | Slidev decks, slideshow generator, NotebookLM research, PDF export |
+| **Video Studio** | Programmatic video via Remotion -- motion graphics, promos, YouTube upload |
+| **Contracts** | Contract generator, clause library, e-signatures, pricing calculator |
+| **Time Tracking** | Auto session logging, timesheets, Notion sync, billing, usage sentinel |
+| **Session Archive** | Archive Claude Code conversations to Obsidian vault |
+| **Voice AI** | ElevenLabs TTS, voice clarification queue, speech-to-text |
+| **Image Generation** | AI images with budget caps, brand-consistent mode, multi-provider |
+| **Background Learning** | 3-tier passive context: Observer, Explorer, Full Context (Screenpipe OCR) |
 
-### Development & Deployment
+### Plugin Manager
 
-| Module | Description |
-|--------|-------------|
-| **GitHub** | Repo registry, PR management, automated workflows |
-| **Supabase** | Multi-project database management and migrations |
-| **Stripe** | Payment processing, subscription management |
-| **Clerk** | Authentication and user management |
-| **Netlify** | Static site and serverless deployment |
-| **Vercel** | Next.js and frontend deployment |
+```bash
+# Activate a plugin
+node .bizbrain/scripts/plugin-manager.js activate gsd
 
-### Communication
+# Deactivate (data preserved)
+node .bizbrain/scripts/plugin-manager.js deactivate video-studio
 
-| Module | Description |
-|--------|-------------|
-| **Gmail** | Email integration with entity linking |
-| **Slack** | Channel monitoring, autonomous responses |
-| **Communications Hub** | Unified inbox across all channels with voice profiles |
+# See what's active
+node .bizbrain/scripts/plugin-manager.js status
 
-### Content & Media
+# Auto-activate based on your business type
+node .bizbrain/scripts/plugin-manager.js init
+```
 
-| Module | Description |
-|--------|-------------|
-| **Content Factory** | Auto-generate blogs, social posts, and docs from your work |
-| **Slideshow Generator** | AI-powered presentation creation |
-| **Video Studio** | Programmatic video creation with Remotion |
-| **Automated Digests** | Weekly summaries from all activity sources |
+---
 
-### Business & CRM
+## Integrations
 
-| Module | Description |
-|--------|-------------|
-| **Client Tracking** | Full CRM -- profiles, contracts, action items, history |
-| **Partner Tracking** | Strategic partnership and collaboration management |
-| **Vendor Tracking** | Supplier relationships and cost tracking |
-| **Entity Watchdog** | Auto-detect mentions and update records in real time |
+BizBrain OS v3.0 includes a **35+ service integration registry** with a dedicated Integrations page. Toggle services on, and Claude Code walks you through credential setup conversationally.
 
-### Project Management
+<table>
+<tr>
+<td align="center" width="12.5%"><b>GitHub</b><br/>Repos & PRs</td>
+<td align="center" width="12.5%"><b>Supabase</b><br/>Database</td>
+<td align="center" width="12.5%"><b>Stripe</b><br/>Payments</td>
+<td align="center" width="12.5%"><b>Clerk</b><br/>Auth</td>
+<td align="center" width="12.5%"><b>Notion</b><br/>Wiki Sync</td>
+<td align="center" width="12.5%"><b>Slack</b><br/>Messaging</td>
+<td align="center" width="12.5%"><b>Gmail</b><br/>Email</td>
+<td align="center" width="12.5%"><b>Discord</b><br/>Community</td>
+</tr>
+<tr>
+<td align="center" width="12.5%"><b>OpenAI</b><br/>AI</td>
+<td align="center" width="12.5%"><b>Anthropic</b><br/>AI</td>
+<td align="center" width="12.5%"><b>ElevenLabs</b><br/>Voice</td>
+<td align="center" width="12.5%"><b>X / Twitter</b><br/>Social</td>
+<td align="center" width="12.5%"><b>LinkedIn</b><br/>Social</td>
+<td align="center" width="12.5%"><b>Bluesky</b><br/>Social</td>
+<td align="center" width="12.5%"><b>YouTube</b><br/>Video</td>
+<td align="center" width="12.5%"><b>+ 20 more</b><br/>Extensible</td>
+</tr>
+</table>
 
-| Module | Description |
-|--------|-------------|
-| **GSD (Full)** | Structured execution: requirements, roadmaps, phases, wave parallelism |
-| **GSD (Light)** | Lightweight task tracking for smaller projects |
-| **Timesheet** | Hour tracking, billing, CSV/PDF/Notion export |
-| **Spec & Implement** | Feature specification and guided implementation workflow |
-
-### Setup & Automation
-
-| Module | Description |
-|--------|-------------|
-| **Chrome Extension** | Browser automation for credential setup and scraping |
-| **Voice Input** | Speech-to-text for hands-free interaction |
-| **Notion Sync** | Bidirectional sync with Notion workspaces |
+**Credential flow:**
+1. Toggle an integration ON in the GUI
+2. Next Claude Code session, it asks for your credentials conversationally
+3. Credentials stored locally, never leave your machine
+4. **Or** use CSV import/export for bulk credential setup
 
 ---
 
 ## How It Works
 
 ```
- Clone + Start         Copy & Paste          Teach It              Compound
- ─────────────         ────────────          ────────              ────────
+ npx create-bizbrain    Drop URLs & Docs      Choose Privacy        Compound
+ ──────────────────     ──────────────         ──────────────        ────────
 
-  git clone             Dashboard             Claude Code           Context
-  npm start     ->      gives you      ->     interviews     ->    grows
-                        a setup prompt        your business         richer
-                                                                    daily
+  2 questions            BizBrain scrapes       Observer /            Context
+  name + biz     ->     your sites &     ->    Explorer /     ->     grows
+                        infers your profile    Full Context           richer
+                                                                     daily
 ```
 
 <table>
 <tr>
 <td align="center" width="25%">
-<h3>1. Clone & Open</h3>
-<p>Clone the repo and double-click <code>start.html</code> (or run <code>npm start</code>). A guided setup page walks you through everything. No build step, no Docker.</p>
+<h3>1. Install</h3>
+<p>Run <code>npx create-bizbrain</code> or clone the repo and open <code>start.html</code>. Two questions: your name and your business.</p>
 </td>
 <td align="center" width="25%">
-<h3>2. Copy Setup Prompt</h3>
-<p>Click one button on the dashboard to copy a setup prompt. Paste it into Claude Code.</p>
+<h3>2. Feed It</h3>
+<p>Paste your URLs (website, LinkedIn, socials) and drag-drop docs. BizBrain scrapes and extracts your business profile automatically.</p>
 </td>
 <td align="center" width="25%">
-<h3>3. Teach It Your Business</h3>
-<p>Claude interviews you conversationally -- your name, clients, tools, workflows. It configures everything automatically.</p>
+<h3>3. Choose Privacy</h3>
+<p>Observer (default, sessions only), Explorer (+clipboard/files), or Full Context (+Screenpipe screen OCR). All data stays local.</p>
 </td>
 <td align="center" width="25%">
 <h3>4. Watch It Compound</h3>
-<p>Every interaction, every decision, every conversation gets captured. Your AI context layer grows richer every day -- automatically.</p>
+<p>Every interaction, decision, and conversation is captured. Your AI context layer grows richer every day -- automatically.</p>
 </td>
 </tr>
 </table>
@@ -276,35 +290,31 @@ BizBrain OS ships with **27 modules** across 7 categories. Core modules activate
 | [Claude Code](https://claude.ai) | Latest | The AI engine that powers everything |
 | [Node.js](https://nodejs.org) | 18+ | Runs the local dashboard server |
 | [Git](https://git-scm.com) | Any | For cloning and pulling updates |
-| [Chrome](https://google.com/chrome) | Latest | *Optional* -- for voice input and automated credential setup |
 
 ### Step-by-Step
 
 ```bash
-# 1. Clone the repo
-git clone https://github.com/TechIntegrationLabs/bizbrain-os.git
-cd bizbrain-os
+# 1. One command install
+npx create-bizbrain
 
-# 2. Open the setup page (pick one)
-#    OPTION A: Double-click start.html in your file explorer
-#    OPTION B: Run "npm start" in your terminal
+# 2. Answer 2 questions (name + business name)
 
-# 3. The setup page checks your system automatically
-#    If anything is missing, it shows you exactly how to install it
+# 3. Drop your URLs and docs on the ingestion page
 
-# 4. Click "Copy Setup Prompt" on the setup page
+# 4. Choose your privacy tier (Observer / Explorer / Full Context)
 
-# 5. Open Claude Code in the bizbrain-os folder
+# 5. Click "Build My Brain" — copies a setup prompt
+
+# 6. Open Claude Code in your new brain folder
 claude
 
-# 6. Paste the setup prompt into Claude Code
-#    It walks you through a conversational interview about your business
-#    and configures everything automatically
+# 7. Paste the setup prompt
+#    Claude activates starter plugins based on your business type
+#    and asks what's most important to you right now
 
-# 7. Start using your Brain
+# 8. Start using your Brain
 /help          # See all available commands
 /status        # View your Brain's current state
-/dashboard     # Reopen the dashboard
 ```
 
 ### After Setup
@@ -324,40 +334,52 @@ claude
 
 # Check everything
 /status
+
+# Manage plugins
+node .bizbrain/scripts/plugin-manager.js status
 ```
 
 ---
 
 ## Architecture
 
-BizBrain OS cleanly separates **system files** (updatable) from **your data** (never touched by updates).
+BizBrain OS v3.0 uses a **self-contained plugin architecture**. Each plugin is a folder with its own agents, commands, hooks, knowledge, and GUI components.
 
 ```
 bizbrain-os/
 |
 |-- .bizbrain/                  # SYSTEM (git-tracked, auto-updated)
-|   |-- modules/                #   Module definitions (27 JSON configs)
-|   |   |-- _core/              #     Always-on modules
-|   |   |-- github.json         #     Optional modules
-|   |   |-- slack.json
-|   |   +-- ...
-|   |-- dashboard/              #   Local web UI (Node.js + vanilla JS)
-|   |-- wizard/                 #   Setup interview & generators
-|   |   |-- interview.md        #     Conversation script
-|   |   +-- generators/         #     Profile builder, social scraper
-|   |-- agents/                 #   AI agent definitions
-|   |-- commands/               #   Slash command definitions
-|   +-- templates/              #   Entity & project templates
+|   |-- plugins/                #   15 self-contained plugin packages
+|   |   |-- core/               #     Always-on (dashboard, intake, integrations)
+|   |   |   |-- plugin.json     #       Manifest with dependencies & provides
+|   |   |   |-- agents/         #       AI agent definitions
+|   |   |   |-- commands/       #       Slash commands
+|   |   |   |-- hooks/          #       Session hooks
+|   |   |   |-- knowledge/      #       Documentation
+|   |   |   +-- gui/            #       React components
+|   |   |-- gsd/                #     Project execution
+|   |   |-- comms-hub/          #     Communications
+|   |   |-- content-engine/     #     Content & publishing
+|   |   |-- screenpipe/         #     Background learning (3 tiers)
+|   |   +-- ...                 #     11 more plugins
+|   |
+|   |-- scripts/                #   Plugin manager & utilities
+|   |   |-- plugin-manager.js   #     Activate / deactivate / init / migrate
+|   |   +-- init.js             #     Minimal startup
+|   |
+|   |-- integrations-registry.json  # 35+ service definitions
+|   |-- state.json              #   Central state (plugins, integrations, learning)
+|   |-- gui-registry.json       #   Dynamic sidebar routes
+|   +-- credentials/            #   Local credential storage
 |
 |-- config.json                 # YOUR CONFIG (gitignored)
 |-- CLAUDE.md                   # YOUR CONTEXT (gitignored, AI-generated)
 |-- Clients/                    # YOUR DATA (gitignored)
 |-- Partners/
-|-- Vendors/
 |-- Projects/
 |-- Knowledge/
-|-- _intake-dump/               # Conversation & file capture
-+-- Brand/                      # Logo, colors, assets
+|-- _intake-dump/               # File & URL ingestion
++-- start.html                  # Setup page with privacy tier selector
 ```
 
 **Update without fear:**
@@ -367,34 +389,23 @@ git pull origin main   # System files update. Your data and config are untouched
 
 ---
 
-## Integrations
+## Background Learning
 
-BizBrain OS connects to the tools you already use. Each integration is a module you can activate (or skip). Every integration feeds the context layer.
+BizBrain OS passively learns about your business at 3 privacy tiers:
 
-<table>
-<tr>
-<td align="center" width="12.5%"><b>GitHub</b><br/>Repos & PRs</td>
-<td align="center" width="12.5%"><b>Supabase</b><br/>Database</td>
-<td align="center" width="12.5%"><b>Stripe</b><br/>Payments</td>
-<td align="center" width="12.5%"><b>Clerk</b><br/>Auth</td>
-<td align="center" width="12.5%"><b>Notion</b><br/>Wiki Sync</td>
-<td align="center" width="12.5%"><b>Slack</b><br/>Messaging</td>
-<td align="center" width="12.5%"><b>Gmail</b><br/>Email</td>
-<td align="center" width="12.5%"><b>Chrome</b><br/>Automation</td>
-</tr>
-<tr>
-<td align="center" width="12.5%"><b>Netlify</b><br/>Deploy</td>
-<td align="center" width="12.5%"><b>Vercel</b><br/>Deploy</td>
-<td align="center" width="12.5%"><b>Obsidian</b><br/>Archive</td>
-<td align="center" width="12.5%"><b>Remotion</b><br/>Video</td>
-<td align="center" width="12.5%"><b>OpenClaw</b><br/>AI Agent</td>
-<td align="center" width="12.5%"><b>WhatsApp</b><br/>Gateway</td>
-<td align="center" width="12.5%"><b>X / Twitter</b><br/>Scraping</td>
-<td align="center" width="12.5%"><b>+ More</b><br/>Extensible</td>
-</tr>
-</table>
+| Tier | What It Watches | Extra Install |
+|------|----------------|---------------|
+| **Observer** (default) | Claude Code sessions only | None |
+| **Explorer** | + clipboard, file changes in Brain | None |
+| **Full Context** | + entire screen via Screenpipe OCR | One-click Screenpipe install |
 
-> Integrations are credential-aware. Chrome automation walks you through finding API keys so you never have to dig through settings pages yourself.
+Insights appear on your Brain Learning dashboard:
+```
+Your Brain noticed:
+- "You were researching Firecrawl — add as integration?"
+- "New PDF in _intake-dump/ — extract terms?"
+[Dismiss All] [Review]
+```
 
 ---
 
@@ -403,24 +414,22 @@ BizBrain OS connects to the tools you already use. Each integration is a module 
 | Feature | BizBrain OS | Notion | Monday | Trello | DIY Scripts |
 |:--------|:----------:|:------:|:------:|:------:|:-----------:|
 | AI context layer (structured, compounding) | :white_check_mark: | :x: | :x: | :x: | :x: |
+| Plugin architecture (15 self-contained packages) | :white_check_mark: | :x: | :x: | :x: | :x: |
+| Background learning (3 privacy tiers) | :white_check_mark: | :x: | :x: | :x: | :x: |
+| 35+ integrations with guided credential setup | :white_check_mark: | :x: | :x: | :x: | :x: |
 | Works with OpenClaw | :white_check_mark: | :x: | :x: | :x: | :x: |
-| AI-native (not bolted on) | :white_check_mark: | :x: | :x: | :x: | :x: |
-| Compounding context over time | :white_check_mark: | :x: | :x: | :x: | :x: |
-| Voice-first onboarding | :white_check_mark: | :x: | :x: | :x: | :x: |
+| 2-question setup (infers everything else) | :white_check_mark: | :x: | :x: | :x: | :x: |
 | Local-first (your data, your disk) | :white_check_mark: | :x: | :x: | :x: | :white_check_mark: |
 | Zero monthly cost | :white_check_mark: | :x: | :x: | :x: | :white_check_mark: |
 | CRM + Project Mgmt + Content + Billing | :white_check_mark: | Partial | Partial | :x: | Manual |
 | Auto-captures conversations | :white_check_mark: | :x: | :x: | :x: | :x: |
-| Entity auto-detection | :white_check_mark: | :x: | :x: | :x: | :x: |
-| Modular (pick only what you need) | :white_check_mark: | :x: | :x: | :x: | :white_check_mark: |
-| Updates without breaking config | :white_check_mark: | N/A | N/A | N/A | :x: |
 | Open source | :white_check_mark: | :x: | :x: | :x: | :white_check_mark: |
 
 ---
 
 ## Contributing
 
-We welcome contributions of all sizes -- from fixing a typo to building an entirely new module.
+We welcome contributions of all sizes -- from fixing a typo to building an entirely new plugin.
 
 ```bash
 # Fork and clone
@@ -428,16 +437,14 @@ git clone https://github.com/YOUR_USERNAME/bizbrain-os.git
 cd bizbrain-os
 
 # Create a branch
-git checkout -b feat/my-awesome-module
-
-# Make changes and submit a PR
+git checkout -b feat/my-awesome-plugin
 ```
 
 **Ways to contribute:**
 
-- **Build a module** -- Create a new `.json` definition in `.bizbrain/modules/` and submit a PR. See [Module Schema](.bizbrain/modules/README.md).
-- **Improve the wizard** -- Better voice recognition, new business type templates, refined interview flow.
-- **Chrome automations** -- Add scraping/setup scripts for new services.
+- **Build a plugin** -- Create a new folder in `.bizbrain/plugins/` with a `plugin.json` manifest and submit a PR.
+- **Add an integration** -- Add a service definition to `integrations-registry.json`.
+- **Improve onboarding** -- Better URL scraping, new business type templates, profile detection.
 - **Documentation** -- Wiki pages, tutorials, guides.
 - **Bug reports** -- Open an [issue](https://github.com/TechIntegrationLabs/bizbrain-os/issues) with reproduction steps.
 
@@ -452,7 +459,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines.
 <table>
 <tr>
 <td align="center">
-<a href="https://discord.gg/bizbrain"><b>Discord</b></a><br/>
+<a href="https://discord.gg/XZCDttmw"><b>Discord</b></a><br/>
 Chat, get help, share setups
 </td>
 <td align="center">
@@ -496,7 +503,7 @@ If BizBrain OS helps you build your AI context layer, consider giving it a star.
 
 **Built by [Tech Integration Labs](https://github.com/TechIntegrationLabs) and the open-source community.**
 
-[Documentation](https://github.com/TechIntegrationLabs/bizbrain-os/wiki) &bull; [Report a Bug](https://github.com/TechIntegrationLabs/bizbrain-os/issues/new?template=bug_report.md) &bull; [Request a Feature](https://github.com/TechIntegrationLabs/bizbrain-os/issues/new?template=feature_request.md) &bull; [Discord](https://discord.gg/bizbrain)
+[Documentation](https://github.com/TechIntegrationLabs/bizbrain-os/wiki) &bull; [Report a Bug](https://github.com/TechIntegrationLabs/bizbrain-os/issues/new?template=bug_report.md) &bull; [Request a Feature](https://github.com/TechIntegrationLabs/bizbrain-os/issues/new?template=feature_request.md) &bull; [Discord](https://discord.gg/XZCDttmw)
 
 <sub>BizBrain OS is not affiliated with Anthropic. Claude Code is a product of Anthropic, PBC.</sub>
 
