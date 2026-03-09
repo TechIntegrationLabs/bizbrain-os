@@ -35,8 +35,6 @@
   <em>Deep dive into the event layer, compound knowledge accumulation, and entity watchdog system. (7:38 HD)</em>
 </p>
 
-> More videos: [The Mirror Age — Thermodynamics of the Artificial Mind](https://github.com/TechIntegrationLabs/bizbrain-os-plugin/releases/download/media-v1.0/The_Mirror_Age__Thermodynamics_of_the_Artificial_Mind.mp4) | [EDiFi — Dental Revenue Intelligence](https://github.com/TechIntegrationLabs/bizbrain-os-plugin/releases/download/media-v1.0/EDiFi__The_Blueprint_for_Dental_Revenue_Intelligence.mp4)
-
 ---
 
 ## Why Context Matters
