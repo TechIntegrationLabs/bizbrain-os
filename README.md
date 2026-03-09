@@ -24,6 +24,21 @@
 
 ---
 
+## See It In Action
+
+<p align="center">
+  <a href="https://github.com/TechIntegrationLabs/bizbrain-os-plugin/releases/download/media-v1.0/Building_a_Persistent_AI_Memory_System__The_Architecture_of_Biz.mp4">
+    <img src="images/bizbrain-architecture-demo.jpg" alt="Watch: Building a Persistent AI Memory System" width="640" />
+  </a>
+  <br />
+  <strong>Building a Persistent AI Memory System — The Architecture of BizBrain OS</strong><br />
+  <em>Deep dive into the event layer, compound knowledge accumulation, and entity watchdog system. (7:38 HD)</em>
+</p>
+
+> More videos: [The Mirror Age — Thermodynamics of the Artificial Mind](https://github.com/TechIntegrationLabs/bizbrain-os-plugin/releases/download/media-v1.0/The_Mirror_Age__Thermodynamics_of_the_Artificial_Mind.mp4) | [EDiFi — Dental Revenue Intelligence](https://github.com/TechIntegrationLabs/bizbrain-os-plugin/releases/download/media-v1.0/EDiFi__The_Blueprint_for_Dental_Revenue_Intelligence.mp4)
+
+---
+
 ## Why Context Matters
 
 Every AI tool you use -- ChatGPT, Claude, OpenClaw, Cursor -- is brilliant at general tasks. But ask about *your* business, and it starts from zero. Every session. Every time.
